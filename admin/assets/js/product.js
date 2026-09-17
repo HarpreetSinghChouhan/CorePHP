@@ -1,57 +1,156 @@
 $(document).ready(function () {
 
+// if (window.location.href.indexOf("index.php") > -1) {
+//         runCheckoutLogic();
+//     }
+// function runCheckoutLogic(){
+//     // console.log("Category Index Page");
+//     let data = null 
+//     const TableBody = $(".product-tbody");  
+//     $.ajax({
+//         type:"GET",
+//         url:"/harpreet_task/admin/backend/Product/GetProduct.php",
+//         dataType:"json",
+//         success: function(response){
+//             data = response;
+//             let html = ""
+//             $.each((response), function(index, item){
+//                 let description = `${item.description.length > 20 ? item.description.slice(0, 40) + '...' : item.description}`;
+
+
+//                 html += `<tr data-id='${item.id}'
+//                               data-name='" ${item.name}"'
+//                               data-price='${item.price}'
+//                               data-sku='${item.sku}'
+//                               data-category-name='${item.category_name}'
+//                               data-description='${item.description}'
+//                               data-image='${item.image}'
+//                               data-stock_quantity='${item.stock_quantity}'
+//                               >
+//                          <td> ${index +1} </td>
+//                          <td  > <img src="${item.image}" alt="${item.name}" class="img-feild-table" ></img>  </td>
+//                          <td class='product-name' > ${item.name} </td>
+//                          <td > ${item.sku}  </td>
+//                          <td> ${item.price} </td>
+//                           <td> ${item.category_name} </td>
+//                          <td > ${description}  </td>
+//                          <td> ${item.stock_quantity} </td>
+//                          <td class='action-cell' style='height:80px'>
+//                             <button type='button' class='btn-icon edit-link-btn edit-user' title='Edit'>
+//                                 <i class='fa-solid fa-pen'></i>
+//                             </button>
+//                             <button type='button' class='btn-icon delete-user' title='Delete'>
+//                                 <i class='fa-solid fa-trash'></i>
+//                             </button>
+//                         </td></tr>`;
+//             });
+//             TableBody.html(html);
+//         },
+//         error: function(response){
+//           Swal.fire({"title":response,"icon":"warning"});
+//         }
+//     })
+//     // console.log(data);
+// }
 if (window.location.href.indexOf("index.php") > -1) {
-        runCheckoutLogic();
-    }
+    runCheckoutLogic();
+}
+
+let allProducts = [];
+let currentPage = 1;
+const rowsPerPage = 10;
+
 function runCheckoutLogic(){
-    // console.log("Category Index Page");
-    let data = null 
     const TableBody = $(".product-tbody");  
     $.ajax({
         type:"GET",
         url:"/harpreet_task/admin/backend/Product/GetProduct.php",
         dataType:"json",
         success: function(response){
-            data = response;
-            let html = ""
-            $.each((response), function(index, item){
-                let description = `${item.description.length > 20 ? item.description.slice(0, 40) + '...' : item.description}`;
-
-
-                html += `<tr data-id='${item.id}'
-                              data-name='" ${item.name}"'
-                              data-price='${item.price}'
-                              data-sku='${item.sku}'
-                              data-category-name='${item.category_name}'
-                              data-description='${item.description}'
-                              data-image='${item.image}'
-                              data-stock_quantity='${item.stock_quantity}'
-                              >
-                         <td> ${index +1} </td>
-                         <td  > <img src="${item.image}" alt="${item.name}" class="img-feild-table" ></img>  </td>
-                         <td class='product-name' > ${item.name} </td>
-                         <td > ${item.sku}  </td>
-                         <td> ${item.price} </td>
-                          <td> ${item.category_name} </td>
-                         <td > ${description}  </td>
-                         <td> ${item.stock_quantity} </td>
-                         <td class='action-cell' style='height:80px'>
-                            <button type='button' class='btn-icon edit-link-btn edit-user' title='Edit'>
-                                <i class='fa-solid fa-pen'></i>
-                            </button>
-                            <button type='button' class='btn-icon delete-user' title='Delete'>
-                                <i class='fa-solid fa-trash'></i>
-                            </button>
-                        </td></tr>`;
-            });
-            TableBody.html(html);
+            allProducts = response;
+            currentPage = 1;
+            renderProductTable();
         },
         error: function(response){
           Swal.fire({"title":response,"icon":"warning"});
         }
     })
-    // console.log(data);
 }
+
+function renderProductTable(){
+    const TableBody = $(".product-tbody");
+    let start = (currentPage - 1) * rowsPerPage;
+    let end = start + rowsPerPage;
+    let pageData = allProducts.slice(start, end);
+
+    let html = ""
+    $.each(pageData, function(index, item){
+        let description = `${item.description.length > 20 ? item.description.slice(0, 40) + '...' : item.description}`;
+
+        html += `<tr data-id='${item.id}'
+                      data-name='" ${item.name}"'
+                      data-price='${item.price}'
+                      data-sku='${item.sku}'
+                      data-category-name='${item.category_name}'
+                      data-description='${item.description}'
+                      data-image='${item.image}'
+                      data-stock_quantity='${item.stock_quantity}'
+                      >
+                 <td> ${start + index + 1} </td>
+                 <td  > <img src="${item.image}" alt="${item.name}" class="img-feild-table" ></img>  </td>
+                 <td class='product-name' > ${item.name} </td>
+                 <td > ${item.sku}  </td>
+                 <td> ${item.price} </td>
+                  <td> ${item.category_name} </td>
+                 <td > ${description}  </td>
+                 <td> ${item.stock_quantity} </td>
+                 <td class='action-cell' style='height:80px'>
+                    <button type='button' class='btn-icon edit-link-btn edit-user' title='Edit'>
+                        <i class='fa-solid fa-pen'></i>
+                    </button>
+                    <button type='button' class='btn-icon delete-user' title='Delete'>
+                        <i class='fa-solid fa-trash'></i>
+                    </button>
+                </td></tr>`;
+    });
+    TableBody.html(html);
+    renderPagination();
+}
+
+function renderPagination(){
+    let totalPages = Math.ceil(allProducts.length / rowsPerPage);
+    let pagHtml = "";
+
+    pagHtml += `<button type="button" class="page-btn prev-page" ${currentPage === 1 ? 'disabled' : ''}>Prev</button>`;
+
+    for (let i = 1; i <= totalPages; i++) {
+        pagHtml += `<button type="button" class="page-btn page-number ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
+    }
+
+    pagHtml += `<button type="button" class="page-btn next-page" ${currentPage === totalPages || totalPages === 0 ? 'disabled' : ''}>Next</button>`;
+
+    $("#pagination").html(pagHtml);
+}
+
+$(document).on("click", ".page-number", function(){
+    currentPage = parseInt($(this).data("page"));
+    renderProductTable();
+});
+
+$(document).on("click", ".prev-page", function(){
+    if (currentPage > 1) {
+        currentPage--;
+        renderProductTable();
+    }
+});
+
+$(document).on("click", ".next-page", function(){
+    let totalPages = Math.ceil(allProducts.length / rowsPerPage);
+    if (currentPage < totalPages) {
+        currentPage++;
+        renderProductTable();
+    }
+});
 
  $("#EditProductForm").on("submit", function (e) {
         e.preventDefault();
@@ -168,14 +267,11 @@ function runCheckoutLogic(){
                     else{
                         return true;
                     }
-                   
                 },
                 get message() {
                     if (this.value) {
                         return "Product Image must be PNG, JPG, JPEG or WEBP and maximum 2 MB.";
-                    }
-
-                    
+                    }   
                 }
             }
         ];

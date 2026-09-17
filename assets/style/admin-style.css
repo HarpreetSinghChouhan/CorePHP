@@ -696,3 +696,26 @@ background-color: #3b82f6;
 .edit-image-page img{
   width: 100%;
 }
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 15px;
+    padding: 10px;
+}
+.page-btn {
+    padding: 5px 12px;
+    border: 1px solid #ccc;
+    background: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.page-btn.active {
+    background: #2563eb;
+    color: #fff;
+    border-color: #2563eb;
+}
+.page-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

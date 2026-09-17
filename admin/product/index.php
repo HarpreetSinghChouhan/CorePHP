@@ -20,46 +20,9 @@ require_once __DIR__ . '/../common/sidebar.php';
                 <tbody class="product-tbody" >
                 </tbody>
             </table>
+            <div id="pagination" class="pagination-container"></div>
         </div>
 
-        <!-- =========================
-             EDIT USER MODAL
-        ========================== -->
-        <div id="editModal" class="modal">
-            <div class="modal-content">
-                <span class="close-modal">&times;</span>
-                <h2>Edit User</h2>
-
-                <form id="editUserForm">
-                    <input type="hidden" id="editUserId" name="id">
-
-                    <div class="form-group">
-                        <label for="editName">Name</label>
-                        <input type="text" id="editName" name="name" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="editEmail">Email</label>
-                        <input type="email" id="editEmail" name="email" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="editAge">Age</label>
-                        <input type="number" id="editAge" name="age" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="editGender">Gender</label>
-                        <select id="editGender" name="gender" required>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-
-                    <button type="submit" class="btn-primary">Save Changes</button>
-                </form>
-            </div>
-        </div>
+       
     </div>
 <?php require_once __DIR__ . '/../common/footer.php'; ?>

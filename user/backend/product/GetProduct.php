@@ -10,10 +10,8 @@ if($_SERVER["REQUEST_METHOD"] === "GET"){
  
  $product = [];
  while($row = mysqli_fetch_assoc($result)){
-    // $product[] = $row;
     $base64Image = 'data:image/jpeg;base64,' . base64_encode($row['image']);
     $object = [   
-         
         "id" => $row['id'],
         "name" => $row['name'],
         "category_name" => $row['category_name'],
@@ -23,12 +21,10 @@ if($_SERVER["REQUEST_METHOD"] === "GET"){
         "stock_quantity" => $row['stock_quantity'],
         "created_at" => $row['created_at'],
         "image" => $base64Image,
-
    ];
     $product[] = $object;
     
  }
- 
 echo json_encode($product);
  exit;
 

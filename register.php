@@ -23,13 +23,6 @@ include_once "./auth/verify.php";
             <input type="email" name="Email" id="Email" placeholder="Enter Your Email"  class="input-feild"/> <br>
              <div class="EmailError" style="color:red" >
             </div>
-             <!-- <label for="Email" class="label-input-feild">Role :</label> -->
-            <!-- <select name="Role" id="Role" class="select-field" >
-                <option value="" class="role-option" >Select Role</option>
-                <option value="user" class="role-option" >User</option>
-                <option value="admin" class="role-option" >Admin</option>
-            </select><div class="RoleError" style="color:red" >
-            </div> -->
             <label class="label-input-feild radio-input-label ">Gender :</label> <br>
                         <input type="radio" name="Gender" id="male" value="male" class="input-radio-feild" /> <label for="male" class="radio-label" >Male</label>
                         <input type="radio" name="Gender" id="female" value="female" class="input-radio-feild"/><label for="female" class="radio-label" >FeMale</label> 
