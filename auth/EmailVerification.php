@@ -38,12 +38,9 @@ if (!$result) {
             $mail->Password   = 'pxzl oorn lslb fwwj';
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port       = 587;
-
             $mail->setFrom('youremail@gmail.com', 'Harpreet Task');
             $mail->addAddress($email);
-
             $resetLink = "http://localhost/harpreet_task/resetpassword.php?email=". $email ."&token=" . $token;
-
             $mail->isHTML(true);
             $mail->Subject = 'Password Reset Request';
             $mail->Body    = "Hi,<br><br>Click the link below to reset your password:<br>
@@ -57,11 +54,8 @@ if (!$result) {
             echo "Mail could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
     } else {
-    
         echo "Email Are Not Correct";
-
     }
-
 }
 // echo "working";
 ?>

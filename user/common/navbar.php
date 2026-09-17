@@ -7,6 +7,8 @@
     <div class="navbar-right">
         <div class="icon-btn"><i class="fa-solid fa-bell"></i></div>
         <div class="icon-btn"><i class="fa-solid fa-search"></i></div>
-        <div class="icon-btn"><i class="fa-regular fa-envelope"></i></div>
+        <a href="./../home.php" style="text-decoration:none" >
+        <div class="icon-btn"><i class="fa-solid fa-home"></i></div>
+    </a>
     </div>
 </header>

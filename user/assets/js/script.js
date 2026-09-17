@@ -85,7 +85,6 @@ $(document).ready(function () {
     const passwordValue = password.val().trim();
     const phonenumberValue = phonenumber.val().trim();
     const phonenumberPattern = /^\+\d{1,3}\s\d{7,15}$/; 
-    // const gendervalue = $('input[name="gender"]:checked') || "";
     const gendervalue = $('#Gender').val() || "";
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
      $(".UserNameError").html("");
@@ -117,9 +116,9 @@ $(document).ready(function () {
 
 if (gendervalue === "") {
     $(".GenderError").html("<p>Gender is required. Please select your gender.</p>");
-    return; // Form submit hone se rokne ke liye
+    return; 
 } else {
-    $(".GenderError").html(""); // Error message hatane ke liye agar sahi hai
+    $(".GenderError").html("");
 }
     
         $.ajax({
