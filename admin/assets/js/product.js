@@ -1,57 +1,4 @@
 $(document).ready(function () {
-
-// if (window.location.href.indexOf("index.php") > -1) {
-//         runCheckoutLogic();
-//     }
-// function runCheckoutLogic(){
-//     // console.log("Category Index Page");
-//     let data = null 
-//     const TableBody = $(".product-tbody");  
-//     $.ajax({
-//         type:"GET",
-//         url:"/harpreet_task/admin/backend/Product/GetProduct.php",
-//         dataType:"json",
-//         success: function(response){
-//             data = response;
-//             let html = ""
-//             $.each((response), function(index, item){
-//                 let description = `${item.description.length > 20 ? item.description.slice(0, 40) + '...' : item.description}`;
-
-
-//                 html += `<tr data-id='${item.id}'
-//                               data-name='" ${item.name}"'
-//                               data-price='${item.price}'
-//                               data-sku='${item.sku}'
-//                               data-category-name='${item.category_name}'
-//                               data-description='${item.description}'
-//                               data-image='${item.image}'
-//                               data-stock_quantity='${item.stock_quantity}'
-//                               >
-//                          <td> ${index +1} </td>
-//                          <td  > <img src="${item.image}" alt="${item.name}" class="img-feild-table" ></img>  </td>
-//                          <td class='product-name' > ${item.name} </td>
-//                          <td > ${item.sku}  </td>
-//                          <td> ${item.price} </td>
-//                           <td> ${item.category_name} </td>
-//                          <td > ${description}  </td>
-//                          <td> ${item.stock_quantity} </td>
-//                          <td class='action-cell' style='height:80px'>
-//                             <button type='button' class='btn-icon edit-link-btn edit-user' title='Edit'>
-//                                 <i class='fa-solid fa-pen'></i>
-//                             </button>
-//                             <button type='button' class='btn-icon delete-user' title='Delete'>
-//                                 <i class='fa-solid fa-trash'></i>
-//                             </button>
-//                         </td></tr>`;
-//             });
-//             TableBody.html(html);
-//         },
-//         error: function(response){
-//           Swal.fire({"title":response,"icon":"warning"});
-//         }
-//     })
-//     // console.log(data);
-// }
 if (window.location.href.indexOf("index.php") > -1) {
     runCheckoutLogic();
 }
@@ -64,7 +11,7 @@ function runCheckoutLogic(){
     const TableBody = $(".product-tbody");  
     $.ajax({
         type:"GET",
-        url:"/harpreet_task/admin/backend/Product/GetProduct.php",
+        url:"/CorePHP/admin/backend/Product/GetProduct.php",
         dataType:"json",
         success: function(response){
             allProducts = response;
@@ -304,7 +251,7 @@ $(document).on("click", ".next-page", function(){
        
         $.ajax({
         type: "POST",
-                    url: "/harpreet_task/admin/backend/Product/UpdateProduct.php",
+                    url: "/CorePHP/admin/backend/Product/UpdateProduct.php",
                     data: new FormData(this),
                     processData: false,
                     contentType: false,
@@ -487,7 +434,7 @@ $(document).on("click", ".next-page", function(){
        
         $.ajax({
         type: "POST",
-                    url: "/harpreet_task/admin/backend/Product/CreateProduct.php",
+                    url: "/CorePHP/admin/backend/Product/CreateProduct.php",
                     data: new FormData(this),
                     processData: false,
                     contentType: false,
@@ -532,7 +479,7 @@ $(document).on("click", ".next-page", function(){
             }).then((result)=>{
                 if(result.isConfirmed){
                     $.ajax({
-                        url: "/harpreet_task/admin/backend/Product/DeleteProduct.php",
+                        url: "/CorePHP/admin/backend/Product/DeleteProduct.php",
                         type: "POST",
                             data: {
                             id: id

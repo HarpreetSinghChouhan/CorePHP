@@ -21,7 +21,9 @@ if (isset($_GET['id'])) {
         $product['stock_quantity'] = $row['stock_quantity'];
 }
 if (!$product){
-    header("Location: http://localhost/harpreet_task/admin/index.php");
+    header("Location: /CorePHP/admin/index.php");
+
+    // header("Location: http://localhost/CorePHP/admin/index.php");
     exit;
 }
 ?>

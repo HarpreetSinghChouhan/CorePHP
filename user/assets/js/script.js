@@ -20,7 +20,7 @@ $(document).ready(function () {
 
         // window.location = `http://localhost/harpreet_task/admin/user/edit.php?id=${id}`;
 
-        window.location = `http://localhost/harpreet_task/admin/user/edit.php?email=${email}`;
+        window.location = `/CorePHP/admin/user/edit.php?email=${email}`;
     });
     //  $(".eye-icon").on("click",function(e){
     
@@ -122,7 +122,7 @@ if (gendervalue === "") {
 }
     
         $.ajax({
-            url: "/harpreet_task/auth/EditUser.php",
+            url: "/CorePHP/auth/EditUser.php",
             type: "POST",
             data: $(this).serialize(),
 

@@ -2,12 +2,6 @@
 // user/profile.php
 require_once __DIR__ . '/common/header.php';
 require_once __DIR__ . '/common/sidebar.php';
-//  print_r($conn);
-// $user = [
-    // 'phone'    => '+91 98765 43210',
-    // 'address'  => 'Mohali, Punjab, India',
-    // 'bio'      => 'Frontend developer who loves clean UI and coffee.',
-// ];
 $email = $_SESSION['email'];
     $query = "SELECT * FROM user WHERE email = '$email'";
     $result = mysqli_query($conn,$query);
@@ -23,7 +17,7 @@ $email = $_SESSION['email'];
 
 $initial = strtoupper(substr($user['name'], 0, 1));
 ?>
- <script src="/harpreet_task/user/assets/js/script.js"></script>
+ <script src="/CorePHP/user/assets/js/script.js" defer ></script>
 <div class="user-main">
     <?php require_once __DIR__ . '/common/navbar.php'; ?>
 
@@ -46,10 +40,6 @@ $initial = strtoupper(substr($user['name'], 0, 1));
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.34 1.78.66 2.61a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.47-1.23a2 2 0 0 1 2.11-.45c.83.32 1.71.54 2.61.66A2 2 0 0 1 22 16.92z"/></svg>
                     <span><?= htmlspecialchars($user['phone']) ?></span>
                 </div>
-                <!-- <div class="meta-row">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                    <span><? // htmlspecialchars($user['address']) ?></span>
-                </div> -->
             </div>
 
             <!-- RIGHT: Details / Edit form -->
@@ -129,29 +119,28 @@ $initial = strtoupper(substr($user['name'], 0, 1));
             </div>
 
         </div>
-
         <script>
-            const form = $('$profileForm');
-            const fields = $('input, select, textarea');
+            const form = $('#profileForm');
+            const fields = $('#profileForm input, #profileForm select, #profileForm textarea');
             const actions = $('#formActions');
             const editBtn = $('#editToggleBtn');
             let editing = false;
 
             function toggleEdit() {
                 editing = !editing;
-                fields.forEach(f => f.disabled = !editing);
-                actions.classList.toggle('show', editing);
-                editBtn.innerHTML = editing ? '👁️ Cancel Edit' : '✏️ Edit Profile';
-                if (editing) fields[0].focus();
+                fields.prop('disabled',!editing);
+                actions.toggleClass('show', editing);
+               editBtn.html(editing ? '👁️ Cancel Edit' : '✏️ Edit Profile');
+            if (editing) fields.eq(0).focus();
             }
 
-            function cancelEdit() {
-                editing = false;
-                fields.forEach(f => f.disabled = true);
-                actions.classList.remove('show');
-                editBtn.innerHTML = '✏️ Edit Profile';
-                form.reset();
-            }
+            window.cancelEdit = function() {
+            editing = false;
+            fields.prop('disabled', true);
+            actions.removeClass('show');
+            editBtn.html('✏️ Edit Profile');
+            form.trigger('reset');
+        };
         </script>
 
     </div>

@@ -15,7 +15,7 @@ if (isset($_GET['id'])) {
 }
 // $initial = strtoupper(substr($user['name'], 0, 1));
 if (!$category) {
-    header("Location: http://localhost/harpreet_task/admin/index.php");
+    header("Location: http://localhost/CorePHP/admin/index.php");
     exit;
 }
 ?>

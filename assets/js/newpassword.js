@@ -54,7 +54,7 @@ $(document).ready(function(){
         if(xhr.status == 200){
             if(xhr.responseText == "changed"){
             alert("You password are changed", xhr.responseText);
-              window.location="http://localhost/harpreet_task/login.php"
+              window.location="http://localhost/CorePHP/login.php"
             }
             else if(xhr.responseText == "failed"){
                 $(".TokenError").html("<p>Something are wrong try Again with resend Link <a class='page-link' href='./forgetpassword.php' >Forget Password<a/></p>")

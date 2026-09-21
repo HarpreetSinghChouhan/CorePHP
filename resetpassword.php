@@ -2,7 +2,7 @@
 include "./includes/header.php";
 include_once "./auth/verify.php";
 if(!isset($_GET["token"])||!isset($_GET["email"])){
-    header("Location: http://localhost/harpreet_task/user/dashboard.php");
+    header("Location: http://localhost/CorePHP/user/dashboard.php");
  exit;
 }
 $email = $_GET["email"];
