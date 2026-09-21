@@ -42,10 +42,10 @@ $(document).ready(function(){
         if(xhr.status == 200){
             console.log("Response :", xhr.responseText);
             if(xhr.responseText == 'user'){
-             window.location = "/harpreet_task/user/index.php";
+             window.location = "/CorePHP/user/index.php";
             }
             else if(xhr.responseText == 'admin'){
-                window.location = "/harpreet_task/admin/index.php";
+                window.location = "/CorePHP/admin/index.php";
             }
             else{
                 $(".PasswordError").css({'margin-top':'20px','margin-bottom':'-20px'});

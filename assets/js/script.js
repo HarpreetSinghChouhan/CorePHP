@@ -174,7 +174,7 @@ $(document).ready(function(){
         }
              else if(xhr.responseText=="Success"){
                console.log("user login");
-            window.location = "http://localhost/harpreet_task/login.php";
+            window.location = "http://localhost/CorePHP/login.php";
              }
             
         }

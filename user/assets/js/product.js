@@ -9,7 +9,7 @@ let currentPage = 1;
 const rowsPerPage = 10;
     $.ajax({
         type:'GET',
-        url:"/harpreet_task/user/backend/product/GetProduct.php",
+        url:"/CorePHP/user/backend/product/GetProduct.php",
         dataType:"json",
         success:function(response){
             // console.log(response);
@@ -47,7 +47,7 @@ const rowsPerPage = 10;
     });
     $.ajax({
         type:"GET",
-        url:"/harpreet_task/user/backend/product/CountCart.php",
+        url:"/CorePHP/user/backend/product/CountCart.php",
         success:function(response){
                         $(".cart-count").html(`${response}`)
           }
@@ -59,13 +59,13 @@ const rowsPerPage = 10;
     let data = {'product_id':id}
     $.ajax({
         type:"POST",
-        url: "/harpreet_task/user/backend/product/AddToCart.php",
+        url: "/CorePHP/user/backend/product/AddToCart.php",
         data:data,
         success:function(response){
             if(response === "Quantity Increase"){
                 $.ajax({
                     type:"GET",
-                    url:"/harpreet_task/user/backend/product/CountCart.php",
+                    url:"/CorePHP/user/backend/product/CountCart.php",
                     success:function(response){
                         $(".cart-count").html(`${response}`)
                     }
@@ -74,7 +74,7 @@ const rowsPerPage = 10;
             else{
                 $.ajax({
                     type:"GET",
-                    url:"/harpreet_task/user/backend/CountCart.php",
+                    url:"/CorePHP/user/backend/product/CountCart.php",
                     success:function(response){
                         $(".cart-count").html(`${response}`)
                     }

@@ -1,11 +1,11 @@
 <?php 
 
  $hostname = "localhost";
-$tablename = "harpreet_task";
+$databasename = "harpreet_task";
 $dbname = "root";
 $dbpassword = "";
 
-$conn = new mysqli($hostname, $dbname, $dbpassword,$tablename);
+$conn = new mysqli($hostname, $dbname, $dbpassword,$databasename);
 if(!$conn){
     echo "Connection Failed";
     exit;

@@ -23,7 +23,7 @@ $(document).ready(function(){
             if(xhr.status == 200){
                 console.log("response :- ", xhr.responseText);
                 Emailbtn.prop("disabled",'false');
-                window.location="http://localhost/harpreet_task/login.php";
+                window.location="http://localhost/CorePHP/login.php";
                 return;
             }
             else{

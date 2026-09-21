@@ -1,7 +1,7 @@
 <?php 
  include "./includes/home/header.php"
 ?>
-<script src="/harpreet_task/user/assets/js/product.js" defer></script>
+<script src="/CorePHP/user/assets/js/product.js" defer></script>
 <section class="hero">
   <div class="hero-text">
     <p class="hero-kicker">New stock has arrived</p>

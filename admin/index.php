@@ -8,7 +8,7 @@ $query = "SELECT * FROM user WHERE role='user'";
    $total_users = mysqli_num_rows($result);
 ?>
 <div class="admin-main">
-    <script src="/harpreet_task/admin/assets/js/script.js" defer></script>
+    <script src="/CorePHP/admin/assets/js/script.js" defer></script>
     <?php require_once __DIR__ . '/common/navbar.php'; ?>
 
     <div class="admin-content">

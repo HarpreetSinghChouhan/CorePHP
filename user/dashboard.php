@@ -5,13 +5,15 @@ session_start();
 $email = $_SESSION['email'];
 // echo $email;
 if(!isset($email)){
-    header("Location:  http://localhost/harpreet_task/login.php");
+    header("Location:  /CorePHP/login.php");
+    // header("Location:  http://localhost/CorePHP/login.php");
+
     exit;
 }
   $query = "SELECT * FROM user WHERE email = '$email' LIMIT 1";
     $result = mysqli_query($conn,$query);
      if(!$result){
-    header("Location:  http://localhost/harpreet_task/login.php");   
+    header("Location:  /CorePHP/login.php");   
     exit;
      }
      else if(mysqli_num_rows($result) > 0){

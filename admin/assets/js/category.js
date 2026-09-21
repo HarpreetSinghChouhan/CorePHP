@@ -9,7 +9,7 @@ function runCheckoutLogic(){
     const TableBody = $(".category-tbody");  
     $.ajax({
         type:"GET",
-        url:"/harpreet_task/admin/backend/Category/GetCategory.php",
+        url:"/CorePHP/admin/backend/Category/GetCategory.php",
         dataType:"json",
         success: function(response){
             data = response;
@@ -56,7 +56,7 @@ $("#AddCategoryForm").on("submit",function(e){
        }else{
         $.ajax({
             type:"POST",
-            url:"/harpreet_task/admin/backend/Category/CreateCategory.php",
+            url:"/CorePHP/admin/backend/Category/CreateCategory.php",
             data:$(this).serialize(),
             success: function(response){
                 if(response == "Exited"){
@@ -101,7 +101,7 @@ $("#EditCategoryForm").on("submit",function(e){
        }else{
         $.ajax({
             type:"POST",
-            url:"/harpreet_task/admin/backend/Category/UpdateCategory.php",
+            url:"/CorePHP/admin/backend/Category/UpdateCategory.php",
             data:$(this).serialize(),
             success: function(response){
                 if(response == "Exited"){
@@ -145,7 +145,7 @@ $(document).on("click", ".delete-user", function () {
             }).then((result)=>{
                 if(result.isConfirmed){
                     $.ajax({
-                        url: "/harpreet_task/admin/backend/Category/DeleteCategory.php",
+                        url: "/CorePHP/admin/backend/Category/DeleteCategory.php",
                         type: "POST",
                             data: {
                             name: name

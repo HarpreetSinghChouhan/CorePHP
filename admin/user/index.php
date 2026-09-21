@@ -7,7 +7,7 @@ require_once __DIR__ . '/../common/sidebar.php';
 ?>
 
 <div class="admin-main">
-    <script src="/harpreet_task/admin/assets/js/user.js" defer></script>
+    <script src="/CorePHP/admin/assets/js/user.js" defer></script>
     <?php require_once __DIR__ . '/../common/navbar.php'; ?>
 
     <div class="admin-content">

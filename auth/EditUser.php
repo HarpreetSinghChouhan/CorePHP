@@ -31,16 +31,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $query = "SELECT * FROM user WHERE email = '$email'";
         $result = mysqli_query($conn,$query);
         // $data = mysqli_fetch_assoc($result);
-         $row = mysqli_num_rows($result);  
-         if($row > 0){
+         $row = mysqli_num_rows($result); 
+         print_r($row); 
+         if($row < 0){
             echo "Email-Exited";
             exit;
          }
-    }
-    else{
+         else{
         echo "Same Email Address new $email  old " . $data["email"];
         exit;
     }
+    };
+    
     $changePassword = isset($_POST["ChangePassword"]);
     $password = $_POST["Password"] ?? '';
 

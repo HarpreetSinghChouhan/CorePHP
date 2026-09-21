@@ -22,14 +22,14 @@ if (isset($_GET['id'])) {
 }
 $initial = strtoupper(substr($user['name'], 0, 1));
 if (!$user) {
-    header("Location: http://localhost/harpreet_task/admin/index.php");
+    header("Location: http://localhost/CorePHP/admin/index.php");
     exit;
 }
 ?>
 
 
 <div class="admin-main">
-    <script src="/harpreet_task/admin/assets/js/user.js" defer></script>
+    <script src="/CorePHP/admin/assets/js/user.js" defer></script>
     <?php require_once __DIR__ . '../../common/navbar.php'; ?>
 
     <div class="model-content">

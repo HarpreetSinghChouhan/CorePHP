@@ -40,7 +40,7 @@ if (!$result) {
             $mail->Port       = 587;
             $mail->setFrom('youremail@gmail.com', 'Harpreet Task');
             $mail->addAddress($email);
-            $resetLink = "http://localhost/harpreet_task/resetpassword.php?email=". $email ."&token=" . $token;
+            $resetLink = "http://localhost/CorePHP/resetpassword.php?email=". $email ."&token=" . $token;
             $mail->isHTML(true);
             $mail->Subject = 'Password Reset Request';
             $mail->Body    = "Hi,<br><br>Click the link below to reset your password:<br>

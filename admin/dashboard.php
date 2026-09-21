@@ -3,25 +3,25 @@ include "../includes/header.php";
 include "../config/database.php";
 session_start();
  if(!isset($_SESSION['email'])){
-    header("Location:  http://localhost/harpreet_task/login.php");
+    header("Location:  http://localhost/CorePHP/login.php");
     exit;
  }
 $email = $_SESSION['email'];
 //  echo $email;
 // if(!isset($email)){
-//     header("Location :  http://localhost/harpreet_task/view/login.php");
+//     header("Location :  http://localhost/CorePHP/view/login.php");
 //     exit;
 // }
   $query = "SELECT * FROM user WHERE email = '$email' LIMIT 1";
     $result = mysqli_query($conn,$query);
      if(!$result){
-    header("Location:  http://localhost/harpreet_task/login.php");   
+    header("Location:  http://localhost/CorePHP/login.php");   
     exit;
      }
      else if(mysqli_num_rows($result) > 0){
              $user = mysqli_fetch_assoc($result);
            if($user["role"] == "user" ){
-            header("Location:  http://localhost/harpreet_task/user/index.php");
+            header("Location:  http://localhost/CorePHP/user/index.php");
              exit;
             }
             else{

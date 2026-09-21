@@ -74,7 +74,7 @@ $(document).ready(function () {
       return;
     }
         $.ajax({
-            url:"/harpreet_task/auth/UserRegister.php",
+            url:"/CorePHP/auth/UserRegister.php",
             type:"POST",
             data:$(this).serialize(),
             success:function(response){
@@ -140,10 +140,10 @@ $(document).ready(function () {
         let row = $(this).closest("tr");
         let id = row.data("id");
 
-        window.location = `http://localhost/harpreet_task/admin/user/edit.php?id=${id}`;
+        window.location = `/CorePHP/admin/user/edit.php?id=${id}`;
 
 
-        // window.location = `http://localhost/harpreet_task/admin/user/edit.php?email=${email}`;
+        // window.location = `http://localhost/CorePHP/admin/user/edit.php?email=${email}`;
     });
 
 
@@ -211,7 +211,7 @@ if (gendervalue === "") {
     $(".GenderError").html(""); 
 }
         $.ajax({
-            url: "/harpreet_task/auth/EditUser.php",
+            url: "/CorePHP/auth/EditUser.php",
             type: "POST",
             data: $(this).serialize(),
 
@@ -261,7 +261,7 @@ if (gendervalue === "") {
             }).then((result)=>{
                 if(result.isConfirmed){
                     $.ajax({
-                        url: "/harpreet_task/auth/DeleteUser.php",
+                        url: "/CorePHP/auth/DeleteUser.php",
                         type: "POST",
 
                             data: {
