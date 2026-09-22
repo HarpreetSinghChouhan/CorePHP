@@ -16,7 +16,7 @@ if($_SERVER["REQUEST_METHOD"] === "GET"){
         "name" => $row['name'],
         "category_name" => $row['category_name'],
         "sku" => $row['sku'],
-        "price"=>$row['price'],
+        "price"=> $row['price'],
         "description" => $row['description'],
         "stock_quantity" => $row['stock_quantity'],
         "created_at" => $row['created_at'],
