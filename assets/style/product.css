@@ -732,9 +732,24 @@ button { font-family: inherit; cursor: pointer; }
 }
 
 .remove-btn:hover {
-    color: #cc0000;
+    color: white;
+    background: red;
 }
-
+.remove-btn {
+  margin: 0px 0px 10px 10px ;
+    background: white;
+    color: red;
+    border: 1px solid red;
+    padding: 6px 7px 6px ;
+    border-radius: 6px;
+    cursor: pointer;
+    /* line-height: ; */
+}
+.qty-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
 .buy-btn:hover {
     color: #1a73e8;
 }
@@ -802,4 +817,38 @@ button { font-family: inherit; cursor: pointer; }
     padding: 40px;
     color: #888;
     font-size: 16px;
+}
+.payment-btn-div{
+  width: 100%;
+}
+.payment-btn{
+  width: 100%;
+  background: blue;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  
+  border: 1px solid blue;
+}
+.payment-btn:hover{
+  background: white;
+  color: blue;
+  border: 1px solid;
+}
+
+main {
+  flex: 1 0 auto;  
+}
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+footer {
+  flex-shrink: 0;  
 }

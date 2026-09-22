@@ -1,18 +1,19 @@
+
 <?php
 session_start();
 include '../../../config/database.php';
-
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if (!isset($_SESSION["email"])) {
-        echo "Please login first";
+        echo json_encode(['status' => 'error', 'message' => "User can't add product without Login"]);
         die();
     }
+    
     $email = mysqli_real_escape_string($conn, $_SESSION["email"]);
     $id = (int) $_POST["product_id"];
 
     if ($id <= 0) {
-        echo "Invalid product";
+        echo json_encode(['status' => 'error', 'message' => 'Invalid product']);
         die();
     }
 
@@ -21,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $user = mysqli_fetch_assoc($result);
 
     if (!$user) {
-        echo "User not found";
+        echo json_encode(['status' => 'error', 'message' => 'User not found']);
         die();
     }
     $user_id = $user["id"];
@@ -31,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $product = mysqli_fetch_assoc($result);
 
     if (!$product) {
-        echo "Product not found";
+        echo json_encode(['status' => 'error', 'message' => 'Product not found']);
         die();
     }
 
@@ -43,18 +44,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $newQty = $existing["quantity"] + 1;
         $query = "UPDATE cart SET quantity = '$newQty' WHERE id = '{$existing['id']}'";
         mysqli_query($conn, $query);
-        echo "Quantity Increase";
+        echo json_encode([
+            'status' => 'success', 
+            'message' => 'Product quantity increased in cart!'
+        ]);
     } else {
         $query = "INSERT INTO cart (user_id, product_id, quantity) VALUES ('$user_id', '$id', 1)";
         mysqli_query($conn, $query);
-            $query2 = "SELECT COUNT(*) AS cnt FROM cart WHERE user_id = '$user_id'";
-            $cart_result = mysqli_query($conn, $query2);
-            $cart_row = mysqli_fetch_assoc($cart_result);
-            $cart_count = $cart_row['cnt'];
-        echo $cart_count;
+        echo json_encode([
+            'status' => 'success', 
+            'message' => 'Product added to cart successfully!'
+        ]);
     }
 
 } else {
-    echo "Invalid request";
+    echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
 }
 ?>

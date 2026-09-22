@@ -17,7 +17,7 @@ $dltcart = "DELETE FROM cart WHERE id='$id'";
 $result = mysqli_query($conn, $dltcart);
 
 if ($result) {
-    echo json_encode(["success" => true]);
+    echo json_encode(["success" => true,"message"=>"Your cart Item Are Removed Successfully"]);
 } else {
     echo json_encode(["error" => "Delete failed"]);
 }

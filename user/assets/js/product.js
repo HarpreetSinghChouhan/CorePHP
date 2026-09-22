@@ -63,34 +63,54 @@ function GetProduct(){
           }
     })
 }
-  $(document).on("click",".btn-add-cart",function(){
-    console.log("Working Add to Card");
+$(document).on("click", ".btn-add-cart", function(){
+    console.log("Working Add to Cart");
     let id = $(this).data("product-id");
-    let data = {'product_id':id}
+    let data = {'product_id': id}
     $.ajax({
-        type:"POST",
+        type: "POST",
         url: "/CorePHP/user/backend/product/AddToCart.php",
-        data:data,
-        success:function(response){
-            if(response === "Quantity Increase"){
+        data: data,
+        dataType: "json", 
+        success: function(response){
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "bottom-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            if (response.status === "success") {
+                Toast.fire({
+                    icon: "success",
+                    title: response.message
+                });
                 $.ajax({
-                    type:"GET",
-                    url:"/CorePHP/user/backend/product/CountCart.php",
-                    success:function(response){
-                        $(".cart-count").html(`${response}`)
+                    type: "GET",
+                    url: "/CorePHP/user/backend/product/CountCart.php",
+                    success: function(countResponse){
+                        $(".cart-count").html(`${countResponse}`);
                     }
-                })
+                });
+            } else {
+                Toast.fire({
+                    icon: "error",
+                    title: response.message
+                });
             }
-            else{
-                $.ajax({
-                    type:"GET",
-                    url:"/CorePHP/user/backend/product/CountCart.php",
-                    success:function(response){
-                        $(".cart-count").html(`${response}`)
-                    }
-                })
-           } 
-            }
-    })
-  })
+        },
+        error: function(){
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong on the server."
+            });
+        }
+    });
+});
+
 })

@@ -3,7 +3,7 @@ $(document).ready(function(){
         type:"GET",
         url:"/CorePHP/user/backend/product/CountCart.php",
         success:function(response){
-                        $(".cart-count").html(`${response}`)
+            $(".cart-count").html(`${response}`)
           },
         error: function(response){
             console.log(response);
@@ -14,6 +14,17 @@ $(document).ready(function(){
 } 
 function GetProduct(){
     const cart = $(".cart-grid");
+    const Toast = Swal.mixin({
+                toast: true,
+                position: "bottom-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
 let allProducts = [];
 let currentPage = 1;
 const rowsPerPage = 10;
@@ -25,8 +36,12 @@ $.ajax({
         renderCart(response);
     },
     error: function(xhr, status, error) {
-    console.log("Status Code:", xhr.status);
-    console.log("Response Text:", xhr.responseText);
+        Toast.fire({
+            'icon':'warning',
+            'title':xhr.responseText
+        })
+    // console.log("Status Code:", xhr.status);
+    // console.log("Response Text:", xhr.responseText);
 }
 });
 
@@ -52,7 +67,7 @@ function renderCart(cartItems) {
       
 
         let cardHtml = `
-            <div class="cart-card" data-id="${item.id}">
+            <div class="cart-card" data-id="${item.id}" data-name="${item.name}"  >
                 <img src="${item.image}" alt="${item.name}" class="cart-img">
                 <div class="cart-details">
                     <h3 class="cart-name">${item.name}</h3>
@@ -63,17 +78,15 @@ function renderCart(cartItems) {
                         ${discountPercent > 0 ? `<span class="mrp">₹${mrp}</span>` : ""}
                         <span class="final-price">₹${price}</span>
                     </div>
+                   <div style="display:flex" >
                     <div class="qty-control">
                         <button class="qty-btn decrease-btn" ${parseInt(item.quantity) <= 1 ? "disabled" : ""}>−</button>
                         <span class="qty">Qty: ${item.quantity}</span>
-                        <button class="qty-btn increase-btn">+</button>
+                        <button class="qty-btn increase-btn">+</button>   
                     </div>
+                    <i class="fa-solid fa-trash remove-btn"></i>
+                   </div>
                   
-                    <div class="cart-footer">
-                        <button class="save-btn">Save for later</button>
-                        <button class="buy-btn">Buy this now</button>
-                         <button class="remove-btn">Remove</button>
-                    </div>
                 </div>
             </div>
         `;
@@ -82,7 +95,6 @@ function renderCart(cartItems) {
 
     renderPriceDetails(cartItems);
 }
-
 function renderPriceDetails(cartItems){
     let itemCount = 0;
     let totalPrice = 0;
@@ -119,6 +131,7 @@ function renderPriceDetails(cartItems){
             <span>Total Amount</span>
             <span>₹${totalAmount.toFixed(0)}</span>
         </div>
+        <div class="payment-btn-div" data-price="${totalAmount}" data-item="${itemCount}" > <button class="payment-btn"  > Buy All Product </button>  </div>
         ${discount > 0 ? `<div class="savings-banner">🎉 You'll save ₹${discount.toFixed(0)} on this order!</div>` : ""}
     `;
 
@@ -137,14 +150,69 @@ $(document).on("click", ".increase-btn", function(e){
     let id = $(this).closest(".cart-card").data("id");
     updateQuantity(id, 1);
 });
-
+$(document).on("click", ".payment-btn", function(e){
+  e.preventDefault();
+  const div = $(".payment-btn");
+    let price = div.closest('.payment-btn-div').data('price');
+    let totalItem = div.closest('.payment-btn-div').data('item');
+//   console.log(price , totalItem);
+//   return;
+   let data =  {'price':price,'item':totalItem};
+  $.ajax({
+    type: "POST",
+    url: "/CorePHP/user/backend/payment/StripeSession.php",
+    dataType: "json",
+    data:data,
+    success: function(response){
+      if (response.success) {
+        window.location.href = response.url; 
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Payment Error",
+          text: JSON.stringify(response.error)
+        });
+      }
+    },
+    error: function(xhr){
+      Swal.fire({
+        icon: "error",
+        title: "Request Failed",
+        text: xhr.responseText
+      });
+    }
+  });
+});
 $(document).on("click", ".remove-btn", function(e){
     e.stopPropagation();
     let id = $(this).closest(".cart-card").data("id");
-    removeFromCart(id);
+    let name = $(this).closest(".cart-card").data("name");
+
+    removeFromCart(id,name);
 });
-function removeFromCart(id){
-    $.ajax({
+   function removeFromCart(id,name){
+      const Toast = Swal.mixin({
+                toast: true,
+                position: "bottom-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+     swal.fire({
+                 'title':'Are you sure?',
+                'text':`You Want To Remove ${name}`,
+                'icon':'warning',
+                'showCancelButton':true,
+                'cancelButtonColor':'Green',
+                'confirmButtonColor':'Red',
+                'confirmButtonText':'Yes, Remove it',
+            }).then((result)=>{
+                if(result.isConfirmed){
+         $.ajax({
         type: "POST",
         url: "/CorePHP/user/backend/cart/DeleteCart.php",
         data: { id: id },
@@ -155,20 +223,51 @@ function removeFromCart(id){
             }
 
             if (data.error) {
-                console.log("Removed failed:", data.error);
+                swal.fire({
+                    'title':`${data.error}`,
+                    'icon':'warning'
+                    });
                 return;
             }
-
+            swal.fire({
+                'title':`${data.message}`,
+                'icon':'success'
+                });
+             $.ajax({
+                    type: "GET",
+                    url: "/CorePHP/user/backend/product/CountCart.php",
+                    success: function(countResponse){
+                        $(".cart-count").html(`${countResponse}`);
+                    }
+                });
             $(`.cart-card[data-id="${id}"]`).remove();
             window.cartItemsData = window.cartItemsData.filter(i => i.id != id);
             renderPriceDetailsFromGlobal();
         },
         error: function(xhr){
-            console.log("Removed failed:", xhr.responseText);
+            swal.fire({
+                    'title':`${xhr.responseText}`,
+                    'icon':'warning'
+                    });
         }
     });
 }
+else{
+
+}
+})}
 function updateQuantity(id, change) {
+      const Toast = Swal.mixin({
+                toast: true,
+                position: "bottom-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
     let item = window.cartItemsData.find(i => i.id == id);
     if (!item) return;
 
@@ -187,31 +286,42 @@ function updateQuantity(id, change) {
         data: { id: id, quantity: newQty },
         success: function(response){
             let data = response;
+            // console.log(data);
             if (typeof data === "string") {
                 data = JSON.parse(data);
             }
 
             if (data.error) {
-                console.log("Update failed:", data.error);
+                Toast.fire({
+                    'icon':'warning',
+                    'title':data.error
+                })
                 return;
             }
 
             item.quantity = data.quantity;
-
             card.find(".qty").text(`Qty: ${item.quantity}`);
             card.find(".decrease-btn").prop("disabled", item.quantity <= 1);
             card.find(".increase-btn").prop("disabled", item.quantity >= data.available_stock);
-
+            Toast.fire({
+                'icon':'success',
+                'title':data.message
+            });
+            
             if (data.limited) {
                 card.find(".stock-msg").remove();
                 card.find(".qty-control").after(`<p class="stock-msg">Only ${data.available_stock} left in stock</p>`);
             } else {
                 card.find(".stock-msg").remove();
             }
-
             renderPriceDetailsFromGlobal();
         },
         error: function(xhr){
+            
+                Toast.fire({
+                    'icon':'warning',
+                    'title':xhr.responseText
+                })
             console.log("Update failed:", xhr.responseText);
         }
     });
@@ -244,7 +354,8 @@ function renderPriceDetailsFromGlobal(){
 
     let discount = totalMrp - totalPrice;
     let totalAmount = totalPrice + totalProtectFee;
-
+     
+     $(".cart-count").html(`${itemCount}`);
     let priceHtml = `
         <h3>Price Details</h3>
         <div class="price-line">
@@ -261,7 +372,9 @@ function renderPriceDetailsFromGlobal(){
             <span>₹${totalAmount.toFixed(0)}</span>
         </div>
         ${discount > 0 ? `<div class="savings-banner">🎉 You'll save ₹${discount.toFixed(0)} on this order!</div>` : ""}
-    `;
+    
+         <div> <button> Buy All Product </button>  </div>
+        `;
 
     $("#price-details").html(priceHtml);
 }
