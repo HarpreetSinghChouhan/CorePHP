@@ -1,12 +1,22 @@
 $(document).ready(function(){
-    if (window.location.href.indexOf("home.php") > -1) {
+    $.ajax({
+        type:"GET",
+        url:"/CorePHP/user/backend/product/CountCart.php",
+        success:function(response){
+                        $(".cart-count").html(`${response}`)
+          },
+        error: function(response){
+            console.log(response);
+        }
+    })
+    // if (window.location.href.indexOf("home.php") > -1) {
     GetProduct();
-}
+// }
 function GetProduct(){
-const product = $(".product-grid");
-let allProducts = [];
-let currentPage = 1;
-const rowsPerPage = 10;
+    const product = $(".product-grid");
+    let allProducts = [];
+    let currentPage = 1;
+    const rowsPerPage = 10;
     $.ajax({
         type:'GET',
         url:"/CorePHP/user/backend/product/GetProduct.php",
