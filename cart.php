@@ -3,14 +3,7 @@
 ?>
 <script src="/CorePHP/user/assets/js/cart.js" defer></script>
 
-<!-- <section class="hero">
-  <div class="hero-text">
-    <p class="hero-kicker">New stock has arrived</p>
-    <h1>One destination<br><em>for every need.</em></h1>
-    <p class="hero-sub">From fashion to groceries — thousands of products, delivered straight to your home.</p>
-    <a href="#products" class="btn btn-primary">Start Shopping Now</a>
-  </div>
-</section> -->
+
 <main class="products-section" id="products">
   <!-- <div class="section-head">
     <h2>All Products</h2>
