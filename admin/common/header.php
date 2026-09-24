@@ -29,7 +29,6 @@ $email = $_SESSION['email'];
                 $username = $user["name"];
             }
      }
-// echo "Harpreet Singh";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,5 +46,3 @@ $email = $_SESSION['email'];
 <script src="/CorePHP/admin/assets/js/script.js" defer></script>
 <body>
 <div class="admin-wrapper">
-    
- <!-- <?php // echo SITE_NAME; ?> -->

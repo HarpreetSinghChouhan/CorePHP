@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         die();
     }
 
-    $query = "SELECT id FROM user WHERE email = '$email'";
+    $query = "SELECT id,role FROM user WHERE email = '$email'";
     $result = mysqli_query($conn, $query);
     $user = mysqli_fetch_assoc($result);
 
@@ -25,7 +25,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         echo json_encode(['status' => 'error', 'message' => 'User not found']);
         die();
     }
+    if($user["role"] != "user"){
+        echo json_encode(['status' => 'error', 'message' => "Admin can't able to Add Product "]);
+        die();
+    }
     $user_id = $user["id"];
+    $query = "SELECT role FROM user WHERE id = '$email'";
+    $result = mysqli_query($conn, $query);
+    $user = mysqli_fetch_assoc($result);
 
     $query = "SELECT id FROM product WHERE id = '$id'";
     $result = mysqli_query($conn, $query);

@@ -69,31 +69,75 @@ if (isset($_GET['session_id'])) {
     if (isset($session['payment_status']) && $session['payment_status'] === 'paid') {
          // print_r($session); 
          $selectorder = "SELECT * FROM `order` WHERE session_id = '$session_id'";
-         $runorderquery = mysqli_query($conn,$selectorder);
-         if(mysqli_num_rows($runorderquery) == 0){
-              $order_id =  uniqid();
-         $total_amount = $session['amount_total'] / 100;
-         $user_id = $_SESSION['user_id'];
-        $selectcart = "SELECT cart.product_id, cart.quantity, product.name, product.price 
-               FROM cart 
-               JOIN product ON cart.product_id = product.id 
-               WHERE cart.user_id = '$user_id'";
-                    $result = mysqli_query($conn, $selectcart);
-                    $product_quantity = 0;
-                while ($row = mysqli_fetch_assoc($result)) {
-                      $product_id     = (int) $row["product_id"];
-                      $product_qty1   = (int) $row["quantity"];
-                      $product_name   = $row["name"];
-                      $product_price  = $row["price"];
-                      $product_quantity += $product_qty1;
-                      $insertorderitem = "INSERT INTO `order_item` (order_id, product_id, user_id, product_name, product_quantity, product_price) 
-                           VALUES ('$order_id','$product_id','$user_id','$product_name','$product_qty1','$product_price')";
-                      mysqli_query($conn, $insertorderitem);
-                }
-        // echo  " <br/> All Product Quantity : === "  . $product_quantity;
-         $insertquery = "INSERT INTO `order` (order_id, user_id, total_amount, product_quantity,session_id,status) VALUES ('$order_id', '$user_id', '$total_amount', '$product_quantity', '$session_id','paid')";
-         $runquery = mysqli_query($conn,$insertquery);
-         }          
+$runorderquery = mysqli_query($conn,$selectorder);
+
+if(mysqli_num_rows($runorderquery) == 0){
+
+     // Naya sequential order_id generate karo (1001, 1002, 1003...)
+     $maxidquery = "SELECT MAX(order_id) as max_id FROM `order`";
+     $maxidresult = mysqli_query($conn, $maxidquery);
+     $maxidrow = mysqli_fetch_assoc($maxidresult);
+
+     if($maxidrow['max_id'] == null){
+          $order_id = 1001; // pehla order
+     } else {
+          $order_id = $maxidrow['max_id'] + 1;
+     }
+
+     // order
+     $total_amount = $session['amount_total'] / 100;
+     $user_id = $_SESSION['user_id'];
+
+     $selectcart = "SELECT cart.product_id, cart.quantity, product.name, product.price 
+            FROM cart 
+            JOIN product ON cart.product_id = product.id 
+            WHERE cart.user_id = '$user_id'";
+     $result = mysqli_query($conn, $selectcart);
+     $product_quantity = 0;
+
+     while ($row = mysqli_fetch_assoc($result)) {
+           $product_id     = (int) $row["product_id"];
+           $product_qty1   = (int) $row["quantity"];
+           $product_name   = $row["name"];
+           $product_price  = $row["price"];
+           $product_quantity += $product_qty1;
+
+           $insertorderitem = "INSERT INTO `order_item` (order_id, product_id, user_id, product_name, product_quantity, product_price) 
+                VALUES ('$order_id','$product_id','$user_id','$product_name','$product_qty1','$product_price')";
+           mysqli_query($conn, $insertorderitem);
+     }
+
+     $insertquery = "INSERT INTO `order` (order_id, user_id, total_amount, product_quantity, session_id, status) 
+                     VALUES ('$order_id', '$user_id', '$total_amount', '$product_quantity', '$session_id','paid')";
+     $runquery = mysqli_query($conn,$insertquery);
+}
+            // $selectorder = "SELECT * FROM `order` WHERE session_id = '$session_id'";
+            // $runorderquery = mysqli_query($conn,$selectorder);
+            // if(mysqli_num_rows($runorderquery) == 0){
+            //     $order_id =  uniqid();
+            //     // order 
+            // $total_amount = $session['amount_total'] / 100;
+            // $user_id = $_SESSION['user_id'];
+            // $selectcart = "SELECT cart.product_id, cart.quantity, product.name, product.price 
+            //     FROM cart 
+            //     JOIN product ON cart.product_id = product.id 
+            //     WHERE cart.user_id = '$user_id'";
+            //             $result = mysqli_query($conn, $selectcart);
+            //             $product_quantity = 0;
+            //         while ($row = mysqli_fetch_assoc($result)) {
+            //             $product_id     = (int) $row["product_id"];
+            //             $product_qty1   = (int) $row["quantity"];
+            //             $product_name   = $row["name"];
+            //             $product_price  = $row["price"];
+            //             $product_quantity += $product_qty1;
+            //             $insertorderitem = "INSERT INTO `order_item` (order_id, product_id, user_id, product_name, product_quantity, product_price) 
+            //                 VALUES ('$order_id','$product_id','$user_id','$product_name','$product_qty1','$product_price')";
+            //             mysqli_query($conn, $insertorderitem);
+            //         }
+            // // echo  " <br/> All Product Quantity : === "  . $product_quantity;
+            // $insertquery = "INSERT INTO `order` (order_id, user_id, total_amount, product_quantity,session_id,status) VALUES ('$order_id', '$user_id', '$total_amount', '$product_quantity', '$session_id','paid')";
+            // $runquery = mysqli_query($conn,$insertquery);
+        //  }          
         ?> 
         <div class="container">
         <div class="row justify-content-center">

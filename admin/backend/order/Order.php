@@ -1,14 +1,15 @@
 <?php
 include "../../../config/database.php";
-
+include "../verify.php";
 if($_SERVER["REQUEST_METHOD"] === "GET"){
 
-    $query = "SELECT o.id, o.order_id, o.user_id, o.total_amount, o.product_quantity, o.created_at,
+    $query = "SELECT o.id, o.is_deleted, o.order_id, o.user_id, o.total_amount, o.product_quantity, o.created_at,
         u.name, u.email, u.id AS user_table_id,
         COUNT(oi.id) AS total_order_items
-        FROM `order` o
-        INNER JOIN order_item oi ON o.order_id = oi.order_id
-        INNER JOIN user u ON o.user_id = u.id
+        FROM `order` AS o
+        INNER JOIN order_item AS oi ON o.order_id = oi.order_id
+        INNER JOIN user AS u ON o.user_id = u.id 
+        WHERE o.is_deleted != '1'
         GROUP BY o.id";
 
     $result = mysqli_query($conn, $query);
