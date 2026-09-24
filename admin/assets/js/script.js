@@ -3,6 +3,9 @@ $(document).ready(function () {
     $('.create-link-btn').on("click",function(){
         window.location.href = "./create.php";
     });
+    $('.view-link-btn').on("click",function(){
+        window.location.href = `./view.php?id=${id}`;
+    });
     $('.btn-back').on("click",function(){
         window.location.href = "./index.php";
     })

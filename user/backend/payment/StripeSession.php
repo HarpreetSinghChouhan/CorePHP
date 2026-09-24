@@ -1,19 +1,34 @@
 <?php
 session_start();
 include "../../../config/config.php";
+include "../../../config/database.php";
 if($_SERVER['REQUEST_METHOD'] !== "POST" || !$_SESSION['email']){
     echo json_encode(["error"=>"Request Are Invalid"]);
 die();
 }
 else{
+  $user_id = $_POST["user_id"]; 
 $price = $_POST['price'];
 $itemQuantity = $_POST['item'];
 $Email = $_SESSION['email'];
+$query = "SELECT user_id,product_id,quantity FROM cart WHERE user_id='$user_id'";
+$result = mysqli_query($conn,$query);
+$totalprice  = 0;
+while($row = mysqli_fetch_assoc($result)){
+ $product_id = $row['product_id'];
+ $productquantity = $row["quantity"];
+$productquery = "SELECT id,price FROM product WHERE id='$product_id'";
+$productresult = mysqli_query($conn,$productquery);
+$product = mysqli_fetch_assoc($productresult);
+$price = $product['price'] * $productquantity;
+$totalprice += $price;
+}
+
 $data = [
     'payment_method_types[]' => 'card',
-    'line_items[0][price_data][currency]' => 'usd',
+    'line_items[0][price_data][currency]' => 'inr',     
     'line_items[0][price_data][product_data][name]' => 'Test Product',
-    'line_items[0][price_data][unit_amount]' => $price,
+    'line_items[0][price_data][unit_amount]' => $totalprice*100 ,
     'line_items[0][quantity]' => 1,
     'customer_email' => $Email,
     'mode' => 'payment',

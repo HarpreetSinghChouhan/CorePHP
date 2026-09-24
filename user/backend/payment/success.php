@@ -3,6 +3,10 @@
 include "../../../config/config.php";
 include "../../../config/database.php";
 session_start();
+if (!isset($_SESSION['user_id'])) {
+    header("Location: /CorePHP/login.php");
+    exit;
+}
 if (isset($_GET['session_id'])) {
     ?>
     <style>
@@ -43,22 +47,53 @@ if (isset($_GET['session_id'])) {
 }
 </style><?php
     $session_id = $_GET['session_id'];
-       
-    $options = [
-        'http' => [
-            'method'  => 'GET',
-            'header'  => "Authorization: Bearer $secret_key\r\n",
-            'ignore_errors' => true,
-        ],
+       $curl = curl_init();
+       $options = [
+         CURLOPT_URL => 'https://api.stripe.com/v1/checkout/sessions/'. $session_id,
+         CURLOPT_RETURNTRANSFER => true,
+         CURLOPT_HTTPHEADER => [
+           "Authorization: Bearer $secret_key",
+           "Content-Type: application/x-www-form-urlencoded",
+          ],
+          CURLOPT_HTTPGET => true,
+          CURLOPT_TIMEOUT => 15,
     ];
-    $context  = stream_context_create($options);
-     $response = file_get_contents('https://api.stripe.com/v1/checkout/sessions/' . $session_id, false, $context);
-
-
-
+     curl_setopt_array($curl,$options);
+     $response = curl_exec($curl);
+     if ($response === false) {
+        die("Curl error: " . curl_error($curl));
+        }
+    // $context  = stream_context_create($options);
+    //  $response = file_get_contents('https://api.stripe.com/v1/checkout/sessions/' . $session_id, false, $context);
     $session  = json_decode($response, true);
     if (isset($session['payment_status']) && $session['payment_status'] === 'paid') {
-        // print_r($session);
+         // print_r($session); 
+         $selectorder = "SELECT * FROM `order` WHERE session_id = '$session_id'";
+         $runorderquery = mysqli_query($conn,$selectorder);
+         if(mysqli_num_rows($runorderquery) == 0){
+              $order_id =  uniqid();
+         $total_amount = $session['amount_total'] / 100;
+         $user_id = $_SESSION['user_id'];
+        $selectcart = "SELECT cart.product_id, cart.quantity, product.name, product.price 
+               FROM cart 
+               JOIN product ON cart.product_id = product.id 
+               WHERE cart.user_id = '$user_id'";
+                    $result = mysqli_query($conn, $selectcart);
+                    $product_quantity = 0;
+                while ($row = mysqli_fetch_assoc($result)) {
+                      $product_id     = (int) $row["product_id"];
+                      $product_qty1   = (int) $row["quantity"];
+                      $product_name   = $row["name"];
+                      $product_price  = $row["price"];
+                      $product_quantity += $product_qty1;
+                      $insertorderitem = "INSERT INTO `order_item` (order_id, product_id, user_id, product_name, product_quantity, product_price) 
+                           VALUES ('$order_id','$product_id','$user_id','$product_name','$product_qty1','$product_price')";
+                      mysqli_query($conn, $insertorderitem);
+                }
+        // echo  " <br/> All Product Quantity : === "  . $product_quantity;
+         $insertquery = "INSERT INTO `order` (order_id, user_id, total_amount, product_quantity,session_id,status) VALUES ('$order_id', '$user_id', '$total_amount', '$product_quantity', '$session_id','paid')";
+         $runquery = mysqli_query($conn,$insertquery);
+         }          
         ?> 
         <div class="container">
         <div class="row justify-content-center">
@@ -75,15 +110,10 @@ if (isset($_GET['session_id'])) {
 </div> 
 
         <?php
-       
-          $email = $_SESSION['email'];
-          $SelectUser = "SELECT * FROM user WHERE email = '$email'";
-          $result = mysqli_query($conn,$SelectUser);
-          $user = mysqli_fetch_assoc($result);
-          $id = $user['id'];
+          $id = $_SESSION['user_id'];
           $DeleteCart = "DELETE FROM cart WHERE user_id = '$id'";
           $runquery = mysqli_query($conn,$DeleteCart);
-
+ 
         // echo "<h1>Payment Successful!</h1>";
     } else {
         ?>
@@ -98,10 +128,9 @@ if (isset($_GET['session_id'])) {
         </div> 
     </div> 
         <?php
-        // echo "<h1>Payment Verification Failed!</h1>";
-        // print_r($session); 
     }
 } else {
     echo "<h1>No session ID found.</h1>";
 }
+curl_close($curl);
 ?>

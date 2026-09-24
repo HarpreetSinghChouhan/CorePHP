@@ -54,12 +54,24 @@ function renderCart(cartItems) {
 
     let container = $("#cart-container");
     container.empty();
+if (!Array.isArray(cartItems) || cartItems.length === 0) {
+    $(".cart-grid").addClass("cart-empty");  
+    $("#price-details").empty().hide(); 
 
-    if (!Array.isArray(cartItems) || cartItems.length === 0) {
-        container.html("<p class='empty-cart'>Cart Are Empty 🛒</p>");
-        $("#price-details").empty();
-        return;
-    }
+    container.html(`
+        <div class="empty-cart-state">
+            <div class="empty-cart-icon">
+                <i class="fa-solid fa-cart-shopping"></i>
+            </div>
+            <h3 class="empty-cart-title">Your cart is empty</h3>
+            <p class="empty-cart-text">Looks like you haven't added anything yet. Start exploring and fill it up!</p>
+            <a href="/CorePHP/home.php" class="empty-cart-btn">Continue Shopping</a>
+        </div>
+    `);
+    return;
+}
+$(".cart-grid").removeClass("cart-empty");
+$("#price-details").show();
     cartItems.forEach(function(item) {
         let mrp = parseFloat(item.mrp || item.price || 0);
         let price = parseFloat(item.price || 0);
@@ -67,7 +79,7 @@ function renderCart(cartItems) {
       
 
         let cardHtml = `
-            <div class="cart-card" data-id="${item.id}" data-name="${item.name}"  >
+            <div class="cart-card" data-id="${item.id}" data-name="${item.name}" data-user_id="${item.user_id}"  >
                 <img src="${item.image}" alt="${item.name}" class="cart-img">
                 <div class="cart-details">
                     <h3 class="cart-name">${item.name}</h3>
@@ -100,12 +112,13 @@ function renderPriceDetails(cartItems){
     let totalPrice = 0;
     let totalMrp = 0;
     let totalProtectFee = 0;
-
+    let user_id = null;
     cartItems.forEach(function(item){
+        user_id = parseInt(item.user_id || "null");
         let qty = parseInt(item.quantity || 0);
         let mrp = parseFloat(item.mrp || item.price || 0);
         let price = parseFloat(item.price || 0);
-        let protectFee = parseFloat(item.protect_fee || 19);
+        let protectFee = parseFloat(item.protect_fee || 0);
 
         itemCount += qty;
         totalPrice += price * qty;
@@ -131,7 +144,7 @@ function renderPriceDetails(cartItems){
             <span>Total Amount</span>
             <span>₹${totalAmount.toFixed(0)}</span>
         </div>
-        <div class="payment-btn-div" data-price="${totalAmount}" data-item="${itemCount}" > <button class="payment-btn"  > Buy All Product </button>  </div>
+        <div class="payment-btn-div" data-user_id="${user_id}" data-price="${totalAmount}" data-item="${itemCount}" > <button class="payment-btn"  > Buy All Product </button>  </div>
         ${discount > 0 ? `<div class="savings-banner">🎉 You'll save ₹${discount.toFixed(0)} on this order!</div>` : ""}
     `;
 
@@ -155,12 +168,13 @@ $(document).on("click", ".payment-btn", function(e){
   const div = $(".payment-btn");
     let price = div.closest('.payment-btn-div').data('price');
     let totalItem = div.closest('.payment-btn-div').data('item');
+    let user_id = div.closest('.payment-btn-div').data('user_id');
 //   console.log(price , totalItem);
 //   return;
-   let data =  {'price':price,'item':totalItem};
+   let data =  {'price':price,'item':totalItem, 'user_id':user_id};
   $.ajax({
     type: "POST",
-    url: "/CorePHP/user/backend/payment/StripeSession.php",
+    url: "/CorePHP/user/backend/payment/StripeSessionCurl.php",
     dataType: "json",
     data:data,
     success: function(response){
@@ -186,6 +200,7 @@ $(document).on("click", ".payment-btn", function(e){
 $(document).on("click", ".remove-btn", function(e){
     e.stopPropagation();
     let id = $(this).closest(".cart-card").data("id");
+    // let user_id = $(this).closest(".cart-card").data("user_id");
     let name = $(this).closest(".cart-card").data("name");
 
     removeFromCart(id,name);
@@ -331,21 +346,35 @@ function renderPriceDetailsFromGlobal(){
     let totalPrice = 0;
     let totalMrp = 0;
     let totalProtectFee = 0;
-
+  let user_id = null
     let cartItems = window.cartItemsData || [];
 
     if (cartItems.length === 0) {
         $("#price-details").empty();
-        $("#cart-container").html("<p class='empty-cart'>Cart Are Empty 🛒</p>");
-        return;
+        // $("#cart-container").html("<p class='empty-cart'>Cart Are Empty 🛒</p>");
+           $(".cart-grid").addClass("cart-empty");  
+    $("#price-details").empty().hide(); 
+
+    $("#cart-container").html(`
+        <div class="empty-cart-state">
+            <div class="empty-cart-icon">
+                <i class="fa-solid fa-cart-shopping"></i>
+            </div>
+            <h3 class="empty-cart-title">Your cart is empty</h3>
+            <p class="empty-cart-text">Looks like you haven't added anything yet. Start exploring and fill it up!</p>
+            <a href="/CorePHP/home.php" class="empty-cart-btn">Continue Shopping</a>
+        </div>
+    `);
+    return;
     }
 
     cartItems.forEach(function(item){
+        user_id = parseInt(item.user_id);
         let qty = parseInt(item.quantity || 0);
         let mrp = parseFloat(item.mrp || item.price || 0);
         let price = parseFloat(item.price || 0);
         let protectFee = parseFloat(item.protect_fee || 19);
-
+        
         itemCount += qty;
         totalPrice += price * qty;
         totalMrp += mrp * qty;
@@ -371,9 +400,10 @@ function renderPriceDetailsFromGlobal(){
             <span>Total Amount</span>
             <span>₹${totalAmount.toFixed(0)}</span>
         </div>
+         <div class="payment-btn-div" data-user_id="${user_id}" data-price="${totalAmount}" data-item="${itemCount}" > <button class="payment-btn"  > Buy All Product </button>  </div>
         ${discount > 0 ? `<div class="savings-banner">🎉 You'll save ₹${discount.toFixed(0)} on this order!</div>` : ""}
     
-         <div> <button> Buy All Product </button>  </div>
+         
         `;
 
     $("#price-details").html(priceHtml);

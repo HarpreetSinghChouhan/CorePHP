@@ -6,7 +6,6 @@ include '../../../config/database.php';
    die();
 } 
   $email = $_SESSION["email"];
-
             $SelectUser = "SELECT id FROM user WHERE email = '$email'";
             $result = mysqli_query($conn, $SelectUser);
             $user = mysqli_fetch_assoc($result);
@@ -30,6 +29,7 @@ include '../../../config/database.php';
     $base64Image = 'data:image/jpeg;base64,' . base64_encode($row['image']);
                 // print_r($row);
                    $object = [
+                    "user_id" => $row["user_id"],
                    "id" => $row["cart_id"], 
                    "name" => $row["name"],
                    "price" => $row["price"],
