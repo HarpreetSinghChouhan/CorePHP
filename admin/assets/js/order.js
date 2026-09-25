@@ -49,9 +49,9 @@ function runOrderItemLogic(){
         dataType:'json',
         data:{'id':id},
         success: function(response){
-            allOrderItem = response[0];
+            allOrderItem = response;
             currentPage = 1;
-            console.log(allOrderItem);
+            // console.log(allOrderItem);
            PrintItem();
         },
         error: function(xhr, status, error){

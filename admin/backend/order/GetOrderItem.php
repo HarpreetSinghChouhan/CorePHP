@@ -8,7 +8,7 @@ include "../verify.php";
  else{
   $orderid = $_GET['id'];
   $orderidr = mysqli_real_escape_string($conn,$orderid);
-$SelectQuery = "SELECT o.order_id,o.total_amount,o.user_id ,o.product_quantity,
+$SelectQuery = "SELECT o.order_id,o.total_amount,o.user_id, o.product_quantity,
         u.id AS uuser_id, u.name AS uuser_name, u.email,
         p.id AS product_id, p.image, p.sku, p.category_id, p.price, p.name AS pproduct_name,
         c.id AS cat_id, c.name AS cat_name,
@@ -44,7 +44,7 @@ $SelectQuery = "SELECT o.order_id,o.total_amount,o.user_id ,o.product_quantity,
         $order_items[] = $object; 
         //   echo 
       };
-      echo json_encode([$order_items]);
+      echo json_encode($order_items);
  }
 
 // echo json_encode(["message" =>"This Are Working"]);

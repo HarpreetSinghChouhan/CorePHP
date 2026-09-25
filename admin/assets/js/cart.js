@@ -13,7 +13,7 @@ const rowsPerPage = 10;
         url:"/CorePHP/admin/backend/cart/Cart.php",
         dataType:"json",
         success: function(response){
-            allProducts = response[0];
+            allProducts = response;
             // console.log(response);
             currentPage = 1;
             renderCartTable();

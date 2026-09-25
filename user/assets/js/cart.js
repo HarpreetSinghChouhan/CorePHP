@@ -27,6 +27,7 @@ function GetProduct(){
             });
 let allProducts = [];
 let currentPage = 1;
+let cardHtml ='';
 const rowsPerPage = 10;
 $.ajax({
     type: "GET",
@@ -72,13 +73,55 @@ if (!Array.isArray(cartItems) || cartItems.length === 0) {
 }
 $(".cart-grid").removeClass("cart-empty");
 $("#price-details").show();
+let stock = 1  ;
+
     cartItems.forEach(function(item) {
         let mrp = parseFloat(item.mrp || item.price || 0);
         let price = parseFloat(item.price || 0);
         let discountPercent = mrp > 0 ? Math.round(((mrp - price) / mrp) * 100) : 0;
-      
+        if(item.stock == 0){
+            stock = item.stock;
+            cardHtml += `
+             <div class="header-out-stock" > OUT OF STOCK</div>
+            <div class="cart-card out-stock-card" data-id="${item.id}" data-name="${item.name}" data-user_id="${item.user_id}"  >
+                <img src="${item.image}" alt="${item.name}" class="cart-img">
+                <div class="cart-details">
+                    <h3 class="cart-name">${item.name}</h3>
+                    <p class="category">${item.category_name}</p>
+                    <p class="seller"><b> description: </b> ${item.description || "N/A"}</p>
+                    <div class="price-row">
+                        ${discountPercent > 0 ? `<span class="discount-percent">↓${discountPercent}%</span>` : ""}
+                        ${discountPercent > 0 ? `<span class="mrp">₹${mrp}</span>` : ""}
+                        <span class="final-price">₹${price}</span>
+                    </div>
+                   <div style="display:flex" >
+                    <div class="qty-control qty-control-${item.id}">
+                        <button class="qty-btn decrease-btn" ${parseInt(item.quantity) <= 1 ? "disabled" : ""}>−</button>
+                        <span class="qty">Qty: ${item.quantity}</span>
+                        <button class="qty-btn increase-btn">+</button>   
+                    </div>
+                    <div class="stock stock-${item.id}"><p class="stock-msg">Out Of Stock </p>  </div>
+                    <i class="fa-solid fa-trash remove-btn"></i>
+                   </div>
+                </div>
+            </div>
+        `; 
+        }
+       
+        // if(item.quantity ==0){
 
-        let cardHtml = `
+        // }
+    })
+    
+       if(stock == 0){
+         cardHtml += "<hr class='price-divider' >";
+       }
+    cartItems.forEach(function(item) {
+        let mrp = parseFloat(item.mrp || item.price || 0);
+        let price = parseFloat(item.price || 0);
+        let discountPercent = mrp > 0 ? Math.round(((mrp - price) / mrp) * 100) : 0;
+        if(item.stock !=0){
+             cardHtml += `
             <div class="cart-card" data-id="${item.id}" data-name="${item.name}" data-user_id="${item.user_id}"  >
                 <img src="${item.image}" alt="${item.name}" class="cart-img">
                 <div class="cart-details">
@@ -91,19 +134,41 @@ $("#price-details").show();
                         <span class="final-price">₹${price}</span>
                     </div>
                    <div style="display:flex" >
-                    <div class="qty-control">
+                    <div class="qty-control   qty-control-${item.id}">
                         <button class="qty-btn decrease-btn" ${parseInt(item.quantity) <= 1 ? "disabled" : ""}>−</button>
                         <span class="qty">Qty: ${item.quantity}</span>
                         <button class="qty-btn increase-btn">+</button>   
                     </div>
+                    <div class="stock stock-${item.id}"><p class="stock-msg">Out Of Stock </p>  </div>
                     <i class="fa-solid fa-trash remove-btn"></i>
                    </div>
                   
                 </div>
             </div>
         `;
-        container.append(cardHtml);
+        }
+        container.html(cardHtml);
+        // console.log("Working ??")
+        //   if(item.quantity == 0){
+        //     container.find(`.qty-control-${item.id}`).hide();
+        //     // $(`.qty-control-${item.id}`).hide();
+        //      container.find(`.stock-${item.id}`).show();
+        //   }
+        //   else {
+        //      container.find(`.stock-${item.id}`).hide();
+        //      container.find(`.qty-control-${item.id}`).show();
+        //   }
+        requestAnimationFrame(() => {
+    if (item.stock == 0) {
+        $(`.qty-control-${item.id}`).hide();
+        $(`.stock-${item.id}`).show();
+    } else {
+        $(`.stock-${item.id}`).hide();
+        $(`.qty-control-${item.id}`).show();
+    }
+});
     });
+    
 
     renderPriceDetails(cartItems);
 }
@@ -183,7 +248,7 @@ $(document).on("click", ".payment-btn", function(e){
       } else {
         Swal.fire({
           icon: "error",
-          title: "Payment Error",
+          title: "",
           text: JSON.stringify(response.error)
         });
       }
@@ -318,17 +383,19 @@ function updateQuantity(id, change) {
             card.find(".qty").text(`Qty: ${item.quantity}`);
             card.find(".decrease-btn").prop("disabled", item.quantity <= 1);
             card.find(".increase-btn").prop("disabled", item.quantity >= data.available_stock);
-            Toast.fire({
-                'icon':'success',
-                'title':data.message
-            });
+            
             
             if (data.limited) {
                 card.find(".stock-msg").remove();
                 card.find(".qty-control").after(`<p class="stock-msg">Only ${data.available_stock} left in stock</p>`);
+                           
             } else {
                 card.find(".stock-msg").remove();
             }
+            Toast.fire({
+                'icon':'success',
+                'title':data.message
+            });
             renderPriceDetailsFromGlobal();
         },
         error: function(xhr){

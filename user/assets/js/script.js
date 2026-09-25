@@ -22,12 +22,6 @@ $(document).ready(function () {
 
         window.location = `/CorePHP/admin/user/edit.php?email=${email}`;
     });
-    //  $(".eye-icon").on("click",function(e){
-    
-    // // console.log(e.target);
-    //   $("#EyeShowHide").toggleClass("fa-eye fa-eye-slash");
-    //   console.log(e.target);
-    // })
     const ShowHide = $("#ShowPassword")
      ShowHide.on("click",function(e){
           const password = $("#Password");

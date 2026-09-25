@@ -5,7 +5,10 @@ if($_SERVER["REQUEST_METHOD"] === "GET"){
 //  $query = "SELECT * FROM product WHERE is_deleted != '1' ";
  // 
  $query = "SELECT product.id, product.name, product.price, product.sku, product.description, product.stock_quantity, product.image, product.created_at, category.name AS category_name
- FROM product INNER JOIN category ON category.id=product.category_id WHERE product.is_deleted !='1' ";
+ FROM product 
+  INNER JOIN category
+  ON category.id=product.category_id 
+  WHERE product.is_deleted !='1' ";
  $result = mysqli_query($conn,$query);
  
  $product = [];

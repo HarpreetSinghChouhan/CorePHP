@@ -67,28 +67,26 @@ if (isset($_GET['session_id'])) {
     //  $response = file_get_contents('https://api.stripe.com/v1/checkout/sessions/' . $session_id, false, $context);
     $session  = json_decode($response, true);
     if (isset($session['payment_status']) && $session['payment_status'] === 'paid') {
-         // print_r($session); 
+         
          $selectorder = "SELECT * FROM `order` WHERE session_id = '$session_id'";
 $runorderquery = mysqli_query($conn,$selectorder);
 
 if(mysqli_num_rows($runorderquery) == 0){
 
-     // Naya sequential order_id generate karo (1001, 1002, 1003...)
      $maxidquery = "SELECT MAX(order_id) as max_id FROM `order`";
      $maxidresult = mysqli_query($conn, $maxidquery);
      $maxidrow = mysqli_fetch_assoc($maxidresult);
 
      if($maxidrow['max_id'] == null){
-          $order_id = 1001; // pehla order
+          $order_id = 1001; 
      } else {
           $order_id = $maxidrow['max_id'] + 1;
      }
 
-     // order
      $total_amount = $session['amount_total'] / 100;
      $user_id = $_SESSION['user_id'];
 
-     $selectcart = "SELECT cart.product_id, cart.quantity, product.name, product.price 
+     $selectcart = "SELECT cart.product_id, cart.quantity, product.name, product.price, product.stock_quantity, product.sku
             FROM cart 
             JOIN product ON cart.product_id = product.id 
             WHERE cart.user_id = '$user_id'";
@@ -96,16 +94,19 @@ if(mysqli_num_rows($runorderquery) == 0){
      $product_quantity = 0;
 
      while ($row = mysqli_fetch_assoc($result)) {
-           $product_id     = (int) $row["product_id"];
-           $product_qty1   = (int) $row["quantity"];
-           $product_name   = $row["name"];
-           $product_price  = $row["price"];
-           $product_quantity += $product_qty1;
-
-           $insertorderitem = "INSERT INTO `order_item` (order_id, product_id, user_id, product_name, product_quantity, product_price) 
-                VALUES ('$order_id','$product_id','$user_id','$product_name','$product_qty1','$product_price')";
-           mysqli_query($conn, $insertorderitem);
-     }
+                $product_id = (int) $row["product_id"];
+                $product_sku = $row["sku"];
+                $product_qty1   = (int) $row["quantity"];
+                $product_name   = $row["name"];
+                $product_price  = $row["price"];
+                $product_quantity += $product_qty1;
+                $stock = $row["stock_quantity"]-$product_qty1;
+                $productquery = "UPDATE `product` SET stock_quantity='$stock' WHERE sku='$product_sku'";
+                mysqli_query($conn,$productquery);
+                $insertorderitem = "INSERT INTO `order_item` (order_id, product_id, user_id, product_name, product_quantity, product_price) 
+                    VALUES ('$order_id','$product_id','$user_id','$product_name','$product_qty1','$product_price')";
+                mysqli_query($conn, $insertorderitem);
+            }
 
      $insertquery = "INSERT INTO `order` (order_id, user_id, total_amount, product_quantity, session_id, status) 
                      VALUES ('$order_id', '$user_id', '$total_amount', '$product_quantity', '$session_id','paid')";
@@ -154,7 +155,10 @@ if(mysqli_num_rows($runorderquery) == 0){
 </div> 
 
         <?php
+
+
           $id = $_SESSION['user_id'];
+          $updateproduct = 
           $DeleteCart = "DELETE FROM cart WHERE user_id = '$id'";
           $runquery = mysqli_query($conn,$DeleteCart);
  

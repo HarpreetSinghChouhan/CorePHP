@@ -21,10 +21,15 @@ $totalprice = 0;
 while ($row = mysqli_fetch_assoc($result)) {
     $product_id      = (int)$row['product_id'];
     $productquantity = (int) $row['quantity'];
-    $productquery  = "SELECT id, price FROM product WHERE id = '$product_id'";
+    $productquery  = "SELECT id, price,stock_quantity,name FROM product WHERE id = '$product_id'";
     $productresult = mysqli_query($conn, $productquery);
     $product = mysqli_fetch_assoc($productresult);
-
+    $productstock = $product["stock_quantity"];
+    $productname = $product["name"];
+     if($productstock < $productquantity || $productquantity == 0 ){
+       echo json_encode(["error"=>"$productname  stock  quantity are $productstock" ]);
+       die;
+     } 
     if ($product) {
         $totalprice += $product['price'] * $productquantity;
     }
