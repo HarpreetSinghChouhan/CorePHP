@@ -49,7 +49,7 @@ function runOrderItemLogic(){
         dataType:'json',
         data:{'id':id},
         success: function(response){
-            allOrderItem = response;
+            allOrderItem = response[0];
             currentPage = 1;
             console.log(allOrderItem);
            PrintItem();

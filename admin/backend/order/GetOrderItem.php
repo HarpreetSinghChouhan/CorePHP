@@ -8,17 +8,6 @@ include "../verify.php";
  else{
   $orderid = $_GET['id'];
   $orderidr = mysqli_real_escape_string($conn,$orderid);
-//   $SelectQuery = "SELECT o.order_id,o.total_amount,o.user_id ,o.product_quantity,
-//         u.id AS uuser_id, u.name AS uuser_name, u.email,
-//         p.id AS product_id, p.image, p.sku, p.category_id, p.price, p.name AS pproduct_name,
-//         oi.order_id AS oiorder_id, oi.product_price, oi.product_quantity, oi.user_id,oi.product_name 
-//         FROM `order_item` AS oi 
-//         INNER JOIN `product` AS p
-//         ON oi.product_id =  p.id
-//         INNER JOIN `user` AS u 
-//         ON oi.user_id = u.id
-//         INNER JOIN `order` AS o 
-//         ON oi.order_id = o.order_id WHERE oi.order_id = '$orderidr'";
 $SelectQuery = "SELECT o.order_id,o.total_amount,o.user_id ,o.product_quantity,
         u.id AS uuser_id, u.name AS uuser_name, u.email,
         p.id AS product_id, p.image, p.sku, p.category_id, p.price, p.name AS pproduct_name,
