@@ -397,3 +397,242 @@ body {
     width: auto;
     margin-top: 10px;
 }
+.dashboard-item-list{
+    margin-top: -10px;
+}
+/* Table Container */
+.table-div {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-top: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    overflow-x: auto;
+}
+
+/* Table */
+.table-div table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: inherit;
+}
+
+/* Table Head */
+.table-div thead th {
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1e1b3a;
+    padding: 12px 10px;
+    border-bottom: 2px solid #f0f0f5;
+    white-space: nowrap;
+}
+
+/* Table Body Rows */
+.order-tbody tr {
+    transition: background 0.2s ease;
+}
+
+.order-tbody tr:hover {
+    background: #f7f6fd;
+}
+
+.order-tbody td {
+    padding: 14px 10px;
+    font-size: 13.5px;
+    color: #4b4b5a;
+    border-bottom: 1px solid #f2f2f7;
+    vertical-align: middle;
+}
+
+/* Order Id column - purple highlight jaisa screenshot me hai */
+.order-tbody td.order-id {
+    color: #6d28d9;
+    font-weight: 600;
+}
+
+/* Action buttons */
+.action-cell {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.btn-icon {
+    border: none;
+    background: #f5f3ff;
+    color: #6d28d9;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s ease;
+}
+
+.btn-icon:hover {
+    background: #6d28d9;
+    color: #ffffff;
+}
+
+.delete-btn {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.delete-btn:hover {
+    background: #dc2626;
+    color: #ffffff;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: flex-end;
+    gap: 6px;
+    margin-top: 16px;
+    padding: 4px 0;
+}
+
+.page-btn {
+    border: 1px solid #e5e3f5;
+    background: #ffffff;
+    color: #4b4b5a;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.page-btn:hover:not(:disabled) {
+    background: #f5f3ff;
+    border-color: #6d28d9;
+    color: #6d28d9;
+}
+
+.page-btn.active {
+    background: #6d28d9;
+    color: #ffffff;
+    border-color: #6d28d9;
+}
+
+.page-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .table-div {
+        padding: 14px;
+    }
+    .table-div thead th,
+    .order-tbody td {
+        font-size: 12px;
+        padding: 10px 6px;
+    }
+}
+#order-view {
+    padding: 20px;
+}
+
+#order-items-container {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.order-item-card {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.2s ease;
+}
+
+.order-item-card:hover {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.item-img img {
+    width: 55px;
+    height: 55px;
+    object-fit: cover;
+    border-radius: 10px;
+    background: #f3f0ff;
+    padding: 4px;
+}
+
+.item-info {
+    flex: 1;
+}
+
+.item-info h4 {
+    margin: 0 0 4px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e1e2d;
+}
+
+.item-cat {
+    margin: 0;
+    font-size: 12px;
+    color: #6c5ce7;
+    font-weight: 500;
+}
+
+.item-sku {
+    margin: 2px 0 0 0;
+    font-size: 11px;
+    color: #9b9bab;
+}
+
+.item-qty {
+    text-align: center;
+    font-size: 12px;
+    color: #9b9bab;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.item-qty strong {
+    font-size: 15px;
+    color: #1e1e2d;
+}
+
+.item-price {
+    font-size: 15px;
+    font-weight: 700;
+    color: #6c5ce7;
+    min-width: 80px;
+    text-align: right;
+}
+
+.no-items {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 30px;
+    text-align: center;
+    color: #9b9bab;
+    font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .order-item-card {
+        flex-wrap: wrap;
+    }
+    .item-price {
+        text-align: left;
+        width: 100%;
+    }
+}

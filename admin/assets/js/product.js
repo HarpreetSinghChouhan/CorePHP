@@ -29,11 +29,9 @@ function renderProductTable(){
     let start = (currentPage - 1) * rowsPerPage;
     let end = start + rowsPerPage;
     let pageData = allProducts.slice(start, end);
-
     let html = ""
     $.each(pageData, function(index, item){
         let description = `${item.description.length > 20 ? item.description.slice(0, 40) + '...' : item.description}`;
-
         html += `<tr data-id='${item.id}'
                       data-name='" ${item.name}"'
                       data-price='${item.price}'

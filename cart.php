@@ -14,28 +14,13 @@
       <option>Newest</option>
     </select>
   </div> -->
-
-<!--   
- 
-    <div class="product-grid">
-      <?php// foreach ($products as $product): ?>
-        <article class="product-card">
-           <?php // echo $product['name']; ?> etc ...
-        </article>
-      <?php //endforeach; ?>
-    </div>
-
- 
-  -->
-  <!-- <div class="cart-grid"> -->
-<div class="cart-page">
+<div class="cart-page"> 
     <div class="cart-left" id="cart-container"></div>
     <div class="cart-right">
         <div class="price-box" id="price-details"></div>
     </div>
 </div>
 
-  <!-- </div> -->
   <!-- <nav class="pagination" aria-label="Page navigation">
     <a href="?page=1" class="page-btn page-prev" aria-label="Previous page">
       <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>

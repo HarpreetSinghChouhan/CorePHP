@@ -17,5 +17,7 @@
     });
   });
 </script>
+<script src="https://jquery.com"></script>
+<script src="https://cloudflare.com"></script>
 </body>
 </html>

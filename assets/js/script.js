@@ -20,17 +20,11 @@ $(document).ready(function(){
        confirmPassword.attr("type","password"); 
        PasswordControl.html("Show Password")
       }
-    //   console.log($(this).is(":checked"));
     })
     // let form = $("#FormSubmit");
   $("#FormSubmit").on("submit", function(e){
     e.preventDefault(); 
-    const usernameValue = username.val().trim();
-    const emailValue  = email.val().trim();
-    const passwordValue = password.val().trim();
-    const confirmPasswordValue = confirmPassword.val().trim();
     const phonenumberPattern = /^\+\d{1,3}\s\d{7,15}$/; 
-    const phonenumberValue = phonenumber.val().trim();
     const gendervalue = $('input[name="Gender"]:checked') || "";
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
      $(".UserNameError, .EmailError, .GenderError, .AgeError, .PasswordError, .ConfirmPasswordError").html("");
@@ -107,52 +101,6 @@ $(document).ready(function(){
      if (firstInvalidInput) firstInvalidInput.focus();
       return;
     }
-    // if(usernameValue.length < 3){
-    //     $(".UserNameError").css("margin-top","-25px");
-    //     $(".UserNameError").html("<p>User Name Are Required and Minimum 3 letter </p>");
-    //       username.focus();
-    //       return;
-    // }
-    //  if (!emailPattern.test(emailValue) && emailValue === "") {
-    //     $(".EmailError").css("margin-top","-25px");
-    //     $(".EmailError").html("<p>email Are Valid And Fill Correct </p>");
-    //         email.focus();
-    //         return;
-    //     } 
-    //     if (gendervalue.length === 0) {
-    //     $(".GenderError").css("margin-top","-15px");
-    //     $(".GenderError").html("<p> Gender Are Required Select Your Gender </p>");
-    //         return;
-    //     }
-    //     if (age.val() === '') {
-    //         $(".AgeError").text('Please enter a valid date.');
-    //          age.focus();
-    //          return;
-    //     } 
-    // if(phonenumberValue === ''){
-    //     phoneError.css("margin-top","-25px");
-    //     phoneError.html("<p>Phone Number Is Required </p>");
-    //         phonenumber.focus();
-    //         return;
-    //     }
-    //     if (!phonenumberPattern.test(phonenumberValue)) {
-    //     phoneError.css("margin-top","-25px");
-    //     phoneError.html("<p>Phone Number Are Not Valid Format  </p>");
-    //         phonenumber.focus();
-    //         return;
-    //     }
-    //     if (passwordValue.length < 6 || passwordValue === "" ) {
-    //     $(".PasswordError").css("margin-top","-25px");
-    //     $(".PasswordError").html("<p>Password must be at least 6 characters</p>");
-    //         password.focus();
-    //         return;
-    //     }
-    // if (passwordValue !== confirmPasswordValue || confirmPasswordValue === "" ) {
-    //     $(".ConfirmPasswordError").css("margin-top","-25px");
-    //     $(".ConfirmPasswordError").html("<p>Password and confirm password do not match </p>");
-    //         confirmPassword.focus();
-    //         return;
-    //     }
         const data = new FormData($(this)[0]);
 //   console.log(data);
         console.log(age);

@@ -43,6 +43,7 @@ $("#AddCategoryForm").on("submit",function(e){
     e.preventDefault();
     // console.log("Working Name");
      const CategoryName = $("#CategoryName");
+     
      const CategoryNameValue = CategoryName.val().trim();
      if(CategoryNameValue.length == ''){
        $(".CategoryNameError").html("Category Feild Are Required ");

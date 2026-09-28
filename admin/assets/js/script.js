@@ -1,7 +1,16 @@
 $(document).ready(function () {
-  
+     
+    let params = new URLSearchParams(window.location.href);
+  console.log(params);  
+    
     $('.create-link-btn').on("click",function(){
         window.location.href = "./create.php";
+    });
+    $(document).on("click",".view-link-btn",function(){
+        console.log("Hello Working ");
+        let row = $(this).closest("tr");
+        let id = row.data("id");
+        window.location.href = `./view.php?id=${id}`;
     });
     $('.btn-back').on("click",function(){
         window.location.href = "./index.php";
@@ -17,5 +26,6 @@ $(document).ready(function () {
 
     //   window.location.href = "./edit.php";
  })
+ 
    
 });

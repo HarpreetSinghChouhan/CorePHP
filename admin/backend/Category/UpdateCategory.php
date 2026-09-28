@@ -2,6 +2,7 @@
 include "../../../config/database.php";
 if($_SERVER["REQUEST_METHOD"] === "POST"){
   $name = $_POST['CategoryName'];
+  $id = $_POST["CategoryId"];
  $query = "SELECT * FROM category WHERE name='$name' LIMIT 1";
  $result = mysqli_query($conn,$query);
  if (!$result) {

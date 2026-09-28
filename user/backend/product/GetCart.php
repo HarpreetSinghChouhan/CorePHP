@@ -6,7 +6,6 @@ include '../../../config/database.php';
    die();
 } 
   $email = $_SESSION["email"];
-
             $SelectUser = "SELECT id FROM user WHERE email = '$email'";
             $result = mysqli_query($conn, $SelectUser);
             $user = mysqli_fetch_assoc($result);
@@ -17,7 +16,7 @@ include '../../../config/database.php';
             }
             $user_id = $user["id"];                                                                                       
             $cart = "SELECT cart.id AS cart_id, cart.product_id, cart.user_id, cart.quantity, 
-            product.id AS product_id, product.name,product.price, product.description, product.category_id AS Product_cate_id,  product.image,
+            product.id AS product_id, product.name,product.price, product.stock_quantity, product.description, product.category_id AS Product_cate_id,  product.image,
             category.name AS category_name 
             FROM cart 
             INNER JOIN product ON product.id = cart.product_id 
@@ -30,6 +29,7 @@ include '../../../config/database.php';
     $base64Image = 'data:image/jpeg;base64,' . base64_encode($row['image']);
                 // print_r($row);
                    $object = [
+                    "user_id" => $row["user_id"],
                    "id" => $row["cart_id"], 
                    "name" => $row["name"],
                    "price" => $row["price"],
@@ -37,6 +37,7 @@ include '../../../config/database.php';
                     "category_name" => $row["category_name"],
                     "image" => $base64Image,
                     "quantity" => $row["quantity"],
+                    "stock" => $row["stock_quantity"],
                    ];
                    $cart[] = $object;
                    }

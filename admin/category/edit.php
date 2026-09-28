@@ -44,7 +44,7 @@ if (!$category) {
                     </div>
                     <div class="form-actions" id="formActions">
                         <button type="button" class="btn btn-ghost btn-back">Back</button>
-                        <button type="submit" class="btn btn-primary">Create Category</button>
+                        <button type="submit" class="btn btn-primary">Update Category</button>
                     </div>
                 </form>
             </div>

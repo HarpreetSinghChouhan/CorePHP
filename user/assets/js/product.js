@@ -25,6 +25,11 @@ function GetProduct(){
             // console.log(response);
             let html = ''
              $.each(response, function(index, item){
+                let stockitem = item.stock_quantity;
+                 let StockText = "<h3 class='card-title' style='color:green' ><span>In Stock</span></h3>";
+                if(stockitem == 0){
+                   StockText = "<h3 class='card-title' style='color:red' ><span>Out Of Stock</span></h3>"
+                } 
         let description = `${item.description.length > 40 ? item.description.slice(0, 50) + '...' : item.description}`;
              html += `<article class="product-card" data-id='${item.id}' data-category='${item.category_name}' data-name='${item.name}' data-sku='${item.sku}' data-price='${item.price}' >
                     <a href="product.php?id=${item.id}" class="card-media">
@@ -41,6 +46,7 @@ function GetProduct(){
                      <span class="price-now">₹${item.price}</span>
                      </div>
                      <div class="card-rating"><span>${description}</span></div>
+                     ${StockText}
                      <button class="btn btn-add-cart" type="button" data-product-id="${item.id}">
                         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 4h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L22 8H6"/></svg>
                              Add to Cart
@@ -63,34 +69,54 @@ function GetProduct(){
           }
     })
 }
-  $(document).on("click",".btn-add-cart",function(){
-    console.log("Working Add to Card");
+$(document).on("click", ".btn-add-cart", function(){
+    console.log("Working Add to Cart");
     let id = $(this).data("product-id");
-    let data = {'product_id':id}
+    let data = {'product_id': id}
     $.ajax({
-        type:"POST",
+        type: "POST",
         url: "/CorePHP/user/backend/product/AddToCart.php",
-        data:data,
-        success:function(response){
-            if(response === "Quantity Increase"){
+        data: data,
+        dataType: "json", 
+        success: function(response){
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "bottom-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            if (response.status === "success") {
+                Toast.fire({
+                    icon: "success",
+                    title: response.message
+                });
                 $.ajax({
-                    type:"GET",
-                    url:"/CorePHP/user/backend/product/CountCart.php",
-                    success:function(response){
-                        $(".cart-count").html(`${response}`)
+                    type: "GET",
+                    url: "/CorePHP/user/backend/product/CountCart.php",
+                    success: function(countResponse){
+                        $(".cart-count").html(`${countResponse}`);
                     }
-                })
+                });
+            } else {
+                Toast.fire({
+                    icon: "error",
+                    title: response.message
+                });
             }
-            else{
-                $.ajax({
-                    type:"GET",
-                    url:"/CorePHP/user/backend/product/CountCart.php",
-                    success:function(response){
-                        $(".cart-count").html(`${response}`)
-                    }
-                })
-           } 
-            }
-    })
-  })
+        },
+        error: function(){
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong on the server."
+            });
+        }
+    });
+});
+
 })
