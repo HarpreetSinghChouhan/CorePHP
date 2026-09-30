@@ -70,7 +70,7 @@ function GetProduct(){
     })
 }
 $(document).on("click", ".btn-add-cart", function(){
-    console.log("Working Add to Cart");
+    // console.log("Working Add to Cart");
     let id = $(this).data("product-id");
     let data = {'product_id': id}
     $.ajax({
@@ -118,5 +118,36 @@ $(document).on("click", ".btn-add-cart", function(){
         }
     });
 });
+$(document).on("click",".btn-buy-now",function(){
+//    const div = $(".payment-btn");
+    let id = $(this).data('product_id');
+   let data =  {'id':id};
+  $.ajax({
+    type: "POST",
+    url: "/CorePHP/user/backend/payment/Singleproductparchange.php",
+    dataType: "json",
+    data:data,
+    success: function(response){
+      if (response.success) {
+        window.location.href = response.url; 
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "",
+          text: JSON.stringify(response.error)
+        });
+      }
+    },
+    error: function(xhr){
+      Swal.fire({
+        icon: "error",
+        title: "Request Failed",
+        text: xhr.responseText
+      });
+    }
+  });
+    // window.location.href = "/CorePHP/cart.php" 
+})
+
 
 })

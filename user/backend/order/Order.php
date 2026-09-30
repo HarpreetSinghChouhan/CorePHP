@@ -10,7 +10,8 @@ if($_SERVER["REQUEST_METHOD"] === "GET"){
         INNER JOIN order_item AS oi ON o.order_id = oi.order_id
         INNER JOIN user AS u ON o.user_id = u.id 
         WHERE u.id = '$user_id' AND o.is_deleted != '1'
-        GROUP BY o.id";
+        GROUP BY o.id 
+        ORDER BY o.order_id DESC";
     $result = mysqli_query($conn, $query);
     if(!$result){
         echo json_encode(["error" => mysqli_error($conn)]);

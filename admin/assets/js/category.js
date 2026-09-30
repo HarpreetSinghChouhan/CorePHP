@@ -155,7 +155,7 @@ $(document).on("click", ".delete-user", function () {
 
                             if (response.trim() === "success") {
                              swal.fire({
-                                'title':'User are Deleted',
+                                'title':'Category are Deleted',
                                 'icon':'success'
                              });
 
