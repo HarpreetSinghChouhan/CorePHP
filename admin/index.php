@@ -1,6 +1,6 @@
 <?php
 // admin/index.php
-$_SESSION_ROLE_OVERRIDE = 'Admin'; // demo only
+$_SESSION_ROLE_OVERRIDE = 'Admin'; 
 require_once __DIR__ . '/common/header.php';
 require_once __DIR__ . '/common/sidebar.php';
 $query = "SELECT * FROM user WHERE role='user'";

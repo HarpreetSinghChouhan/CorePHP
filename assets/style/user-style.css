@@ -695,7 +695,10 @@ body {
   align-items: center;
   gap: 12px;
 }
-
+.d-flex{
+  display: flex;
+  gap: 10px;
+}
 .qty-box {
   display: flex;
   align-items: center;
@@ -754,7 +757,7 @@ body {
 
 /* Action buttons */
 .action-cell {
-    display: flex;
+    white-space: nowrap;
     gap: 8px;
     align-items: center;
 }
@@ -936,4 +939,217 @@ body {
         text-align: left;
         width: 100%;
     }
+}
+
+
+/* ==========================================================
+   DataTable fix (user side)
+   ========================================================== */
+
+/* 1. Undo the display:block / display:table hacks for DataTables */
+.table-div table.dataTable {
+  display: table;
+  width: 100% !important;
+  table-layout: auto;
+  border-collapse: collapse;
+}
+.table-div table.dataTable thead { display: table-header-group; width: auto; }
+.table-div table.dataTable tbody {
+  display: table-row-group;
+  max-height: none;
+  overflow: visible;
+}
+.table-div table.dataTable tbody tr {
+  display: table-row;
+  width: auto;
+  height: 84px;                 /* one fixed row height */
+}
+.table-div table.dataTable tbody tr:hover { background: #f7f6fd; }
+
+/* 2. Same alignment and lines for every cell */
+.table-div table.dataTable thead th,
+.table-div table.dataTable tbody td {
+  vertical-align: middle;
+  padding: 0 14px !important;
+  font-size: 13.5px;
+  color: #4b4b5a;
+  text-align: left;
+  border-bottom: 1px solid #f2f2f7;
+}
+.table-div table.dataTable thead th {
+  height: 48px;
+  font-weight: 600;
+  color: #1e1b3a;
+  white-space: nowrap;
+  border-bottom: 2px solid #f0f0f5;
+}
+
+/* 3. Action cell: force it back to a real table cell */
+.table-div table.dataTable tbody td.action-cell {
+  display: table-cell !important;   /* beats display:flex from any other stylesheet */
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.table-div table.dataTable thead th:last-child {
+  text-align: center;
+}
+
+/* 4. Buttons sit inline in the middle of the cell */
+.table-div table.dataTable tbody td.action-cell .btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin: 0 4px;
+  vertical-align: middle;
+  padding: 0;
+}
+
+/* 5. Product image column */
+.table-div table.dataTable tbody td .cart-image img {
+  display: block;
+  margin: 0 auto;
+}
+/* ---------- DataTable header: text left, sort icon right ---------- */
+.table-div table.dataTable thead th {
+  text-align: left !important;
+  padding: 0 14px !important;
+}
+
+/* header ke andar text + icon ek line me, icon hamesha right */
+.table-div table.dataTable thead th .dt-column-header {
+  display: flex !important;
+  flex-direction: row !important;        
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+}
+
+/* numeric / right-aligned columns ke liye bhi same */
+.table-div table.dataTable thead th.dt-type-numeric,
+.table-div table.dataTable thead th.dt-right {
+  text-align: left !important;
+}
+.table-div table.dataTable thead th.dt-type-numeric .dt-column-header,
+.table-div table.dataTable thead th.dt-right .dt-column-header {
+  flex-direction: row !important;
+  justify-content: space-between;
+}
+
+/* icon ko text ke saath shrink na hone do */
+.table-div table.dataTable thead th .dt-column-order {
+  flex: 0 0 auto;
+  margin: 0;
+  position: relative;
+  right: 0;
+}
+
+/* Action header (koi sort icon nahi) center rahe */
+.table-div table.dataTable thead th:last-child {
+  text-align: center !important;
+}
+.table-div table.dataTable thead th:last-child .dt-column-header {
+  justify-content: center;
+}
+/* ---------- DataTable top controls (entries + search) ---------- */
+
+/* upar wali row: left me entries, right me search */
+.table-div .dt-container .dt-layout-row:first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.table-div .dt-length,
+.table-div .dt-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.table-div .dt-length label,
+.table-div .dt-search label {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+/* select (entries per page) */
+.table-div .dt-length select.dt-input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 72px;
+  height: 36px;
+  padding: 0 28px 0 12px;
+  font-size: 13.5px;
+  color: #1e293b;
+  background-color: #fff;
+  border: 1px solid #d9d6f0;
+  border-radius: 8px;
+  cursor: pointer;
+  outline: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236d28d9' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+/* search input */
+.table-div .dt-search input.dt-input {
+  width: 220px;
+  height: 36px;
+  padding: 0 12px;
+  margin: 0;
+  font-size: 13.5px;
+  color: #1e293b;
+  background: #fff;
+  border: 1px solid #d9d6f0;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+/* focus / hover */
+.table-div .dt-length select.dt-input:hover,
+.table-div .dt-search input.dt-input:hover {
+  border-color: #6d28d9;
+}
+.table-div .dt-length select.dt-input:focus,
+.table-div .dt-search input.dt-input:focus {
+  border-color: #6d28d9;
+  box-shadow: 0 0 0 3px #ede9fe;
+}
+
+/* mobile: dono upar-neeche */
+@media (max-width: 600px) {
+  .table-div .dt-container .dt-layout-row:first-child {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .table-div .dt-search input.dt-input { width: 100%; }
+}
+.table-div table.dataTable tbody td,
+.table-div table.dataTable tbody td.dt-type-numeric,
+.table-div table.dataTable tbody td.dt-type-date,
+.table-div table.dataTable tbody td.dt-right,
+.table-div table.dataTable tbody td.dt-center,
+.table-div table.dataTable tbody td.dt-left {
+  text-align: left !important;
+}
+
+.table-div table.dataTable thead th:last-child,
+.table-div table.dataTable tbody td:last-child,
+.table-div table.dataTable tbody td.action-cell {
+  text-align: center !important;
 }

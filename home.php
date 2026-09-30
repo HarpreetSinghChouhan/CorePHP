@@ -21,18 +21,7 @@
     </select>
   </div>
 
-  <!--
- 
-    <div class="product-grid">
-      <?php// foreach ($products as $product): ?>
-        <article class="product-card">
-           <?php // echo $product['name']; ?> etc ...
-        </article>
-      <?php //endforeach; ?>
-    </div>
-
- 
-  -->
+  
   <div class="product-grid">
 
     <!-- PRODUCT CARD START -->

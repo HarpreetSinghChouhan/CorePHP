@@ -2,15 +2,15 @@
 include "../../../config/database.php";
 // print_r($conn);
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
 
-    if (!isset($_POST["name"]) || trim($_POST["name"]) === "") {
-        echo "   Name is required";
+    if (!isset($_GET["id"]) === "") {
+        echo " Id is required";
         exit;
     }
 
-    $name = $_POST["name"];
-    $query = "UPDATE category SET Is_deleted='1' WHERE name='$name' ";
+    $id = $_GET["id"];
+    $query = "DELETE FROM cart  WHERE user_id='$id' ";
     // $query = "DELETE FROM user WHERE email='$email'";
     $result = mysqli_query($conn, $query);
 
@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "success";
         } else {
             
-            echo "Category not found  __" . mysqli_error($conn) ;
+            echo "Cart not found  __" . mysqli_error($conn) ;
         }
 
     } else {

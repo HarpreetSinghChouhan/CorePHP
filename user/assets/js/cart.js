@@ -41,8 +41,6 @@ $.ajax({
             'icon':'warning',
             'title':xhr.responseText
         })
-    // console.log("Status Code:", xhr.status);
-    // console.log("Response Text:", xhr.responseText);
 }
 });
 
@@ -52,7 +50,7 @@ function renderCart(cartItems) {
         cartItems = JSON.parse(cartItems);
     }
     window.cartItemsData = cartItems;
-
+ 
     let container = $("#cart-container");
     container.empty();
 if (!Array.isArray(cartItems) || cartItems.length === 0) {
@@ -74,7 +72,7 @@ if (!Array.isArray(cartItems) || cartItems.length === 0) {
 $(".cart-grid").removeClass("cart-empty");
 $("#price-details").show();
 let stock = 1  ;
-
+ $("#cart_datatable").DataTable();
     cartItems.forEach(function(item) {
         let mrp = parseFloat(item.mrp || item.price || 0);
         let price = parseFloat(item.price || 0);
@@ -107,10 +105,6 @@ let stock = 1  ;
             </div>
         `; 
         }
-       
-        // if(item.quantity ==0){
-
-        // }
     })
     
        if(stock == 0){

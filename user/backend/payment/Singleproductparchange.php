@@ -18,7 +18,6 @@ if ($id <= 0) {
     exit;
 }
 
-/* ---------- Product fetch (prepared statement) ---------- */
 $stmt = mysqli_prepare($conn, "SELECT id, name, sku, price, stock_quantity FROM product WHERE id = ? LIMIT 1");
 mysqli_stmt_bind_param($stmt, "i", $id);
 mysqli_stmt_execute($stmt);
@@ -52,28 +51,15 @@ if ($unitAmount <= 0) {
     exit;
 }
 
-/* ---------- (Optional) Order pehle DB me bana lo ----------
-   Isse asli order_id milega. Agar orders table hai to use karo:
 
-$userId = (int) ($_SESSION['user_id'] ?? 0);
-$status = 'pending';
-$ostmt  = mysqli_prepare($conn, "INSERT INTO orders (user_id, product_id, amount, status) VALUES (?, ?, ?, ?)");
-$amount = $unitAmount / 100;
-mysqli_stmt_bind_param($ostmt, "iids", $userId, $productId, $amount, $status);
-mysqli_stmt_execute($ostmt);
-$orderId = mysqli_insert_id($conn);
-mysqli_stmt_close($ostmt);
-*/
-$orderId = 0; // orders table ho to upar wala code uncomment karo aur ye line hata do
+$orderId = 0;
 
-/* ---------- Stripe data ---------- */
 $data = [
     'payment_method_types[]' => 'card',
     'mode'                   => 'payment',
     'customer_email'         => $Email,
     'client_reference_id'    => (string) $orderId,
 
-    // Line item
     'line_items[0][price_data][currency]'                           => 'inr',
     'line_items[0][price_data][unit_amount]'                        => $unitAmount,
     'line_items[0][price_data][product_data][name]'                 => $productName,
@@ -81,12 +67,10 @@ $data = [
     'line_items[0][price_data][product_data][metadata][sku]'        => (string) $productSku,
     'line_items[0][quantity]'                                       => $productQuantity,
 
-    // Checkout Session metadata
     'metadata[order_id]'   => (string) $orderId,
     'metadata[product_id]' => (string) $productId,
     'metadata[sku]'        => (string) $productSku,
 
-    // PaymentIntent metadata (Stripe dashboard me Payment par dikhega)
     'payment_intent_data[metadata][order_id]'   => (string) $orderId,
     'payment_intent_data[metadata][product_id]' => (string) $productId,
     'payment_intent_data[metadata][sku]'        => (string) $productSku,
@@ -96,7 +80,6 @@ $data = [
     'cancel_url'  => 'http://localhost/CorePHP/cancel.php',
 ];
 
-/* ---------- Stripe API call ---------- */
 $ch = curl_init();
 curl_setopt_array($ch, [
     CURLOPT_URL            => 'https://api.stripe.com/v1/checkout/sessions',

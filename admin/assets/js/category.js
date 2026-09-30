@@ -1,43 +1,52 @@
-$(document).ready(function(){
-// console.log("Category PAge Are Working");
-if (window.location.href.indexOf("index.php") > -1) {
-        runCheckoutLogic();
+$(document).ready(function () {
+    let table = null;
+
+    const esc = (s) => $("<div>").text(s ?? "").html();
+
+    if ($("#category_datatable").length) {
+        initCategoryTable();
     }
-function runCheckoutLogic(){
-    // console.log("Category Index Page");
-    let data = null 
-    const TableBody = $(".category-tbody");  
-    $.ajax({
-        type:"GET",
-        url:"/CorePHP/admin/backend/Category/GetCategory.php",
-        dataType:"json",
-        success: function(response){
-            data = response;
-            let html = ""
-            $.each((response), function(index, item){
-                html += `<tr data-id='${item.id}'
-                              data-name='" ${item.name}"'>
-                         <td> ${item.id} </td>
-                         <td class='user-name' > ${item.name}  </td>
-                         <td> ${item.created} </td>
-                         <td class='action-cell'>
-                            <button type='button' class='btn-icon edit-link-btn edit-user' title='Edit'>
-                                <i class='fa-solid fa-pen'></i>
-                            </button>
-                            <button type='button' class='btn-icon delete-user' title='Delete'>
-                                <i class='fa-solid fa-trash'></i>
-                            </button>
-                        </td></tr>`;
-            });
-            TableBody.html(html); 
-    // console.log(data);
-        },
-        error: function(response){
-          Swal.fire({"title":response,"icon":"warning"});
-        }
-    })
-    // console.log(data);
-}
+
+    function initCategoryTable() {
+        table = $("#category_datatable").DataTable({
+            ajax: {
+                url: "/CorePHP/admin/backend/Category/GetCategory.php",
+                dataSrc: function (json) {
+                    return Array.isArray(json) ? json : (json.data || []);
+                }
+            },
+            pageLength: 10,
+            lengthMenu: [5, 10, 25, 50],
+            order: [[1, "asc"]],
+            columns: [
+                { data: null, orderable: false, searchable: false,
+                  render: (d, t, r, meta) => meta.row + 1 },
+                { data: "name", className: "category-name", render: (d) => esc(d) },
+                { data: "created", render: (d) => esc(d) },
+                { data: null, orderable: false, searchable: false, className: "action-cell",
+                  render: () => `
+                    <button type="button" class="btn-icon edit-link-btn  edit-user" title="Edit">
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                    <button type="button" class="btn-icon delete-user" title="Delete">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>` }
+            ],
+            createdRow: function (row, c) {
+                $(row).attr({
+                    "data-id": c.id,
+                    "data-name": c.name
+                });
+            }
+        });
+
+        table.on("draw.dt", function () {
+            let start = table.page.info().start;
+            table.column(0, { search: "applied", order: "applied", page: "current" })
+                 .nodes()
+                 .each((cell, i) => { cell.innerHTML = start + i + 1; });
+        });
+    }
 
 $("#AddCategoryForm").on("submit",function(e){
     e.preventDefault();
@@ -111,7 +120,7 @@ $("#EditCategoryForm").on("submit",function(e){
                 }
                 else if(response == "Success"){
                     Swal.fire({
-                   'title':'Category Added SuccessFull',
+                   'title':'Category Updated SuccessFull',
                    'icon':'success'
                  }).then(()=>{
                      window.location = "./index.php"
@@ -134,7 +143,7 @@ $(document).on("click", ".delete-user", function () {
 
         let row = $(this).closest("tr");
         // let name = row.data("name");
-        let name = row.find(".user-name").text().trim();
+        let name = row.find(".category-name").text().trim();
             swal.fire({
                  'title':'Are you sure?',
                 'text':`You Want To Delete ${name}`,

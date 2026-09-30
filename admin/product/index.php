@@ -13,14 +13,13 @@ require_once __DIR__ . '/../common/sidebar.php';
           <div class="table-header" >   
         <h1 class="center"> Product List</h1> <button class="btn create-link-btn"  >Add New Product</button>
             </div>
-            <table>
+            <table id="product_datatable" >
                 <thead>
                     <tr><th>Serial No</th><th>Image</th><th>Name</th><th>Sku</th><th>Price</th><th>Category Name</th><th>Product Description</th><th>Stock</th><th>Action</th></tr>
                 </thead>
                 <tbody class="product-tbody" >
                 </tbody>
             </table>
-            <div id="pagination" class="pagination-container"></div>
         </div>
 
        

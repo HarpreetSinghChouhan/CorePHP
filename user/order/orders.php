@@ -28,24 +28,13 @@ require_once  './../common/sidebar.php';
                     <div class="icon-circle"><i class="fa-regular fa-message"></i></div>
                 </div>
                <div style="display:flex;justify-content:space-between" > <p>Added Card Item </p> <h3 class="cart-count dashboard-item-list" >0</h3></div>
-
-                <!-- <h3>5</h3>
-                <p>New Messages</p> -->
             </div>
         </div>
 
-      <div class="table-div" >
-        <div class="row-per-page  " >
-            <select name="Row" id="Row" class="select-row-number" >
-                <option value="25">25</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-            </select>
-
-        </div>
-        <table>
-            <thead>
-                <tr>
+    <div class="table-div">
+         <table id="order_datatable" class="display" style="width:100%">
+           <thead>
+            <tr>
                 <th>Serial No</th>
                 <th>Order Id</th>
                 <th>Total Quantity</th>
@@ -54,12 +43,9 @@ require_once  './../common/sidebar.php';
                 <th>Perchanged At</th>
                 <th>Action</th>
             </tr>
-            </thead>
-            <tbody class="order-tbody" ></tbody>
-           
-        </table>
-         <div class="pagination" > </div>
-
-      </div>
+           </thead>
+           <tbody class="order-tbody"></tbody>
+         </table>
+        </div>
     </div>
 <?php require_once './../common/footer.php'; ?>
