@@ -43,13 +43,14 @@
        <h3>Description</h3>
        <p><?php echo nl2br(htmlspecialchars($product['description'])); ?></p>
      </div>
-
+      
      <div class="product-actions">
-       <button class="btn-add-cart" data-id="<?php echo $product['id']; ?>">Add to Cart</button>
-       <button class="btn-buy-now" data-id="<?php echo $product['id']; ?>">Buy Now</button>
+       <button class="btn-add-cart" data-product-id="<?php echo $product['id']; ?>">Add to Cart</button>
+       <button class="btn-buy-now <?php if($product['stock_quantity'] == 0): echo 'disable-btn';endif;?>" data-product_id="<?php echo $product['id']; ?>"  <?php if($product['stock_quantity'] == 0): echo 'disabled';endif; ?>>Buy Now</button>
      </div>
    </div>
  </div>
+
 
  <?php } ?>
 

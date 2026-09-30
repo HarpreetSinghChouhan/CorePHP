@@ -1,4 +1,7 @@
 $(document).ready(function(){
+    let allOrder = [];
+    let currentPage = 1;
+    let rowsPerPage = $('.select-row-number').val();
     $.ajax({
         type:"GET",
         url:"/CorePHP/user/backend/product/CountCart.php",
@@ -17,11 +20,15 @@ $(document).ready(function(){
       GetOrder_Items()
     }
 
-    let allOrder = [];
-    let currentPage = 1;
-    const rowsPerPage = 10;
+   
+    // console.log($('.select-row-number').val());
     let AllOrderItem = [];
+    $(document).on("change",".select-row-number",function(){
+        rowsPerPage = $(".select-row-number").val();
+        GetOrder();
+    })
     function GetOrder(){
+        // console.log("Row page value",rowsPerPage);
         $.ajax({
             type:"GET",
             dataType:"json",
@@ -109,6 +116,55 @@ $(document).ready(function(){
     let order_id = $(this).closest("tr").data('id');
     window.location.href = `./view.php?id=${order_id}`
   })
+  
+$(document).on("click", ".delete-order", function () {
+
+        let row = $(this).closest("tr");
+        let id = row.data("id");
+        // let name = row.find(".user-name").text().trim();
+            swal.fire({
+                 'title':'Are you sure?',
+                'text':`You Want To Delete ${id}`,
+                'icon':'warning',
+                'showCancelButton':true,
+                'cancelButtonColor':'Green',
+                'confirmButtonColor':'Red',
+                'confirmButtonText':'Yes, Delete it',
+            }).then((result)=>{
+                if(result.isConfirmed){
+                    $.ajax({
+                        url: `/CorePHP/admin/backend/order/OrderDelete.php?id=${id}`,
+                        type: "DELETE",
+                        success: function (response) {
+
+                            if (response.trim() === "success") {
+                             swal.fire({
+                                'title':'Order are Deleted',
+                                'icon':'success'
+                             });
+
+                             row.fadeOut(500, function () {
+                             $(this).remove();
+                           });
+                            } else {
+                            swal.fire({
+                                'title':`${response}`,
+                                 'icon':'warning'
+                            });
+                            }
+                        },
+
+                    error: function () {
+                      swal.fire({
+                        'title':'Something Are Wrong ',
+                        'icon':'warning'
+                      })
+                }
+                    });
+                }
+            })
+
+    });
     $(document).on("click", ".page-number", function(){
         currentPage = parseInt($(this).data("page"));
         renderOrder();

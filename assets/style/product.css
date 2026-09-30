@@ -1052,7 +1052,14 @@ footer {
 .btn-buy-now:hover {
   background: #e65c00;
 }
-
+.disable-btn {
+  cursor: no-drop; 
+  background: #b5a092;
+  color: #fff;
+}
+.disable-btn:hover {
+  background: #b5a092;
+}
 /* Responsive */
 @media (max-width: 768px) {
   .products-section {
@@ -1072,3 +1079,4 @@ footer {
     font-size: 24px;
   }
 }
+

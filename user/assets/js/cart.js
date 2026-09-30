@@ -148,16 +148,7 @@ let stock = 1  ;
         `;
         }
         container.html(cardHtml);
-        // console.log("Working ??")
-        //   if(item.quantity == 0){
-        //     container.find(`.qty-control-${item.id}`).hide();
-        //     // $(`.qty-control-${item.id}`).hide();
-        //      container.find(`.stock-${item.id}`).show();
-        //   }
-        //   else {
-        //      container.find(`.stock-${item.id}`).hide();
-        //      container.find(`.qty-control-${item.id}`).show();
-        //   }
+     
         requestAnimationFrame(() => {
     if (item.stock == 0) {
         $(`.qty-control-${item.id}`).hide();
@@ -440,7 +431,7 @@ function renderPriceDetailsFromGlobal(){
         let qty = parseInt(item.quantity || 0);
         let mrp = parseFloat(item.mrp || item.price || 0);
         let price = parseFloat(item.price || 0);
-        let protectFee = parseFloat(item.protect_fee || 19);
+        let protectFee = parseFloat(item.protect_fee || 0);
         
         itemCount += qty;
         totalPrice += price * qty;
