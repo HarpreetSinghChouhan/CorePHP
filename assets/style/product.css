@@ -1244,3 +1244,14 @@ footer {
     flex: none;
   }
 }
+
+.pagination .page-btn.is-disabled {
+    opacity: .4;
+    pointer-events: none;
+}
+.all-products{
+  margin-top: 20px; 
+}
+.divider{
+ margin-top: 70px;
+}

@@ -39,7 +39,7 @@ $categoryquery = "SELECT id, name FROM `category` WHERE id = '$cat_id'";
    <div class="product-detail-info">
      <h1><?php echo htmlspecialchars($product["name"]); ?></h1>
      <p class="product-sku">category :<?php echo htmlspecialchars($categoryname); ?></p>
-     <p class="product-sku">SKU: <?php echo htmlspecialchars($product['sku']); ?></p>
+    <p class="product-sku">SKU: <?php echo htmlspecialchars($product['sku']); ?></p>
      <div class="product-price">
        ₹<?php echo number_format($product['price'], 2); ?>
      </div>
@@ -113,7 +113,6 @@ $categoryquery = "SELECT id, name FROM `category` WHERE id = '$cat_id'";
 </section>
 
 <?php } ?> 
-</main>
 
 </main>
 
