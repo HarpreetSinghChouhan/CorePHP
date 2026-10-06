@@ -1,34 +1,64 @@
 $(document).ready(function(){
-     
-if (window.location.href.indexOf("index.php") > -1) {
-        runCheckoutLogic();
-    }
-if (window.location.href.indexOf("view.php") > -1) {
+     if (window.location.href.indexOf("view.php") > -1) {
         runOrderItemLogic();
     }
-let allProducts = [];
-let allOrderItem = [];
+    let table = null;
 
-let currentPage = 1;
-const rowsPerPage = 10;
+    const esc = (s) => $("<div>").text(s ?? "").html();
 
-function runCheckoutLogic(){
-    const TableBody = $(".order-tbody");  
-    $.ajax({
-        type:"GET",
-        url:"/CorePHP/admin/backend/order/Order.php",
-        dataType:"json",
-        success: function(response){
-            allProducts = response;
-            currentPage = 1;
-            renderProductTable();
-        },
-        error: function(response){
-          Swal.fire({"title":response,"icon":"warning"});
-        }
-    })
-}
+    if ($("#order_datatable").length) {
+        initOrderTable();
+    }
 
+    function initOrderTable() {
+        table = $("#order_datatable").DataTable({
+            ajax: {
+                url: "/CorePHP/admin/backend/order/Order.php",
+                dataSrc: function (json) {
+                    return Array.isArray(json) ? json : (json.data || []);
+                }
+            },
+            pageLength: 10,
+            lengthMenu: [5, 10, 25, 50],
+            order: [[1, "desc"]],
+            columns: [
+                { data: null, orderable: false, searchable: false,
+                  render: (d, t, r, meta) => meta.row + 1 },
+                { data: "order_id", className: "order-id", render: (d) => esc(d) },
+                { data: "user_name", render: (d) => esc(d) },
+                { data: "user_email", render: (d) => esc(d) },
+                { data: "total_quantity", render: (d) => esc(d) },
+                { data: "total_price", render: (d) => esc(d) },
+                { data: "order_items", render: (d) => esc(d) },
+                { data: "perchange_at", render: (d) => esc(d) },
+                { data: null, orderable: false, searchable: false, className: "action-cell",
+                  render: () => `
+                    <button type="button" class="btn-icon view-link-btn edit-btn" title="View">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                    <button type="button" class="btn-icon delete-order delete-btn" title="Delete">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>` }
+            ],
+            createdRow: function (row, o) {
+                $(row).attr({
+                    "data-id": o.order_id,
+                    "data-name": o.user_name,
+                    "data-email": o.user_email,
+                    "data-total_quantity": o.total_quantity,
+                    "data-total_price": o.total_price,
+                    "data-order_items": o.order_items
+                });
+            }
+        });
+
+        table.on("draw.dt", function () {
+            let start = table.page.info().start;
+            table.column(0, { search: "applied", order: "applied", page: "current" })
+                 .nodes()
+                 .each((cell, i) => { cell.innerHTML = start + i + 1; });
+        });
+    }
 function runOrderItemLogic(){
     const params = new URLSearchParams(window.location.search);
     const id = params.get("id");
@@ -115,60 +145,7 @@ html += `<div class="order-item-footer-detail">
 OrderItem.html(html);
 }
 
-function renderProductTable(){
-    const TableBody = $(".order-tbody");
-    let start = (currentPage - 1) * rowsPerPage;
-    let end = start + rowsPerPage;
-    let pageData = allProducts.slice(start, end);
 
-    let html = ""
-    $.each(pageData, function(index, item){
-        // let description = `${item.description.length > 20 ? item.description.slice(0, 40) + '...' : item.description}`;
-
-        html += `<tr data-id='${item.order_id}'
-                      data-name='${item.user_name}'
-                      data-email='${item.user_email}'
-                      data-total_quantity='${item.total_quantity}'
-                      data-total_price='${item.total_price}'
-                      data-order_items='${item.order_items}'
-                      >
-                 <td> ${start + index + 1} </td>
-                 <td class='order-id' > ${item.order_id} </td>
-                 <td > ${item.user_name}  </td>
-                 <td> ${item.user_email} </td>
-                  <td> ${item.total_quantity} </td>
-                 <td > ${item.total_price}  </td>
-                
-
-                 <td> ${item.order_items} </td>
-                  <td > ${item.perchange_at}  </td>
-                 <td class='action-cell' style='height:80px'>
-                     <button type='button' class='btn-icon view-link-btn edit-btn' title='View'>
-                        <i class='fa-solid fa-eye'></i>
-                     </button>
-                      <button type='button' class='btn-icon delete-order delete-btn' title='Delete'>
-                        <i class='fa-solid fa-trash'></i>
-                    </button>
-                </td></tr>`;
-    }); 
-    TableBody.html(html);
-    renderPagination();
-}
-
-function renderPagination(){
-    let totalPages = Math.ceil(allProducts.length / rowsPerPage);
-    let pagHtml = "";
-
-    pagHtml += `<button type="button" class="page-btn prev-page" ${currentPage === 1 ? 'disabled' : ''}>Prev</button>`;
-
-    for (let i = 1; i <= totalPages; i++) {
-        pagHtml += `<button type="button" class="page-btn page-number ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
-    }
-
-    pagHtml += `<button type="button" class="page-btn next-page" ${currentPage === totalPages || totalPages === 0 ? 'disabled' : ''}>Next</button>`;
-
-    $("#pagination").html(pagHtml);
-}
     $(document).on("click", ".delete-order", function () {
 
         let row = $(this).closest("tr");

@@ -13,7 +13,7 @@ require_once __DIR__ . '/../common/sidebar.php';
           <div class="table-header" >   
         <h1 class="center"> Order List</h1>
             </div>
-            <table>
+            <table id="order_datatable" >
                 <thead> 
                     <tr><th>Serial No</th><th>Order Id</th><th>User Name</th><th>User Email</th><th>Total Quantity</th><th>Total Amount</th><th>Order Item</th><th>Perchange At</th><th>Action</th></tr>
                 </thead>

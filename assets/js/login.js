@@ -42,7 +42,7 @@ $(document).ready(function(){
         if(xhr.status == 200){
             console.log("Response :", xhr.responseText);
             if(xhr.responseText == 'user'){
-             window.location = "/CorePHP/user/index.php";
+             window.location = "/CorePHP/home.php";
             }
             else if(xhr.responseText == 'admin'){
                 window.location = "/CorePHP/admin/index.php";

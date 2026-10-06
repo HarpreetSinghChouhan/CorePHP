@@ -1,13 +1,12 @@
 $(document).ready(function () {
-    var perPage = 4;
-    var allProducts = [];
-    var currentPage = 1;
+    // var perPage = 16;
+    var originalList = [];
+var productList = [];
+var latestList = [];
 
     loadCartCount();
-
-    if (window.location.href.indexOf("allproduct.php") > -1) {
-        loadProducts();
-    }
+    loadLatestProducts();
+    loadAllProducts();
 
     function showMessage(type, text) {
         Swal.fire({
@@ -20,40 +19,12 @@ $(document).ready(function () {
         });
     }
 
-    function loadCartCount() {
-       $.ajax({
-        type:"GET",
-        url:"/CorePHP/user/backend/product/CountCart.php",
-        success:function(response){
-                        $(".cart-count").html(`${response}`)
-          },
-        error: function(response){
-            console.log(response);
-        }
-    })
-    }
-
-    function loadProducts() {
-        $.ajax({
-            type: "GET",
-            url: "/CorePHP/user/backend/product/GetProduct.php",
-            dataType: "json",
-            success: function (items) {
-                allProducts = items;
-                currentPage = 1;
-                showPage();
-            },
-            error: function () {
-                $(".product-grid").html("<p>Something went wrong.</p>");
-            }
-        });
-    }
-
-    function makeCard(item) {
-
-          var heartClass = item.wishlist ? "active" : "";
+    function makeCard(item, isNew) {
+        var heartClass = item.wishlist ? "active" : "";
         var heartIcon = item.wishlist ? "fa-solid" : "fa-regular";
 
+// inside the template:
+         
         var stock = Number(item.stock_quantity) > 0
             ? "<h3 style='color:green'>In Stock</h3>"
             : "<h3 style='color:red'>Out Of Stock</h3>";
@@ -61,11 +32,13 @@ $(document).ready(function () {
         var desc = item.description || "";
         if (desc.length > 50) desc = desc.slice(0, 50) + "...";
 
+        var badge = isNew ? "<span class='badge badge-new'>New</span>" : "";
+
         return `
         <article class="product-card">
             <a href="product.php?id=${item.id}" class="card-media">
                 <img src="${item.image}" alt="${item.name}">
-                <span class="badge badge-new">New</span>
+                ${badge}
                 <button class="wishlist-btn ${heartClass}" type="button" data-product-id="${item.id}">
            <i class="${heartIcon} fa-heart"></i>
         </button> 
@@ -81,21 +54,78 @@ $(document).ready(function () {
         </article>`;
     }
 
-    function showPage() {
-        var start = (currentPage - 1) * perPage;
-        var items = allProducts.slice(start, start + perPage);
-
-        var html = "";
-        $.each(items, function (i, item) {
-            html += makeCard(item);
+    function loadCartCount() {
+        $.get("/CorePHP/user/backend/product/CountCart.php", function (count) {
+            $(".cart-count").html(count);
         });
-        $(".product-grid").html(html || "<p>No products found.</p>");
+    }
 
-        showPagination();
+   function loadLatestProducts() {
+        // console.log("bsamnbd. sgadkj.dkas");
+
+    $.ajax({
+        type: "GET",
+        url: "/CorePHP/user/backend/product/LatestProduct.php",
+        dataType: "json",
+        success: function (items) {
+
+    // console.log("latest:", items.length);
+            var html = "";
+            $.each(items, function (i, item) {
+                html += makeCard(item, true);
+            });
+            $("#latest-grid").html(html || "<p>No products found.</p>");
+        },
+        error: function () {
+            $("#latest-grid").html("<p>Something went wrong.</p>");
+        }
+    });
+}
+
+    function loadAllProducts() {
+        // console.log("bsamnbd. sgadkj.dkas");
+        $.ajax({
+            type: "GET",
+            url: "/CorePHP/user/backend/product/GetProduct.php",
+            dataType: "json",
+            success: function (items) {
+
+    // console.log("all:", items.length);
+                originalList = items;
+                sortProducts();
+            },
+            error: function () {
+                $("#all-products-grid").html("<p>Something went wrong.</p>");
+            }
+        });
+    }
+    function sortProducts() {
+    var mode = $(".sort-select").val();
+    productList = originalList.slice();
+
+    if (mode === "low") {
+        productList.sort(function (a, b) { return a.price - b.price; });
+    } else if (mode === "high") {
+        productList.sort(function (a, b) { return b.price - a.price; });
+    } else if (mode === "newest") {
+        productList.sort(function (a, b) { return b.id - a.id; });
+    }
+
+    showPage();
+}
+
+    function showPage() {
+    var items = productList.slice(0, 4);
+
+    var html = "";
+    $.each(items, function (i, item) {
+        html += makeCard(item, false);
+    });
+    $("#all-products-grid").html(html || "<p>No products found.</p>");
     }
 
     function showPagination() {
-        var totalPages = Math.ceil(allProducts.length / perPage);
+        var totalPages = Math.ceil(productList.length / perPage);
 
         if (totalPages <= 1) {
             $("#pagination").empty();
@@ -120,11 +150,13 @@ $(document).ready(function () {
         $("#pagination").html(html);
     }
 
+    $(".sort-select").on("change", sortProducts);
+
     $(document).on("click", "#pagination .page-btn", function (e) {
         e.preventDefault();
         currentPage = Number($(this).data("page"));
         showPage();
-        document.getElementById("products").scrollIntoView({ behavior: "smooth" });
+        document.getElementById("all-products").scrollIntoView({ behavior: "smooth" });
     });
 
     $(document).on("click", ".btn-add-cart", function () {
@@ -144,40 +176,31 @@ $(document).ready(function () {
             }
         });
     });
-
-    $(document).on("click", ".btn-buy-now", function () {
-        var id = $(this).data("product_id");
-
-        $.ajax({
-            type: "POST",
-            url: "/CorePHP/user/backend/payment/Singleproductparchange.php",
-            data: { id: id },
-            dataType: "json",
-            success: function (res) {
-                if (res.success) {
-                    window.location.href = res.url;
-                } else {
-                    Swal.fire({
-                        icon: "error",
-                        text: JSON.stringify(res.error)
-                    });
-                }
-            },
-            error: function (xhr) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Request Failed",
-                    text: xhr.responseText
-                });
-            }
-        });
+    // update the heart on every card of this product
+function setWishlistUI(id, isAdded) {
+    $('.wishlist-btn[data-product-id="' + id + '"]').each(function () {
+        $(this).toggleClass("active", isAdded);
+        $(this).find("i")
+            .toggleClass("fa-solid", isAdded)
+            .toggleClass("fa-regular", !isAdded);
     });
-   $(document).on("click", ".wishlist-btn", function (e) {
+
+    $.each(originalList, function (i, item) {
+        if (item.id == id) item.wishlist = isAdded;
+    });
+    $.each(productList, function (i, item) {
+        if (item.id == id) item.wishlist = isAdded;
+    });
+    $.each(latestList, function (i, item) {
+        if (item.id == id) item.wishlist = isAdded;
+    });
+}
+
+$(document).on("click", ".wishlist-btn", function (e) {
     e.preventDefault();
     e.stopPropagation();
 
-    var btn = $(this);
-    var id = btn.data("product-id");
+    var id = $(this).data("product-id");
 
     $.ajax({
         type: "POST",
@@ -188,17 +211,7 @@ $(document).ready(function () {
             showMessage(res.status, res.message);
 
             if (res.status === "success") {
-                var isAdded = res.action === "added";        
-                btn.toggleClass("active", isAdded);
-                btn.find("i")
-                    .toggleClass("fa-solid", isAdded)
-                    .toggleClass("fa-regular", !isAdded);
-
-                $.each(allProducts, function (i, item) {
-                    if (item.id == id) {
-                        item.wishlist = isAdded;
-                    }
-                });
+                setWishlistUI(id, res.action === "added");
             }
         },
         error: function () {

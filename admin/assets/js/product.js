@@ -1,101 +1,70 @@
+
 $(document).ready(function () {
-if (window.location.href.indexOf("index.php") > -1) {
-    runCheckoutLogic();
-}
+    let table = null;
 
-let allProducts = [];
-let currentPage = 1;
-const rowsPerPage = 10;
+    const esc = (s) => $("<div>").text(s ?? "").html();
 
-function runCheckoutLogic(){
-    const TableBody = $(".product-tbody");  
-    $.ajax({
-        type:"GET",
-        url:"/CorePHP/admin/backend/Product/GetProduct.php",
-        dataType:"json",
-        success: function(response){
-            allProducts = response;
-            currentPage = 1;
-            renderProductTable();
-        },
-        error: function(response){
-          Swal.fire({"title":response,"icon":"warning"});
-        }
-    })
-}
+    if ($("#product_datatable").length) {
+        initProductTable();
+    }
 
-function renderProductTable(){
-    const TableBody = $(".product-tbody");
-    let start = (currentPage - 1) * rowsPerPage;
-    let end = start + rowsPerPage;
-    let pageData = allProducts.slice(start, end);
-    let html = ""
-    $.each(pageData, function(index, item){
-        let description = `${item.description.length > 20 ? item.description.slice(0, 40) + '...' : item.description}`;
-        html += `<tr data-id='${item.id}'
-                      data-name='" ${item.name}"'
-                      data-price='${item.price}'
-                      data-sku='${item.sku}'
-                      data-category-name='${item.category_name}'
-                      data-description='${item.description}'
-                      data-image='${item.image}'
-                      data-stock_quantity='${item.stock_quantity}'
-                      >
-                 <td> ${start + index + 1} </td>
-                 <td  > <img src="${item.image}" alt="${item.name}" class="img-feild-table" ></img>  </td>
-                 <td class='product-name' > ${item.name} </td>
-                 <td > ${item.sku}  </td>
-                 <td> ${item.price} </td>
-                  <td> ${item.category_name} </td>
-                 <td > ${description}  </td>
-                 <td> ${item.stock_quantity} </td>
-                 <td class='action-cell' style='height:80px'>
-                    <button type='button' class='btn-icon edit-link-btn edit-user' title='Edit'>
-                        <i class='fa-solid fa-pen'></i>
+    function initProductTable() {
+        table = $("#product_datatable").DataTable({
+            ajax: {
+                url: "/CorePHP/admin/backend/Product/GetProduct.php",
+                dataSrc: function (json) {
+                    return Array.isArray(json) ? json : (json.data || []);
+                }
+            },
+            pageLength: 10,
+            lengthMenu: [5, 10, 25, 50],
+            order: [[2, "asc"]],
+            columns: [
+                { data: null, orderable: false, searchable: false,
+                  render: (d, t, r, meta) => meta.row + 1 },
+                { data: "image", orderable: false, searchable: false,
+                  render: (d, t, r) =>
+                    `<img src="${esc(d)}" alt="${esc(r.name)}" class="img-feild-table">` },
+                { data: "name", className: "product-name", render: (d) => esc(d) },
+                { data: "sku", render: (d) => esc(d) },
+                { data: "price", render: (d) => esc(d) },
+                { data: "category_name", render: (d) => esc(d) },
+                { data: "description",
+                  render: (d) => {
+                      d = d ?? "";
+                      return esc(d.length > 40 ? d.slice(0, 40) + "..." : d);
+                  } },
+                { data: "stock_quantity" },
+                { data: null, orderable: false, searchable: false, className: "action-cell",
+                  render: () => `
+                    <button type="button" class="btn-icon edit-link-btn edit-user" title="Edit">
+                        <i class="fa-solid fa-pen"></i>
                     </button>
-                    <button type='button' class='btn-icon delete-user' title='Delete'>
-                        <i class='fa-solid fa-trash'></i>
-                    </button>
-                </td></tr>`;
-    });
-    TableBody.html(html);
-    renderPagination();
-}
+                    <button type="button" class="btn-icon delete-user" title="Delete">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>` }
+            ],
+            createdRow: function (row, p) {
+                $(row).attr({
+                    "data-id": p.id,
+                    "data-name": p.name,
+                    "data-price": p.price,
+                    "data-sku": p.sku,
+                    "data-category-name": p.category_name,
+                    "data-description": p.description,
+                    "data-image": p.image,
+                    "data-stock_quantity": p.stock_quantity
+                });
+            }
+        });
 
-function renderPagination(){
-    let totalPages = Math.ceil(allProducts.length / rowsPerPage);
-    let pagHtml = "";
-
-    pagHtml += `<button type="button" class="page-btn prev-page" ${currentPage === 1 ? 'disabled' : ''}>Prev</button>`;
-
-    for (let i = 1; i <= totalPages; i++) {
-        pagHtml += `<button type="button" class="page-btn page-number ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
+        table.on("draw.dt", function () {
+            let start = table.page.info().start;
+            table.column(0, { search: "applied", order: "applied", page: "current" })
+                 .nodes()
+                 .each((cell, i) => { cell.innerHTML = start + i + 1; });
+        });
     }
-
-    pagHtml += `<button type="button" class="page-btn next-page" ${currentPage === totalPages || totalPages === 0 ? 'disabled' : ''}>Next</button>`;
-
-    $("#pagination").html(pagHtml);
-}
-
-$(document).on("click", ".page-number", function(){
-    currentPage = parseInt($(this).data("page"));
-    renderProductTable();
-});
-
-$(document).on("click", ".prev-page", function(){
-    if (currentPage > 1) {
-        currentPage--;
-        renderProductTable();
-    }
-});
-
-$(document).on("click", ".next-page", function(){
-    let totalPages = Math.ceil(allProducts.length / rowsPerPage);
-    if (currentPage < totalPages) {
-        currentPage++;
-        renderProductTable();
-    }
-});
 
  $("#EditProductForm").on("submit", function (e) {
         e.preventDefault();

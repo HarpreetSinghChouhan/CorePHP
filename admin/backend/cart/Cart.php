@@ -16,6 +16,7 @@ if($_SERVER["REQUEST_METHOD"] === "GET"){
      
       $data = [];
      while($row = mysqli_fetch_assoc($result)){
+        
        $object = [
         "user_id"        => $row['user_id'],
         "user_name"      => $row['uuser_name'],

@@ -359,7 +359,7 @@ background-color: #3b82f6;
 }
 
 .action-cell {
-    display: flex;
+    white-space: nowrap;
     gap: 8px;
     align-items: center;
     justify-content: start;
@@ -918,4 +918,437 @@ background-color: #3b82f6;
 
 .footer-block:last-child .total-amount {
     color: #4ade80;
+}
+/* .table-header {
+    padding: 20px 24px 8px;
+}
+
+.table-header h1 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    color: #1e293b;
+    text-align: left;
+} */
+
+/* .table-header h1.center {
+    text-align: left;
+} */
+  .table-header .center{
+    
+  } 
+
+.cart-item {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px 24px 28px;
+}
+.wishlist-item {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px 24px 28px;
+}
+
+.cart-item-card {
+    display: grid;
+    grid-template-columns: 120px 1fr 90px 120px;
+    align-items: center;
+    gap: 24px;
+    padding: 16px 20px;
+    background: #ffffff;
+    border: 1px solid #e5e9f2;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.cart-item-card:hover {
+    transform: translateY(-2px);
+    border-color: #c7d7fe;
+    box-shadow: 0 10px 24px rgba(0, 102, 255, 0.12);
+}
+
+.cart-item-card .item-img {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f4f6fb;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.cart-item-card .item-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.cart-item-card .item-info {
+    min-width: 0;
+}
+
+.cart-item-card .item-info h4 {
+    margin: 0 0 6px;
+    font-size: 17px;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+.cart-item-card .item-sku {
+    margin: 0 0 4px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #64748b;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.cart-item-card .item-sku:first-of-type {
+    display: inline-block;
+    padding: 2px 10px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #0066ff;
+    background: #eaf1ff;
+    border-radius: 20px;
+}
+
+.cart-item-card .item-qty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 14px;
+    background: #f4f6fb;
+    border-radius: 10px;
+}
+
+.cart-item-card .item-qty span {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #64748b;
+}
+
+.cart-item-card .item-qty strong {
+    font-size: 18px;
+    color: #0f172a;
+}
+
+.cart-item-card .item-price {
+    text-align: right;
+    font-size: 20px;
+    font-weight: 700;
+    color: #0066ff;
+}
+
+.no-items {
+    padding: 40px 20px;
+    text-align: center;
+    font-size: 15px;
+    color: #94a3b8;
+    background: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    border-radius: 12px;
+}
+
+@media (max-width: 768px) {
+    .cart-item {
+        padding: 12px;
+    }
+
+    .cart-item-card {
+        grid-template-columns: 90px 1fr;
+        gap: 14px;
+    }
+
+    .cart-item-card .item-img {
+        width: 90px;
+        height: 90px;
+    }
+
+    .cart-item-card .item-qty {
+        flex-direction: row;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .cart-item-card .item-price {
+        text-align: right;
+        align-self: center;
+    }
+}
+
+/* ---------- DataTable ---------- */
+table.dataTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Header */
+table.dataTable thead th {
+  position: relative;
+  padding: 0 28px 0 12px !important;
+  height: 48px;
+  text-align: left;
+  vertical-align: middle;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6d97d2;
+  background: #fff;
+  border: 0;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Body: same height and line for every cell */
+table.dataTable tbody tr {
+  height: 64px;
+}
+table.dataTable tbody td {
+  padding: 0 12px !important;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+/* Sort icons */
+table.dataTable thead .sorting,
+table.dataTable thead .sorting_asc,
+table.dataTable thead .sorting_desc {
+  cursor: pointer;
+  background-image: none !important;
+}
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_desc:before,
+table.dataTable thead .sorting_desc:after {
+  position: absolute;
+  right: 10px;
+  font-size: 10px;
+  line-height: 1;
+  opacity: 0.3;
+}
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_desc:before { top: 50%; margin-top: -9px; }
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_desc:after { top: 50%; margin-top: 1px; }
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_desc:after { opacity: 1; }
+
+/* Action column (header + cells) */
+table.dataTable thead th:last-child {
+  text-align: center;
+  padding-right: 12px !important;
+  cursor: default;
+}
+table.dataTable thead th:last-child:before,
+table.dataTable thead th:last-child:after {
+  display: none !important;
+}
+table.dataTable tbody td.action-cell {
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Buttons: inline, centered, no wrapper needed */
+table.dataTable tbody td.action-cell .btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  margin: 0 3px !important;
+  vertical-align: middle;
+  line-height: 1;
+}
+table.dataTable tbody td.action-cell .btn-icon i {
+  font-size: 13px;
+  line-height: 1;
+}
+
+/* Top controls */
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter {
+  margin-bottom: 12px;
+}
+.dt-orderable-asc, .dt-orderable-desc, .dt-ordering-asc{
+    flex-direction: column-reverse
+}
+/* ==========================================================
+   ADMIN DataTable: header (text left, icon right) + top controls
+   ========================================================== */
+
+/* ---------- 1. Header: text left, sort icon right ---------- */
+table.dataTable thead th {
+  text-align: left !important;
+  padding: 0 14px !important;
+}
+
+/* DataTables 2.x */
+table.dataTable thead th .dt-column-header {
+  display: flex !important;
+  flex-direction: row !important;      /* numeric columns ka row-reverse hatata hai */
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+}
+table.dataTable thead th.dt-type-numeric,
+table.dataTable thead th.dt-right {
+  text-align: left !important;
+}
+table.dataTable thead th .dt-column-order {
+  flex: 0 0 auto;
+  margin: 0;
+  position: relative;
+  right: 0;
+}
+
+/* DataTables 1.x: icon absolute right me pin (numeric columns me bhi) */
+table.dataTable thead th.sorting,
+table.dataTable thead th.sorting_asc,
+table.dataTable thead th.sorting_desc,
+table.dataTable thead th.sorting_disabled {
+  padding-right: 30px !important;
+  text-align: left !important;
+}
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_desc:before,
+table.dataTable thead .sorting_desc:after {
+  right: 10px !important;
+  left: auto !important;
+}
+
+/* Action header: center, sort icon nahi */
+table.dataTable thead th:last-child {
+  text-align: center !important;
+  padding-right: 14px !important;
+}
+table.dataTable thead th:last-child .dt-column-header {
+  justify-content: center;
+}
+
+/* ---------- 2. Top controls: entries (left) + search (right) ---------- */
+
+/* 2.x layout */
+.dt-container .dt-layout-row:first-child,
+/* 1.x layout */
+.dataTables_wrapper > .row:first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.dt-length, .dt-search,
+.dataTables_length, .dataTables_filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1e293b;
+}
+.dt-length label, .dt-search label,
+.dataTables_length label, .dataTables_filter label {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+/* select (entries per page) */
+.dt-length select,
+.dataTables_length select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 72px;
+  height: 36px;
+  padding: 0 28px 0 12px;
+  font-size: 13.5px;
+  color: #1e293b;
+  background-color: #fff;
+  border: 1px solid #cfe0ff;
+  border-radius: 8px;
+  cursor: pointer;
+  outline: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230061ff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+/* search input */
+.dt-search input,
+.dataTables_filter input {
+  width: 220px;
+  height: 36px;
+  padding: 0 12px;
+  margin: 0;
+  font-size: 13.5px;
+  color: #1e293b;
+  background: #fff;
+  border: 1px solid #cfe0ff;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+/* hover / focus */
+.dt-length select:hover, .dt-search input:hover,
+.dataTables_length select:hover, .dataTables_filter input:hover {
+  border-color: #0061ff;
+}
+.dt-length select:focus, .dt-search input:focus,
+.dataTables_length select:focus, .dataTables_filter input:focus {
+  border-color: #0061ff;
+  box-shadow: 0 0 0 3px #eaf1ff;
+}
+
+/* mobile */
+@media (max-width: 600px) {
+  .dt-container .dt-layout-row:first-child,
+  .dataTables_wrapper > .row:first-child {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .dt-search input, .dataTables_filter input { width: 100%; }
+}
+/* ---------- Body cells: header ke saath same left alignment ---------- */
+table.dataTable tbody td,
+table.dataTable tbody td.dt-type-numeric,
+table.dataTable tbody td.dt-type-date,
+table.dataTable tbody td.dt-right,
+table.dataTable tbody td.dt-center,
+table.dataTable tbody td.dt-left {
+  text-align: left !important;
+}
+
+/* Action column dono jagah center */
+table.dataTable thead th:last-child,
+table.dataTable tbody td:last-child,
+table.dataTable tbody td.action-cell {
+  text-align: center !important;
 }

@@ -28,6 +28,9 @@ function isActivePage($folder) {
         <li><a href="/CorePHP/admin/cart/index.php" class="<?php echo isActivePage('cart'); ?>">
             <span class="icon"><i class="fa fa-clipboard-list"></i></span> Cart
         </a></li>
+         <li><a href="/CorePHP/admin/wishlist/index.php" class="<?php echo isActivePage('wishlist'); ?>">
+            <span class="icon"><i class="fa fa-heart"></i></span> Wishlist
+        </a></li>
         <li><a href="/CorePHP/auth/logout.php">
             <span class="icon"><i class="fa fa-sign-out"></i></span> Logout
         </a></li>
