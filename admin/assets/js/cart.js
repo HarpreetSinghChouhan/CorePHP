@@ -110,7 +110,7 @@ $(document).ready(function () {
     });
 
     function GetCart_Items(){
-          const params = new URLSearchParams(window.location.search);
+        const params = new URLSearchParams(window.location.search);
         let id = params.get("id");
 
         $.ajax({

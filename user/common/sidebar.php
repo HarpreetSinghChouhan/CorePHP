@@ -48,6 +48,11 @@ if (!function_exists('isActivePage')) {
             </a>
         </li>
         <li>
+            <a href="<?php echo $site; ?>user/wishlist/wishlist.php" class="<?php echo isActivePage('wishlist/'); ?>">
+                <span class="icon"><i class="fa-solid fa-heart"></i></span> Wishlist Item
+            </a>
+        </li>
+        <li>
             <a href="/CorePHP/auth/logout.php">
                 <span class="icon"><i class="fa fa-sign-out"></i></span> Logout
             </a>

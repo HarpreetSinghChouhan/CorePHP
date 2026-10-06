@@ -1,7 +1,7 @@
 $(document).ready(function () {
      
-    let params = new URLSearchParams(window.location.href);
-  console.log(params);  
+//     let params = new URLSearchParams(window.location.href);
+//   console.log(params);  
     
     $('.create-link-btn').on("click",function(){
         window.location.href = "./create.php";

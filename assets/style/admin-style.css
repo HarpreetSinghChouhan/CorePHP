@@ -934,8 +934,17 @@ background-color: #3b82f6;
 /* .table-header h1.center {
     text-align: left;
 } */
+  .table-header .center{
+    
+  } 
 
 .cart-item {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px 24px 28px;
+}
+.wishlist-item {
     display: flex;
     flex-direction: column;
     gap: 16px;
