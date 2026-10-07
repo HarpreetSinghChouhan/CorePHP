@@ -104,14 +104,22 @@ $(document).ready(function () {
     }
     $(document).on("click", ".decrease-btn", function(e){
     e.stopPropagation();
-    if ($(this).prop("disabled")) return;
+    // if ($(this).prop("disabled")) return;
     let id = $(this).closest(".cart-card").data("id");
+      let quantity = $(this).closest(".cart-card").data("quantity");
+    //    let id = $(this).closest(".qtyValue");
+        // let val = id.val();
+        // console.log("New Value :-- ",quantity);
+
     updateQuantity(id, -1);
 });
 $(document).on("click", ".increase-btn", function(e){
-    e.stopPropagation();
-    let id = $(this).closest(".cart-card").data("id");
-    updateQuantity(id, 1);
+    e.stopPropagation(); 
+    // qtyValue
+    let id = $(this).closest(".cart-card").data("id");    
+    let quantity = $(this).closest(".cart-card").data("quantity");
+    // console.log("New Value :-- ",quantity);
+    updateQuantity(id, +1);
 });
 function updateQuantity(id, change) {
     const Toast = Swal.mixin({

@@ -52,8 +52,8 @@ else{
 
       <div class="cart-item__price">₹<?= number_format($product['price']) ?>  </div> 
       <div class="cart-item__actions">
-       <div class="qty-box cart-card" data-id="<?= (int)$product['id'] ?>">
-            <button type="button" class="qty-btn decrease-btn" id="qtyMinus">−</button>
+       <div class="qty-box cart-card" data-quantity="<?= (int)$product['quantity'] ?>" data-id="<?= (int)$product['id'] ?>"   >
+            <button type="button" class="qty-btn decrease-btn" id="qtyMinus" <?php if((int)$product['quantity'] == 1){  echo "disabled";  } ?> >−</button>
             <span class="qty-text">Qty: <span id="qtyValue"><?= (int)$product['quantity'] ?></span></span>
             <button type="button" class="qty-btn increase-btn" id="qtyPlus">+</button>
          </div>

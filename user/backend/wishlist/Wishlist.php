@@ -20,7 +20,7 @@ if (mysqli_num_rows($userresult) == 0) {
     exit;
 }
 
-$selectwishlist = "SELECT w.id, p.name AS product_name, p.price, p.description, p.sku, p.image
+$selectwishlist = "SELECT w.id,w.user_id,w.product_id, p.name AS product_name, p.price, p.description, p.sku, p.image
         FROM `wishlist` AS w
         LEFT JOIN `product` AS p
         ON p.id = w.product_id
@@ -40,6 +40,7 @@ while ($row = mysqli_fetch_assoc($resultwishlist)) {
         "product_price" => $row["price"],
         "description" => $row["description"],
         "product_sku" => $row["sku"],
+        "product_id" => $row["product_id"],
         "product_image" => $image,
     ];
     $data[] = $object;

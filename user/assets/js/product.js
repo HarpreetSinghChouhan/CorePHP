@@ -55,8 +55,8 @@ $(document).ready(function () {
         var heartIcon = item.wishlist ? "fa-solid" : "fa-regular";
 
         var stock = Number(item.stock_quantity) > 0
-            ? "<h3 style='color:green'>In Stock</h3>"
-            : "<h3 style='color:red'>Out Of Stock</h3>";
+            ? `<h3 style='color:green'>In Stock (${item.stock_quantity})</h3>`
+            : `<h3 style='color:red'>Out Of Stock</h3>`;
 
         var desc = item.description || "";
         if (desc.length > 50) desc = desc.slice(0, 50) + "...";

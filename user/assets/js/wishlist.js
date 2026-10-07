@@ -54,14 +54,20 @@ $(document).ready(function () {
                     searchable: false,
                     className: "action-cell",
                     render: function () {
-                        return `<button type="button" class="btn-icon btn-delete-cart delete-btn" title="Remove Favorite">
+                        return `<button type="button" class="btn-icon view-product-btn view-btn" title="Remove Favorite">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                        <button type="button" class="btn-icon btn-buy-now edit-btn" title="Remove Favorite">
+                                    Buy Now
+                                </button>
+                                <button type="button" class="btn-icon btn-delete-cart delete-btn" title="Remove Favorite">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>`;
                     }
                 }
             ],
             createdRow: function (row, rowData) {
-                $(row).attr("data-id", rowData.id).attr("data-name", rowData.product_name);
+                $(row).attr("data-id", rowData.id).attr("data-product_id",rowData.product_id).attr("data-name", rowData.product_name);
             }
         });
 
@@ -113,4 +119,39 @@ $(document).ready(function () {
             });
         });
     }
+     $(document).on("click", ".btn-buy-now", function () {
+        
+         let tr = $(this).closest("tr");
+        var id = tr.data("product_id");
+             $.ajax({
+            type: "POST",
+            url: "/CorePHP/user/backend/payment/Singleproductparchange.php",
+            data: { id: id },
+            dataType: "json",
+            success: function (res) {
+                if (res.success) {
+                    window.location.href = res.url;
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        text: JSON.stringify(res.error)
+                    });
+                }
+            },
+            error: function (xhr) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Request Failed",
+                    text: xhr.responseText
+                });
+            }
+        });
+       
+    });
+
+    $(document).on("click",".view-product-btn",function(){
+        let row = $(this).closest('tr');
+          let id = row.data("product_id");
+        window.location.href = `/CorePHP/product.php?id=${id}`
+    })
 });

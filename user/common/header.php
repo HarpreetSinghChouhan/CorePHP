@@ -11,7 +11,6 @@ if(!isset($email)){
 }
   $query = "SELECT * FROM user WHERE email = '$email' AND Is_deleted='0' LIMIT 1";
     $result = mysqli_query($conn,$query);
-    // print_r($result);
      if(!$result){
     header("Location:  /CorePHP/login.php");   
     exit;
@@ -38,14 +37,14 @@ if(!isset($email)){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Dashboard </title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="/CorePHP/assets/style/user-style.css">
-<link href="https://cdn.datatables.net/v/dt/dt-3.1.2/datatables.min.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://cdn.datatables.net/v/dt/dt-3.1.2/datatables.min.js" ></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="/CorePHP/user/assets/js/mainscript.js" defer></script>
-</head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+        <link rel="stylesheet" href="/CorePHP/assets/style/user-style.css">
+    <link href="https://cdn.datatables.net/v/dt/dt-3.1.2/datatables.min.css" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/v/dt/dt-3.1.2/datatables.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/CorePHP/user/assets/js/mainscript.js" defer></script>
+    </head>
 <body>
 <div class="user-wrapper">
     <?php 
