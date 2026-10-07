@@ -47,6 +47,9 @@ $(document).ready(function(){
             else if(xhr.responseText == 'admin'){
                 window.location = "/CorePHP/admin/index.php";
             }
+            else if(xhr.responseText == 'vendor'){
+                window.location = "/CorePHP/vendor/index.php";
+            }
             else{
                 $(".PasswordError").css({'margin-top':'20px','margin-bottom':'-20px'});
                 $(".PasswordError").html(`${xhr.responseText}`);

@@ -6,12 +6,14 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
 
     $user_id = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : 0;
 
-    $query = "SELECT product.id, product.name, product.price, product.sku, product.description, product.stock_quantity, product.image, product.created_at, category.name AS category_name, wishlist.id AS wishlist_id
-    FROM product
-    INNER JOIN category
+    $query = "SELECT product.id, product.name, product.price, product.sku, product.description, product.stock_quantity, product.image, product.created_at,
+     category.name AS category_name,
+     w.product_id,  w.user_id, w.id AS wishlist_id
+    FROM `product`
+    INNER JOIN `category`
     ON category.id = product.category_id
-    LEFT JOIN wishlist
-    ON wishlist.product_id = product.id AND wishlist.user_id = '$user_id'
+    LEFT JOIN `wishlist` AS w
+    ON w.product_id = product.id AND w.user_id = '$user_id'
     WHERE product.is_deleted != '1'
     AND product.created_at >= NOW() - INTERVAL 360 HOUR
     ORDER BY product.created_at DESC";

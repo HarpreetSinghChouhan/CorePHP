@@ -332,6 +332,11 @@ button { font-family: inherit; cursor: pointer; }
 .badge-sale { background: var(--sale); }
 .badge-new { background: var(--navy); }
 
+.wishlist-btn.active {
+  /* background-color: rgb(245, 142, 159); */
+  color: red;
+}
+
 .wishlist-btn {
   position: absolute;
   top: 10px;
@@ -360,6 +365,7 @@ button { font-family: inherit; cursor: pointer; }
   gap: 6px;
   flex: 1;
 }
+
 
 .card-category {
   font-size: 12px;

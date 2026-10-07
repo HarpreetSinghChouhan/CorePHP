@@ -8,10 +8,10 @@ session_start();
  }
 $email = $_SESSION['email'];
 //  echo $email;
-// if(!isset($email)){
-//     header("Location :  http://localhost/CorePHP/view/login.php");
-//     exit;
-// }
+if(!isset($email)){
+    header("Location :  http://localhost/CorePHP/login.php");
+    exit;
+}
   $query = "SELECT * FROM user WHERE email = '$email' LIMIT 1";
     $result = mysqli_query($conn,$query);
      if(!$result){
@@ -41,7 +41,7 @@ $email = $_SESSION['email'];
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 <link href="https://cdn.datatables.net/v/dt/dt-3.1.2/datatables.min.css" rel="stylesheet">
 </head>
-
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/v/dt/dt-3.1.2/datatables.min.js" ></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

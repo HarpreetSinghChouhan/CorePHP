@@ -1,5 +1,6 @@
 $(document).ready(function(){
-     let params = new URLSearchParams(window.location);
-     console.log(params); 
+     $(document).on("click",".cart-link",function(){
+          window.location.href = "/CorePHP/cart.php"
+     }) 
      
 })
