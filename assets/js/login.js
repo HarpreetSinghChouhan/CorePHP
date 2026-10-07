@@ -48,7 +48,7 @@ $(document).ready(function(){
                 window.location = "/CorePHP/admin/index.php";
             }
             else if(xhr.responseText == 'vendor'){
-                window.location = "/CorePHP/vender/register.php";
+                window.location = "/CorePHP/vendor/index.php";
             }
             else{
                 $(".PasswordError").css({'margin-top':'20px','margin-bottom':'-20px'});

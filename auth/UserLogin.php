@@ -22,14 +22,11 @@ if (!$result) {
         // print_r($user["password"]);
         if (password_verify($password, $user["password"])) {
 
-           if($user["role"] == 'vendor'){
-           $_SESSION["user_id"] = $user["id"];
-           }
-           else{
+           
            $_SESSION["email"] = $user["email"];
            $_SESSION["user_name"] = $user["name"];
            $_SESSION["user_id"] = $user["id"];
-           }
+           
             echo $user["role"];
 
         } else {

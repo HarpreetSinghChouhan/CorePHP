@@ -1,9 +1,9 @@
 <?php
   session_start();
-  if (isset($_SESSION["user_id"])) {
-    header("location: /CorePHP/login.php");
-    exit;
-  }
+  // if (isset($_SESSION["user_id"])) {
+  //   header("location: /CorePHP/login.php");
+  //   exit;
+  // }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -64,20 +64,8 @@
     <main class="vr-main">
       <div class="vr-card">
         <h1 class="vr-title">Create your vendor account</h1>
-        <p class="vr-lead">It takes about three minutes.</p>
+        <p class="vr-lead">Register Your Account As Vendor</p>
 
-        <!-- Stepper -->
-        <!-- <ol class="vr-stepper" aria-label="Registration progress">
-          <li class="is-active" id="stepper-1">
-            <span class="vr-dot">1</span> Account
-          </li>
-          <li class="vr-bar" id="stepper-bar" aria-hidden="true" style="list-style:none"></li>
-          <li id="stepper-2">
-            <span class="vr-dot">2</span> Store details
-          </li>
-        </ol> -->
-
-        <!-- STEP 1 -->
         <section class="vr-panel step-1" id="panel-1">
           <form id="Register_Submit" class="vr-form" method="post" novalidate> 
             <div class="vr-field">

@@ -28,10 +28,10 @@ $(document).ready(function () {
 
   function goToStep(n) {
     $("#panel-1").prop("hidden", n !== 1);
-    $("#panel-2").prop("hidden", n !== 2);
+    // $("#panel-2").prop("hidden", n !== 2);
 
-    $("#stepper-1").toggleClass("is-active", n === 1).toggleClass("is-done", n === 2);
-    $("#stepper-2").toggleClass("is-active", n === 2);
+    // $("#stepper-1").toggleClass("is-active", n === 1).toggleClass("is-done", n === 2);
+    // $("#stepper-2").toggleClass("is-active", n === 2);
     $("#stepper-bar").toggleClass("is-filled", n === 2);
     $("#stepper-1 .vr-dot").html(n === 2 ? '<i class="fa-solid fa-check"></i>' : "1");
 
@@ -48,24 +48,24 @@ $(document).ready(function () {
     this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 10);
   });
 
-  $("#PanImage").on("change", function () {
-    const file   = this.files[0];
-    const $thumb = $("#PanThumb");
-    const $name  = $("#PanFileName");
+  // $("#PanImage").on("change", function () {
+  //   const file   = this.files[0];
+  //   const $thumb = $("#PanThumb");
+  //   const $name  = $("#PanFileName");
 
-    if (!file) {
-      $name.text("Choose a file");
-      $thumb.css("background-image", "").removeClass("has-img");
-      return;
-    }
-    $name.text(file.name);
+  //   if (!file) {
+  //     $name.text("Choose a file");
+  //     $thumb.css("background-image", "").removeClass("has-img");
+  //     return;
+  //   }
+  //   $name.text(file.name);
 
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      $thumb.css("background-image", "url(" + e.target.result + ")").addClass("has-img");
-    };
-    reader.readAsDataURL(file);
-  });
+  //   const reader = new FileReader();
+  //   reader.onload = function (e) {
+  //     $thumb.css("background-image", "url(" + e.target.result + ")").addClass("has-img");
+  //   };
+  //   reader.readAsDataURL(file);
+  // });
 
   function setError(name, msg) {
     $('[name="' + name + '"]').addClass("is-invalid");
@@ -108,13 +108,14 @@ $(document).ready(function () {
     const $form = $(this);
     clearErrors($form);
 
+    const full    = $.trim($("#FullName").val());
     const phone = $.trim($("#PhoneNumber").val());
     const email = $.trim($("#Email").val());
     const dob   = $("#Age").val();
     const pass  = $("#Password").val();
     const conf  = $("#ConfirmPassword").val();
     let ok = true;
-
+    if (full.length < 3)     { setError("FullName", "Enter your full name."); ok = false; }
     if (!/^[6-9]\d{9}$/.test(phone)) { setError("PhoneNumber", "Enter a valid 10-digit mobile number."); ok = false; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError("Email", "Enter a valid email address."); ok = false; }
 
@@ -144,7 +145,7 @@ $(document).ready(function () {
     })
     .done(function (res) {
       if (res.status === "success") {
-        goToStep(2);
+        // goToStep(2);
       } else {
         showServerErrors(res);
       }
@@ -153,56 +154,56 @@ $(document).ready(function () {
     .always(function () { setLoading($btn, false); });
   });
 
-  $("#Information_Submit").on("submit", function (e) {
-    e.preventDefault();
-    const $form = $(this);
-    clearErrors($form);
+  // $("#Information_Submit").on("submit", function (e) {
+  //   e.preventDefault();
+  //   const $form = $(this);
+  //   clearErrors($form);
 
-    const pan     = $.trim($("#PanNumber").val()).toUpperCase();
-    const file    = $("#PanImage")[0].files[0];
-    const full    = $.trim($("#FullName").val());
-    const display = $.trim($("#DisplayName").val());
-    const address = $.trim($("#StoreDetail").val());
-    let ok = true;
+  //   const pan     = $.trim($("#PanNumber").val()).toUpperCase();
+  //   const file    = $("#PanImage")[0].files[0];
+  //   const full    = $.trim($("#FullName").val());
+  //   const display = $.trim($("#DisplayName").val());
+  //   const address = $.trim($("#StoreDetail").val());
+  //   let ok = true;
 
-    if (!/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(pan)) { setError("PanNumber", "Enter a valid PAN, like ABCDE1234F."); ok = false; }
+  //   if (!/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(pan)) { setError("PanNumber", "Enter a valid PAN, like ABCDE1234F."); ok = false; }
 
-    if (!file) {
-      setError("PanImage", "Upload a photo of your PAN card."); ok = false;
-    } else if (["image/jpeg", "image/png"].indexOf(file.type) === -1) {
-      setError("PanImage", "Only JPG or PNG files are allowed."); ok = false;
-    } else if (file.size > 2 * 1024 * 1024) {
-      setError("PanImage", "File is larger than 2 MB."); ok = false;
-    }
+  //   if (!file) {
+  //     setError("PanImage", "Upload a photo of your PAN card."); ok = false;
+  //   } else if (["image/jpeg", "image/png"].indexOf(file.type) === -1) {
+  //     setError("PanImage", "Only JPG or PNG files are allowed."); ok = false;
+  //   } else if (file.size > 2 * 1024 * 1024) {
+  //     setError("PanImage", "File is larger than 2 MB."); ok = false;
+  //   }
 
-    if (full.length < 3)     { setError("FullName", "Enter your full name."); ok = false; }
-    if (display.length < 2)  { setError("DisplayName", "Enter a store name."); ok = false; }
-    if (address.length < 10) { setError("StoreDetail", "Enter the complete pickup address."); ok = false; }
-    if (!ok) return;
+  //   if (full.length < 3)     { setError("FullName", "Enter your full name."); ok = false; }
+  //   if (display.length < 2)  { setError("DisplayName", "Enter a store name."); ok = false; }
+  //   if (address.length < 10) { setError("StoreDetail", "Enter the complete pickup address."); ok = false; }
+  //   if (!ok) return;
 
-    const $btn = $form.find('[type="submit"]');
-    setLoading($btn, true, "Submitting...");
+  //   const $btn = $form.find('[type="submit"]');
+  //   setLoading($btn, true, "Submitting...");
 
-    $.ajax({
-      url: URL_STEP2,
-      type: "POST",
-      data: new FormData(this),
-      processData: false,
-      contentType: false,
-      dataType: "json"
-    })
-    .done(function (res) {
-      if (res.status === "success") {
-        Swal.fire({
-          icon: "success",
-          title: "Application submitted",
-          text: "We will review your details and notify you by email."
-        }).then(function () { window.location.href = REDIRECT_AFTER_DONE; });
-      } else {
-        showServerErrors(res);
-      }
-    })
-    .fail(ajaxFail)
-    .always(function () { setLoading($btn, false); });
-  });
+  //   $.ajax({
+  //     url: URL_STEP2,
+  //     type: "POST",
+  //     data: new FormData(this),
+  //     processData: false,
+  //     contentType: false,
+  //     dataType: "json"
+  //   })
+  //   .done(function (res) {
+  //     if (res.status === "success") {
+  //       Swal.fire({
+  //         icon: "success",
+  //         title: "Application submitted",
+  //         text: "We will review your details and notify you by email."
+  //       }).then(function () { window.location.href = REDIRECT_AFTER_DONE; });
+  //     } else {
+  //       showServerErrors(res);
+  //     }
+  //   })
+  //   .fail(ajaxFail)
+  //   .always(function () { setLoading($btn, false); });
+  // });
 });

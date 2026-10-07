@@ -9,10 +9,10 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     echo json_encode(["status" => "error", "message" => "Method not allowed."]);
     exit;
 }
-
+$name = trim($_POST["FullName"] ) ?? ""; 
 $phone    = trim($_POST["PhoneNumber"] ?? "");
 $email    = strtolower(trim($_POST["Email"] ?? ""));
-$dob      = trim($_POST["Age"] ?? "");        
+$dob      = trim($_POST["Age"] ?? "");   
 $gender   = trim($_POST["Gender"] ?? "");
 $password = $_POST["Password"] ?? "";
 $confirm  = $_POST["ConfirmPassword"] ?? "";
@@ -21,6 +21,7 @@ $errors = [];
 if (!preg_match('/^[6-9][0-9]{9}$/', $phone)) {
     $errors["PhoneNumber"] = "Enter a valid 10-digit mobile number.";
 }
+
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $errors["Email"] = "Enter a valid email address.";
@@ -52,6 +53,8 @@ if (!empty($errors)) {
     echo json_encode(["status" => "error", "errors" => $errors]);
     exit;
 }
+
+$name_safe  = mysqli_real_escape_string($conn, $name);
 $email_safe  = mysqli_real_escape_string($conn, $email);
 $phone_safe  = mysqli_real_escape_string($conn, $phone);
 $dob_safe    = mysqli_real_escape_string($conn, $dob);
