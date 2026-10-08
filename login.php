@@ -6,6 +6,7 @@ include_once "./auth/verify.php";
 <body>
     <main class="login-page">
         <div class="FormDiv" >
+
             <div style="text-align:center" ><h2>Login Page</h2></div>
         <form id="FormLogin" method="POST">
            
@@ -23,8 +24,10 @@ include_once "./auth/verify.php";
            <input type="submit" value="Login" class="submit-button btn-2">
 
         </form>
+
          <div class="link-div" >Forget<a href="./forgetpassword.php" class="page-link" > Password?</a></div>
          <div class="link-div" >Don't have an account?<a href="./register.php" class="page-link" >Register Page</a></div>
+         <div class=""  style="float:right" >Go To<a href="./home.php" class="page-link"  > Home page?</a></div>
          
 
     </main>

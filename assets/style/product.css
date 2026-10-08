@@ -1261,3 +1261,129 @@ footer {
 .divider{
  margin-top: 70px;
 }
+  .pay-cancel {
+    --pc-ink: #1f2a37;
+    --pc-muted: #6b7280;
+    --pc-line: #e5e7eb;
+    --pc-surface: #ffffff;
+    --pc-accent: #e0483e;
+    --pc-accent-soft: #fdecea;
+    --pc-primary: #1f2a37;
+
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 16px;
+    background: #f6f7f9;
+  }
+
+  .pay-cancel__card {
+    width: 100%;
+    max-width: 480px;
+    background: var(--pc-surface);
+    border: 1px solid var(--pc-line);
+    border-radius: 16px;
+    padding: 40px 32px 32px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(31, 42, 55, 0.06);
+  }
+
+  .pay-cancel__icon {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 24px;
+    border-radius: 50%;
+    background: var(--pc-accent-soft);
+    display: grid;
+    place-items: center;
+  }
+
+  .pay-cancel__icon svg {
+    width: 34px;
+    height: 34px;
+    stroke: var(--pc-accent);
+    fill: none;
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* The one animated moment: the cross draws itself on load */
+  .pay-cancel__icon .cross {
+    stroke-dasharray: 30;
+    stroke-dashoffset: 30;
+    animation: pc-draw 0.5s 0.2s ease forwards;
+  }
+  .pay-cancel__icon .cross + .cross { animation-delay: 0.4s; }
+
+  @keyframes pc-draw { to { stroke-dashoffset: 0; } }
+
+  .pay-cancel__title {
+    margin: 0 0 8px;
+    font-size: 1.6rem;
+    line-height: 1.25;
+    font-weight: 700;
+    color: var(--pc-ink);
+  }
+
+  .pay-cancel__text {
+    margin: 0 auto 28px;
+    max-width: 36ch;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--pc-muted);
+  }
+
+  .pay-cancel__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .pay-cancel__btn {
+    display: block;
+    padding: 13px 20px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+
+  .pay-cancel__btn--primary {
+    background: var(--pc-primary);
+    color: #fff;
+    border: 1px solid var(--pc-primary);
+  }
+  .pay-cancel__btn--primary:hover { background: #111827; }
+
+  .pay-cancel__btn--ghost {
+    background: transparent;
+    color: var(--pc-ink);
+    border: 1px solid var(--pc-line);
+  }
+  .pay-cancel__btn--ghost:hover { border-color: var(--pc-ink); }
+
+  .pay-cancel__btn:focus-visible {
+    outline: 3px solid #93c5fd;
+    outline-offset: 2px;
+  }
+
+  .pay-cancel__note {
+    margin: 24px 0 0;
+    font-size: 0.875rem;
+    color: var(--pc-muted);
+  }
+
+  @media (min-width: 520px) {
+    .pay-cancel__actions { flex-direction: row; }
+    .pay-cancel__btn { flex: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pay-cancel__icon .cross {
+      animation: none;
+      stroke-dashoffset: 0;
+    }
+  }

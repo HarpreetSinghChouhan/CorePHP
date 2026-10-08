@@ -2,6 +2,8 @@
 // 1. session_start() must be the very first thing, before any HTML/echo output
 session_start();
 include __DIR__ . "/../../config/database.php";
+// $user_id = null;
+
 ?>
 
 <!DOCTYPE html>
@@ -30,6 +32,9 @@ include __DIR__ . "/../../config/database.php";
       <?php if (!isset($_SESSION["email"])): ?>
         <a href="./login.php" class="icon-link" aria-label="Account">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg> Login
+        </a><a href="./vendor/register.php" class="icon-link" aria-label="Account">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg> register As Vendor 
+        <!-- <i class="fa-regular fa-user"  style="margin-right:10px;margin-top:5px"></i>  register As Vendor -->
         </a>
       <?php else: ?>
         <a href="./user/index.php" class="icon-link" aria-label="Account">

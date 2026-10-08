@@ -1,10 +1,12 @@
 <?php 
  include "./includes/home/header.php"
+
 ?>
 <script src="/CorePHP/user/assets/js/product.js" defer></script>
 
 <main class="products-section" id="products">
  <?php
+ 
  if(!isset($_GET["id"])){
    die("Product ID missing");
  }
@@ -24,16 +26,32 @@ $categoryquery = "SELECT id, name FROM `category` WHERE id = '$cat_id'";
  if(!$catresult){
   echo "category are not found";
  }
-   
+   $wishlist = false;
    $categoryname = $catresult["name"];
    $categoryid = $catresult["id"];
- 
+   if(isset($_SESSION["user_id"])){
+    $user_id = $_SESSION["user_id"];
+    $querywishlist = "SELECT * FROM `wishlist` WHERE user_id = '$user_id' AND product_id='$product_id'";
+    $queryrun = mysqli_query($conn,$querywishlist);
+    if(mysqli_num_rows($queryrun) > 0){
+      // echo "Working this";
+       $wishlist = true;
+    }
+    else{
+      $wishlist = false;
+    }
+    }
  ?>
 
  <div class="product-detail-container">
    <div class="product-detail-image">
      <img src="<?php echo htmlspecialchars($image); ?>" 
           alt="<?php echo htmlspecialchars($product['name']); ?>">
+      <div><?php if($wishlist == true){
+        echo "<button class='wishlist-btn active' type='button' ><i class='fa-solid fa-heart' ></i></button>"; }
+      else{
+        echo "<button class='wishlist-btn' type='button' ><i class='fa-regular fa-heart' ></i></button>"; }
+         ?></div>
    </div>
 
    <div class="product-detail-info">
@@ -47,7 +65,7 @@ $categoryquery = "SELECT id, name FROM `category` WHERE id = '$cat_id'";
      <?php if($product['stock_quantity'] > 0): ?>
        <p class="in-stock">In Stock </p>
      <?php else: ?>
-       <p class="out-of-stock">Out of Stock</p>
+       <p class="out-of-stock"  >Out of Stock</p>
      <?php endif; ?>
 
      <div class="product-description">

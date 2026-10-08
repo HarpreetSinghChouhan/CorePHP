@@ -10,6 +10,7 @@ $(document).ready(function () {
     function initUserTable() {
         table = $("#user_datatable").DataTable({
             ajax: {
+                type:'GET',
                 url: "/CorePHP/admin/backend/user/GetUsers.php",
                 dataSrc: function (json) {
                     return Array.isArray(json) ? json : (json.data || []);

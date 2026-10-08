@@ -145,6 +145,7 @@ $(document).ready(function () {
     })
     .done(function (res) {
       if (res.status === "success") {
+        window.location = "/CorePHP/login.php"
         // goToStep(2);
       } else {
         showServerErrors(res);
