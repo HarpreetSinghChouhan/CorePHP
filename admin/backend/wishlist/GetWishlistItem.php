@@ -33,7 +33,7 @@ if($_SERVER["REQUEST_METHOD"] != "GET"){
         ON p.id = w.product_id
         LEFT JOIN `user` AS u 
         ON u.id = w.user_id 
-        WHERE w.user_id='$userid' AND w.is_deleted != '1'
+        WHERE w.user_id='$userid' AND w.is_active != '1'
         GROUP BY w.id" ;
         $resultwishlist = mysqli_query($conn,$selectwishlist);
         // echo "<pre>";

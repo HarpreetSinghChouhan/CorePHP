@@ -47,11 +47,13 @@ $categoryquery = "SELECT id, name FROM `category` WHERE id = '$cat_id'";
    <div class="product-detail-image">
      <img src="<?php echo htmlspecialchars($image); ?>" 
           alt="<?php echo htmlspecialchars($product['name']); ?>">
-      <div><?php if($wishlist == true){
-        echo "<button class='wishlist-btn active' type='button' ><i class='fa-solid fa-heart' ></i></button>"; }
-      else{
-        echo "<button class='wishlist-btn' type='button' ><i class='fa-regular fa-heart' ></i></button>"; }
-         ?></div>
+         <div>
+  <button class="wishlist-btn <?php echo $wishlist ? 'active' : ''; ?>"
+          type="button"
+          data-product-id="<?php echo $product['id']; ?>">
+    <i class="<?php echo $wishlist ? 'fa-solid' : 'fa-regular'; ?> fa-heart"></i>
+  </button>
+</div>
    </div>
 
    <div class="product-detail-info">
@@ -89,17 +91,36 @@ $categoryquery = "SELECT id, name FROM `category` WHERE id = '$cat_id'";
 
   <div class="related-grid">
     <?php
-    $getproductsquery = "SELECT * FROM product WHERE category_id = '$categoryid' AND id != '$product_id'";
+   
+$wishlistIds = [];
+if (isset($_SESSION["user_id"])) {
+  $uid = intval($_SESSION["user_id"]);
+  $wres = mysqli_query($conn, "SELECT product_id FROM `wishlist` WHERE user_id = '$uid'");
+  while ($w = mysqli_fetch_assoc($wres)) {
+    $wishlistIds[] = $w['product_id'];
+  }
+}
+$getproductsquery = "SELECT * FROM product WHERE category_id = '$categoryid' AND id != '$product_id'";
     $queryresult = mysqli_query($conn, $getproductsquery);
-
     if (mysqli_num_rows($queryresult) > 0):
       while ($row = mysqli_fetch_assoc($queryresult)):
         $relImage = 'data:image/jpeg;base64,' . base64_encode($row['image']);
+        $relWish = in_array($row['id'], $wishlistIds);
     ?>
       <div class="related-card">
-        <a href="product.php?id=<?php echo $row['id']; ?>" class="related-img">
+        <!-- <a href="product.php?id=<?php echo $row['id']; ?>" class="related-img">
           <img src="<?php echo $relImage; ?>" alt="<?php echo htmlspecialchars($row['name']); ?>">
-        </a>
+        </a> -->
+        <div class="related-img-wrap">
+  <a href="product.php?id=<?php echo $row['id']; ?>" class="related-img">
+    <img src="<?php echo $relImage; ?>" alt="<?php echo htmlspecialchars($row['name']); ?>">
+  </a>
+  <button class="wishlist-btn <?php echo $relWish ? 'active' : ''; ?>"
+          type="button"
+          data-product-id="<?php echo $row['id']; ?>">
+    <i class="<?php echo $relWish ? 'fa-solid' : 'fa-regular'; ?> fa-heart"></i>
+  </button>
+</div>
 
         <div class="related-body">
           <h3 class="related-name">

@@ -4,8 +4,9 @@
    ========================================================================== */
 
 :root {
-  --navy: #16243F;
-  --navy-light: #223256;
+  /* --navy: #16243F; */
+  --navy: #7221eb;
+  --navy-light: #792af6;
   --gold: #E1A83E;
   --gold-dark: #C68F2C;
   --bg: #FBFAF7;
@@ -929,6 +930,7 @@ footer {
 .out-stock-card{
   background-color: #f5f5f5;
 }
+
 .products-section {
   padding: 40px 60px;
   background: #f9f9f9;
@@ -1250,6 +1252,30 @@ footer {
     flex: none;
   }
 }
+.product-detail-image,
+.related-img-wrap {
+  position: relative;
+}
+
+.wishlist-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: #fff;
+  color: #888;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: 0.2s;
+  z-index: 2;
+}
+
+.wishlist-btn:hover { color: #ff6600; transform: scale(1.1); }
+.wishlist-btn.active { color: #e0245e; }
 
 .pagination .page-btn.is-disabled {
     opacity: .4;
@@ -1387,3 +1413,27 @@ footer {
       stroke-dashoffset: 0;
     }
   }
+.search-div #SearchProduct {
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid black;
+    min-width:300px ;
+    
+}
+.search-div{
+  display: flex;
+  gap: 10px;
+}
+.search-div #SearchProduct_Button{
+  border-radius:var(--radius-s);
+  background-color: var(--navy-light);
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  color: whitesmoke ;
+}
+.search-div #SearchProduct_Button:hover {
+ background-color: var(--navy-light);
+ transform: scale(1.1);
+ color: white;
+}

@@ -13,9 +13,8 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     INNER JOIN `category`
     ON category.id = product.category_id
     LEFT JOIN `wishlist` AS w
-    ON w.product_id = product.id AND w.user_id = '$user_id'
-    WHERE product.is_deleted != '1'
-    AND product.created_at >= NOW() - INTERVAL 360 HOUR
+    ON w.product_id = product.id AND w.user_id = '$user_id' AND w.is_active != '1'
+    WHERE product.is_deleted != '1' AND product.created_at >= NOW() - INTERVAL 168 HOUR
     ORDER BY product.created_at DESC";
 
     $result = mysqli_query($conn, $query);

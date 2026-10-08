@@ -21,14 +21,26 @@ require_once  './../common/sidebar.php';
                 <div class="top">
                     <div class="icon-circle"><i class="fa-solid fa-cart-shopping"></i></div>
                 </div>
-               <div style="display:flex;justify-content:space-between" > <p>Added Card Item </p> <h3 class="cart-count dashboard-item-list" >0</h3></div>
+               <div style="display:flex;justify-content:space-between" > <p class="cart-link-btn" >Added Card Item </p> <h3 class="cart-link-btn dashboard-item-list" >0</h3></div>
             </div>
             <div class="summary-card card-orange">
+                <?php
+                $select = "SELECT Count(*) AS total_count FROM `wishlist` WHERE user_id = '$user_id' AND is_active != 1 ";
+                $query = mysqli_query($conn,$select);
+                $wishlistresult = mysqli_fetch_assoc($query); 
+                ?>
+                <div class="top">
+                    <div class="icon-circle"><i class="fa-solid fa-heart"></i></div>
+                </div>
+               <div style="display:flex;justify-content:space-between" > <p class="wishlist-link-btn" >Wishlist Item </p> <h3 class="dashboard-item-list wishlist-link-btn" >  <?php echo $wishlistresult['total_count'] ?> </h3></div>
+            </div>
+            <!-- <div class="summary-card card-orange">
                 <div class="top">
                     <div class="icon-circle"><i class="fa-regular fa-message"></i></div>
                 </div>
-               <div style="display:flex;justify-content:space-between" > <p>Added Card Item </p> <h3 class="cart-count dashboard-item-list" >0</h3></div>
-            </div>
+                <h3 > <span class="wishlist-link-btn"  > </span></h3>
+                <p ><span class="wishlist-link-btn"  >Wishlist Item </span> </p>
+            </div> -->
         </div>
 
     <div class="table-div">

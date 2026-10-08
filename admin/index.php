@@ -3,7 +3,7 @@
 $_SESSION_ROLE_OVERRIDE = 'Admin'; 
 require_once __DIR__ . '/common/header.php';
 require_once __DIR__ . '/common/sidebar.php';
-$query = "SELECT * FROM user WHERE role='user'";
+$query = "SELECT * FROM user WHERE role='user' AND is_deleted !='1'";
  $result = mysqli_query($conn,$query);
    $total_users = mysqli_num_rows($result);
 ?>
@@ -16,17 +16,22 @@ $query = "SELECT * FROM user WHERE role='user'";
         <p class="subtitle">Overview of platform activity and statistics.</p>
 
         <div class="stat-cards">
-            <div class="stat-card">
-                <h3><?php echo $total_users  ?></h3>
-                <p>Total Users</p>
+            <div class="stat-card"  >
+                <h3 class="user-link-btn" ><?php echo $total_users  ?></h3>
+                <p class="user-link-btn" >Total Users</p>
             </div>
             <div class="stat-card orange">
-                <h3>342</h3>
-                <p>Pending Orders</p>
+                <?php
+                $orderquery = "SELECT COUNT(*) AS total_count FROM `order` WHERE is_deleted !='1'";
+                $result = mysqli_query($conn,$orderquery);
+                $mysqlresult = mysqli_fetch_assoc($result); 
+                ?>
+                <h3 class="order-link-btn" ><?php echo $mysqlresult["total_count"] ?></h3>
+                <p class="order-link-btn" >Pending Orders</p>
             </div>
             <div class="stat-card green">
-                <h3>$48,290</h3>
-                <p>Total Revenue</p>
+                <h3 class="order-link-btn"  >$48,290</h3>
+                <p class="order-link-btn" > Total Revenue</p>
             </div>
             <div class="stat-card red">
                 <h3>8</h3>

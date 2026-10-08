@@ -1545,3 +1545,10 @@ table.dataTable tbody td.action-cell .btn-icon {
     .dt-search input { width: 100%; }
     .table-header { padding: 5px 12px; }
 }
+
+.user-link-btn{
+    cursor: pointer;
+}
+.order-link-btn{
+  cursor: pointer;
+}

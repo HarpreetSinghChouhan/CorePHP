@@ -12,8 +12,12 @@ if($_SERVER["REQUEST_METHOD"] === "GET"){
  while($row = mysqli_fetch_assoc($result)){
     // $product[] = $row;
     $base64Image = 'data:image/jpeg;base64,' . base64_encode($row['image']);
+    $stock = "In Stock";
+    if($row["stock_quantity"] == 0){
+        $stock = "Out of Stock";
+     };
     $object = [   
-         
+        "stock" =>$stock,
         "id" => $row['id'],
         "name" => $row['name'],
         "category_name" => $row['category_name'],

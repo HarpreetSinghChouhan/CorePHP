@@ -20,11 +20,12 @@ if (mysqli_num_rows($userresult) == 0) {
     exit;
 }
 
-$selectwishlist = "SELECT w.id,w.user_id,w.product_id, p.name AS product_name, p.price, p.description, p.sku, p.image
+       $selectwishlist = "SELECT w.id,w.user_id,w.product_id, 
+        p.name AS product_name, p.price, p.description, p.sku, p.image
         FROM `wishlist` AS w
         LEFT JOIN `product` AS p
         ON p.id = w.product_id
-        WHERE w.user_id = '$userid' AND w.is_deleted != '1'";
+        WHERE w.user_id = '$userid' AND w.is_active != '1'";
 
 $resultwishlist = mysqli_query($conn, $selectwishlist);
 

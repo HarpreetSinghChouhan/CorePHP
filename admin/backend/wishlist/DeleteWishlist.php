@@ -28,7 +28,7 @@ if (!$id) {
     exit;
 }
 
-$deletequery = "UPDATE `wishlist` SET is_deleted = 1 WHERE user_id = $id AND is_deleted = 0";
+$deletequery = "UPDATE `wishlist` SET is_active = `1` WHERE user_id = $id AND is_deleted = 0";
 $resultdelete = mysqli_query($conn, $deletequery);
 
 if ($resultdelete && mysqli_affected_rows($conn) > 0) {

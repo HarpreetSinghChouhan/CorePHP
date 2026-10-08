@@ -1,140 +1,493 @@
-.FormDiv{
-   border: none;
-   background: white;
-   border-radius: 8px;
-   padding: 20px 15px 20px 15px;
-   width: 360px;
-   margin: 0px auto;
-}
-.input-feild{
-    width: 90%;
-    padding: 15px;
-    margin: 5px 0px 10px 0px;
-    border: none;
-    border-bottom: 1.5px solid #8b8585;
-}
-.submit-button{
-    display: block;
-    width: 95%;
-    padding: 15px 25px;
-    border: none;
-    color: white;
-    background: linear-gradient(120deg, #3498db, #8e44ad);
-}
-.submit-button:hover{
-    cursor: pointer;
-    background: linear-gradient(120deg, #8e44ad, #3498db);
-}
-.label-input-feild{
-    color: #8b8585;
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
 
-}
-.select-field{
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    color: #8b8585;
-    width: 95%;
-    padding: 15px 12px;
-    margin: 5px 0px 10px 0px;
-    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27292.4%27%20height%3D%27292.4%27%3E%3Cpath%20fill%3D%27%23333333%27%20d%3D%27M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%27%2F%3E%3C%2Fsvg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px top 50%;
-    background-size: 12px auto; 
-    cursor: pointer;
-    border: none;
-    border-bottom: 1.5px solid #8b8585;
-}
-.select-field:focus{
-    outline: none;
-    border-bottom: 2.5px solid #333;
-}
-.role-option{
-    /* padding: 15px 12px; */
-    line-height: 7.5;
-    color: #8b8585;
-}
-.input-feild:focus {
-    outline: none;
-    border: none ;
-    border-bottom: 2.5px solid #333;
+:root {
+  --vr-ink: #6d28d9;
+  --vr-ink-soft: #5b21b6;
+  --vr-paper: #f6f7fb;
+  --vr-card: #ffffff;
+  --vr-line: #e2e0f0;
+  --vr-text: #2d2d3a;
+  --vr-muted: #6b6b80;
+  --vr-accent: #c4b5fd;
+  --vr-accent-dark: #a78bfa;
+  --vr-tint: #f5f3ff;
+  --vr-danger: #dc2626;
+  --vr-ok: #16a34a;
+  --vr-radius: 10px;
+  --vr-ring: rgba(109, 40, 217, 0.18);
 }
 
-.radio-label{
-    color: #555;
-    /* margin: 0px 10px; */
+body.auth-body {
+  margin: 0;
+  font-family: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: var(--vr-text);
+  background: var(--vr-paper);
 }
-.input-radio-feild{
-    margin: 15px 10px;
-}
-/* input[type=text] {
-border: none;
-border-bottom: 1px solid black;
-} */
-.page-link{
-    /* color: black; */
-    /* text-decoration-color: black; */
-    color: #1A6393;
-    text-decoration: none;
-}
-.link-div{
-    text-align: center;
-    margin: 20px 0px;
-}
-/* .page-link :hover {
-    color: blue !important;
 
-} */
-.login-page{
+.auth-body *,
+.auth-body *::before,
+.auth-body *::after {
+  box-sizing: border-box;
+}
+
+/* ---------- Layout ---------- */
+.auth-shell {
+  display: grid;
+  grid-template-columns: minmax(340px, 5fr) 7fr;
+  min-height: 100vh;
+}
+
+/* ---------- Left brand panel ---------- */
+.auth-aside {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 40px;
+  background: var(--vr-ink);
+  color: #fff;
+}
+
+.auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.auth-brand i {
+  color: var(--vr-accent);
+}
+
+.auth-pitch h1 {
+  margin: 0 0 14px;
+  font-size: clamp(32px, 3.6vw, 46px);
+  line-height: 1.08;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.auth-pitch p {
+  margin: 0;
+  max-width: 340px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.auth-points {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 18px;
+}
+.auth-point {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.auth-point-icon {
+  flex: none;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--vr-ink-soft);
+  color: var(--vr-accent);
+  font-size: 15px;
+}
+.auth-point strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+}
+.auth-point span {
+  display: block;
+  margin-top: 2px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* diagonal stripes, bottom-right corner */
+.auth-stripes {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 160px;
+  height: 120px;
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(196, 181, 253, 0.28) 0 12px,
+    transparent 12px 26px
+  );
+  -webkit-mask-image: linear-gradient(135deg, transparent 35%, #000 36%);
+  mask-image: linear-gradient(135deg, transparent 35%, #000 36%);
+  pointer-events: none;
+}
+
+/* ---------- Right form area ---------- */
+.auth-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+}
+.auth-wrap {
+  width: 100%;
+  max-width: 432px;
+}
+
+.auth-mobile-brand {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--vr-ink);
+}
+
+.auth-title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: #1f1f2b;
+}
+.auth-sub {
+  margin: 6px 0 24px;
+  font-size: 14px;
+  color: var(--vr-muted);
+}
+
+.auth-card {
+  background: var(--vr-card);
+  border: 1px solid var(--vr-line);
+  border-radius: 14px;
+  padding: 24px;
+}
+
+/* ---------- Form ---------- */
+.vr-field {
+  margin-bottom: 18px;
+}
+.vr-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f1f2b;
+}
+.vr-input {
+  display: block;
+  width: 100%;
+  height: 44px;
+  padding: 0 14px;
+  font: inherit;
+  font-size: 14px;
+  color: var(--vr-text);
+  background: #fff;
+  border: 1px solid var(--vr-line);
+  border-radius: var(--vr-radius);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.vr-input::placeholder {
+  color: #a3a3b5;
+}
+.vr-input:hover {
+  border-color: var(--vr-accent-dark);
+}
+.vr-input:focus {
+  outline: none;
+  border-color: var(--vr-ink);
+  box-shadow: 0 0 0 4px var(--vr-ring);
+}
+
+/* password + eye */
+.vr-pw {
+  position: relative;
+}
+.vr-pw .vr-input {
+  padding-right: 44px;
+}
+.vr-pw .eye-icon {
+  position: absolute;
+  top: 50%;
+  left: auto;
+  right: 6px;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  color: var(--vr-muted);
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+}
+.vr-pw .eye-icon:hover {
+  color: var(--vr-ink);
+  background: var(--vr-tint);
+}
+
+/* validation messages (filled by login.js) */
+.EmailError,
+.PasswordError {
+  min-height: 0;
+  margin-top: 6px;
+  font-size: 12.5px;
+  color: var(--vr-danger) !important;
+}
+.EmailError:empty,
+.PasswordError:empty {
+  display: none;
+}
+
+.vr-row {
+  display: flex;
+  justify-content: flex-end;
+  margin: -6px 0 18px;
+}
+
+.vr-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 46px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--vr-ink);
+  border: 0;
+  border-radius: var(--vr-radius);
+  cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s;
+}
+.vr-btn:hover {
+  background: var(--vr-ink-soft);
+}
+.vr-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--vr-ring);
+}
+
+/* ---------- Links ---------- */
+.auth-foot {
+  margin-top: 20px;
+  display: grid;
+  gap: 10px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--vr-muted);
+}
+.auth-link {
+  color: var(--vr-ink);
+  font-weight: 600;
+  text-decoration: none;
+}
+.auth-link:hover {
+  color: var(--vr-ink-soft);
+  text-decoration: underline;
+}
+.auth-link:focus-visible {
+  outline: 2px solid var(--vr-ring);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .auth-shell {
+    grid-template-columns: 1fr;
+  }
+  .auth-aside {
+    display: none;
+  }
+  .auth-mobile-brand {
     display: flex;
-    margin: 0px;
-    min-height: 100vh;
-    background: linear-gradient(120deg, #3498db, #8e44ad);
-   justify-content: center; 
-   align-items: center;
-   padding:15px;
+  }
+  .auth-main {
+    align-items: flex-start;
+    padding-top: 48px;
+  }
 }
-.radio-input-label{
-    margin: 0px 10px;
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 18px;
+  }
+  .auth-title {
+    font-size: 24px;
+  }
 }
-body{
-    margin: 0px;
-    font-family:'Times New Roman', Times, serif ;
+
+/* =====================================================
+   Register page additions (same file, shared auth theme)
+   ===================================================== */
+.auth-aside {
+  position: sticky;
+  top: 0;
+  height: 100vh;
 }
-.table {
-    border-collapse: collapse;
-    width: 100%;
+.auth-wrap.wide {
+  max-width: 520px;
 }
-.body-data{
-    text-align: center;
+.auth-body .auth-main {
+  min-height: 100vh;
 }
-.table tr td,th{
-    border:1px solid #555;
-    
+
+.vr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
 }
-.container{
-    max-width: 1280px;
-    margin: 0px auto;
-    padding: 10px;
-    /* border: 1px solid black ; */
+.vr-grid .vr-field {
+  min-width: 0;
 }
-#PasswordControl{
-    color: #414141;
+
+/* date input */
+.vr-input[type="date"] {
+  padding-right: 10px;
+  color: var(--vr-text);
 }
-.checkbox-input-feild{
-    margin: 15px 7px;
+
+/* gender segmented control */
+.vr-seg {
+  display: flex;
+  gap: 8px;
 }
-.eye-icon{
-    position: relative;
-    top:0px ;
-    left: 310px;
-    cursor:pointer;
+.vr-seg input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
 }
-.position-relative{
-    position: absolute;
-    width: 323px;
-    /* margin-bottom:20px ; */
+.vr-seg label {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  height: 44px;
+  padding: 0 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--vr-muted);
+  background: #fff;
+  border: 1px solid var(--vr-line);
+  border-radius: var(--vr-radius);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
 }
-.btn-2 {
-  margin-top: 40px;
+.vr-seg label:hover {
+  border-color: var(--vr-accent-dark);
 }
+.vr-seg input:checked + label {
+  color: var(--vr-card);
+  font-weight: 700;
+  background: var(--vr-ink);
+  border-color: var(--vr-ink);
+}
+.vr-seg input:focus-visible + label {
+  box-shadow: 0 0 0 4px var(--vr-ring);
+}
+
+/* show password checkbox */
+.vr-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 2px 0 20px;
+}
+.vr-check input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--vr-ink);
+  cursor: pointer;
+}
+.vr-check label {
+  font-size: 13.5px;
+  color: var(--vr-muted);
+  cursor: pointer;
+}
+
+.GenderError,
+.AgeError,
+.UserNameError,
+.PhoneNumberError,
+.ConfirmPasswordError {
+  margin-top: 6px;
+  font-size: 12.5px;
+  color: var(--vr-danger) !important;
+}
+.GenderError:empty,
+.AgeError:empty,
+.UserNameError:empty,
+.PhoneNumberError:empty,
+.ConfirmPasswordError:empty {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .auth-aside {
+    position: static;
+    height: auto;
+  }
+}
+@media (max-width: 480px) {
+  .vr-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+/* Customer login/register extras.
+   Base styling comes from vendor register.css (.vr-* classes).
+   Is file ko register.css ke BAAD link karna. */
+
+/* empty error boxes (filled by JS) take no space */
+.vr-body .vr-error:empty { display: none; }
+.vr-body .vr-error { display: block; }
+
+/* password field with eye button */
+.vr-body .vr-pass .eye-icon {
+  position: absolute;
+  left: auto;
+  right: 4px;
+  top: 50%;
+  display: grid;
+  place-items: center;
+}
+.vr-body .vr-pass .eye-icon i { pointer-events: auto; }
+
+/* show-password checkbox */
+.vr-body .vr-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.vr-body .vr-check input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--vr-ink);
+  cursor: pointer;
+}
+.vr-body .vr-check label {
+  font-size: 0.92rem;
+  color: var(--vr-muted);
+  cursor: pointer;
+}
+
+/* links */
+.vr-body .vr-link {
+  color: var(--vr-ink);
+  font-weight: 600;
+  text-decoration: none;
+}
+.vr-body .vr-link:hover { color: var(--vr-ink-soft); text-decoration: underline; }
+.vr-body .vr-forgot { justify-self: end; font-size: 0.88rem; }
+.vr-body .vr-foot + .vr-foot { margin-top: 10px; }
+.vr-body .vr-foot a { text-decoration: none; }
+.vr-body .vr-foot a:hover { text-decoration: underline; }

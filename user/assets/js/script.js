@@ -1,6 +1,17 @@
 $(document).ready(function () {
-
+ const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
     $(document).on("change", "#ChangePassword", function () {
+        
         //    console.log("Work ing ")
         if ($(this).is(":checked")) {
             $("#passwordGroup").slideDown();
@@ -45,17 +56,14 @@ $(document).ready(function () {
          const password = $("#Password");
          const phoneError = $(".PhoneError")
          const phonenumber = $("#Phone");   
-    // const PasswordControl = $("#PasswordControl");
-            // console.log("Hello  working hello");
          if ($("#ChangePassword").is(":checked")) {
-            // console.log("working hello");
             $("#passwordGroup").slideDown();
-            // $("#Password").prop("required", true);
              const password = $("#Password");
              const ConfirmPassword = $("#ConfirmPassword");
-             const ConfirmPasswordValue = ConfirmPassword.trim().val();
-             
+             const ConfirmPasswordValue = ConfirmPassword.val().trim(); 
              const PasswordValue = password.val().trim();
+             $("#PasswordError").html("");
+              $("#ConfirmPasswordError").html(""); 
           if(PasswordValue.length < 6 || PasswordValue === "" ){
            $("#PasswordError").html("Password Are required and minimum 6 letter");
            password.focus();
@@ -81,7 +89,7 @@ $(document).ready(function () {
     const phonenumberPattern = /^\+\d{1,3}\s\d{7,15}$/; 
     const gendervalue = $('#Gender').val() || "";
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-     $(".UserNameError").html("");
+     $(".UserNameError").html("");  
      $(".EmailError").html("");
      $(".GenderError").html("");
      $(".AgeError").html("");
@@ -128,13 +136,12 @@ if (gendervalue === "") {
                     return; 
                 }
                 if (response.trim() === "success") {
-                   swal.fire({
-                    'title':'User Updated Successfull',
-                    'icon':'success'
-                   })
-                    window.location = "./profile.php";
+                    Toast.fire({
+                    'icon': "success",
+                    'title':'profile Updated Successfull',
+                   }).then(()=>{window.location = "./profile.php"})
+                    
                 } else {
-                    // alert(response);
                     swal.fire({
                         'title':response
                     })

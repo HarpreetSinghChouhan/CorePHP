@@ -1,7 +1,17 @@
 
 $(document).ready(function () {
     let table = null;
-
+     const Toast = swal.mixin({
+      toast: true,
+      position: "top-end",  
+      showConfirmButton: false,
+      timer: 3000, 
+      timerProgressBar: true,
+      didOpen: (toast) =>{
+        toast.onmouseenter  = swal.stopTimer;
+        toast.onmouseleave = swal.resumeTimer;
+      }
+    });
     const esc = (s) => $("<div>").text(s ?? "").html();
 
     if ($("#product_datatable").length) {
@@ -35,6 +45,16 @@ $(document).ready(function () {
                       return esc(d.length > 40 ? d.slice(0, 40) + "..." : d);
                   } },
                 { data: "stock_quantity" },
+                {data:"stock",
+                     render: (d) => {
+                           if (d === "In Stock") {
+                              return `<span style="color: green; font-weight: 600;">${esc(d)}</span>`;
+                               } else if (d === "Out of Stock") {
+                             return `<span style="color: red; font-weight: 600;">${esc(d)}</span>`;
+                                   }
+                        return esc(d);
+                     }
+                  },
                 { data: null, orderable: false, searchable: false, className: "action-cell",
                   render: () => `
                     <button type="button" class="btn-icon edit-link-btn edit-user" title="Edit">
@@ -227,13 +247,13 @@ $(document).ready(function () {
         response = response.trim();
 
         if (response === "Exited") {
-            Swal.fire({
+            Toast.fire({
                 title: "Product Already Exists",
                 icon: "warning"
             });
         } else if (response === "Success") {
-            Swal.fire({
-                title: "Product Created Successfully",
+            Toast.fire({
+                title: "Product Updated Successfully",
                 icon: "success"
             }).then(() => {
                 window.location = "./index.php";
@@ -410,12 +430,12 @@ $(document).ready(function () {
         response = response.trim();
 
         if (response === "Exited") {
-            Swal.fire({
+            Toast.fire({
                 title: "Product Already Exists",
                 icon: "warning"
             });
         } else if (response === "Success") {
-            Swal.fire({
+            Toast.fire({
                 title: "Product Created Successfully",
                 icon: "success"
             }).then(() => {

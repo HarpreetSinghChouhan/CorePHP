@@ -138,48 +138,28 @@ body {
     font-size: 15px;
     position: relative;
 }
-
 .user-navbar .cart-count {
     position: absolute;
     top: -6px;
     right: -6px;
 
-    min-width: 17px;
-    height: 17px;
-    padding: 0 4px;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    box-sizing: border-box;
 
-    border-radius: 50%;
-    background: #e63946;
+    border-radius: 999px;      /* 1 digit = circle, 2+ digit = pill */
+    background: #6d28d9;
     color: #fff;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 600;
     line-height: 1;
-
-    /* border: 2px solid #fff; */
 }
-
-.user-navbar .cart-count {
-    position: absolute;
-    align-items: center;
-    top: -8px;
-    right: -10px;
-    padding: 3px 0px 4px 7px ;
-    background: #6d28d9;
-    color: #fff;
-    width: 23px ;
-    height: 23px;
-    border-radius: 50%;
-    font-size: 17px;
-    font-weight: 400;
-    display: block;
-    line-height: 1;
-}
-
 /* ---------- Content ---------- */
 .user-content {
     padding: 10px 30px 30px;
@@ -1214,4 +1194,16 @@ body {
 .table-div table.dataTable tbody td:last-child,
 .table-div table.dataTable tbody td.action-cell {
   text-align: center !important;
+}
+
+.order-link-btn{
+    cursor: pointer;
+    display:block;
+}
+
+.cart-link-btn{
+    cursor: pointer;
+}
+.wishlist-link-btn{
+    cursor: pointer;
 }

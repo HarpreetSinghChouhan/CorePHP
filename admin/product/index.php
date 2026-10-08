@@ -15,7 +15,7 @@ require_once __DIR__ . '/../common/sidebar.php';
             </div>
             <table id="product_datatable" >
                 <thead>
-                    <tr><th>Serial No</th><th>Image</th><th>Name</th><th>Sku</th><th>Price</th><th>Category Name</th><th>Product Description</th><th>Stock</th><th>Action</th></tr>
+                    <tr><th>Serial No</th><th>Image</th><th>Name</th><th>Sku</th><th>Price</th><th>Category Name</th><th>Product Description</th><th>Quantity</th> <th>Stock</th><th>Action</th></tr>
                 </thead>
                 <tbody class="product-tbody" >
                 </tbody>

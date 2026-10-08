@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    var perPage = 4;
+    var perPage = 12;
     var allProducts = [];
     var currentPage = 1;
 
@@ -9,6 +9,29 @@ $(document).ready(function () {
         loadProducts();
     }
 
+   $(document).on("click","#SearchProduct_Button",function(){
+    //    console.log("Working");
+      let search =  $("#SearchProduct").val().trim();
+      if(search == ""){
+         
+      }
+      else{
+         $.ajax({
+            type: "POST",
+            url: "/CorePHP/user/backend/product/FilterProduct.php",
+            data:{'search':search},
+            dataType: "json",
+            success: function (items) {
+                allProducts = items;
+                currentPage = 1;
+                showPage();
+            },
+            error: function () {
+                $(".product-grid").html("<p>Something went wrong.</p>");
+            }
+        });
+      }
+   })
     function showMessage(type, text) {
         Swal.fire({
             toast: true,
@@ -48,7 +71,7 @@ $(document).ready(function () {
             }
         });
     }
-
+    
     function makeCard(item) {
 
           var heartClass = item.wishlist ? "active" : "";

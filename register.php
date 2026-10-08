@@ -2,60 +2,138 @@
 include "./includes/header.php";
 include_once "./auth/verify.php";
 ?>
+<script src="./assets/js/script.js" defer></script>
 
-<script src="./assets/js/script.js" defer ></script>
-<body>
-    <main class="login-page" >
-        <div class="FormDiv" >
-            <div style="text-align:center" ><h2>Register Page</h2></div>
-        <form id="FormSubmit" method="POST">
-<!--             
-            <label for="UserName">UserName :-</label>
-            <input type="text" name="UserName" id="UserName" placeholder="Enter Your UserName"  class="input-feild" /> <br>
-            <div class="UserNameError" style="color:red" >
-            </div> -->
-            
-            <!-- <label for="UserName" class="label-input-feild" >UserName :</label> -->
-            <input type="text" name="UserName" id="UserName" class="input-feild"  placeholder="Enter Your UserName"/> <br>
-            <div class="UserNameError" style="color:red" >
-            </div>
-            <!-- <label for="Email" class="label-input-feild">Email : </label> -->
-            <input type="email" name="Email" id="Email" placeholder="Enter Your Email"  class="input-feild"/> <br>
-             <div class="EmailError" style="color:red" >
-            </div>
-            <label class="label-input-feild radio-input-label ">Gender :</label> <br>
-                        <input type="radio" name="Gender" id="male" value="male" class="input-radio-feild" /> <label for="male" class="radio-label" >Male</label>
-                        <input type="radio" name="Gender" id="female" value="female" class="input-radio-feild"/><label for="female" class="radio-label" >FeMale</label> 
-                        <input type="radio" name="Gender" id="other" value="other" class="input-radio-feild"/><label for="other" class="radio-label" >Other</label> <br>
-            <div class="GenderError" style="color:red" >
-            </div>
-            <!-- <label for="Age" class="label-input-feild"> Age : </label> -->
-            <input type="date" name="Age" id="Age" placeholder="Enter Your Age"  class="input-feild" /> <br>
-              <div class="AgeError" style="color:red" >
-            </div>
-             <input type="tel" name="PhoneNumber"   title="Enter phone number in format: +<country code> <number> e.g. +91 9876543210" id="PhoneNumber" placeholder="+91 9876554526"  class="input-feild" /> <br>
-             <div class="PhoneNumberError" style="color:red" >
-            </div>
-            <!-- <label for="Password" class="label-input-feild">Password : </label> -->
-            <input type="password" name="Password" id="Password" placeholder="Enter Your Password"  class="input-feild" /> <br>
-             <div class="PasswordError" style="color:red" >
-            </div>
-            <!-- <label for="ConfirmPassword" class="label-input-feild">Confirm Password : </label> -->
-            <input type="password" name="ConfirmPassword" id="ConfirmPassword" placeholder="Enter Confirm Password"  class="input-feild" /> <br>
-            <!-- <i class="fa-solid fa-eye" id="togglePassword"></i> -->
-            <div class="ConfirmPasswordError" style="color:red" >
-            </div>
-            <input type="checkbox" name="ShowHide" id="ShowHide" class="checkbox-input-feild" />
-            <label for="ShowHide" id="PasswordControl" >Show Password </label>
-            <!-- <label for="UserName">UserName </label>
-            <input type="t*ext" name="UserName" id="UserName" placeholder="Enter UserName"  class="input-feild"  /> <br> -->
-            <input type="submit" value="Register" class="submit-button">
+<body class="auth-body">
+<div class="auth-shell">
 
-        </form>
-           <div class="link-div" >have an account?<a href="./login.php" class="page-link" >Login Page</a></div>
+    <!-- Left brand panel -->
+    <aside class="auth-aside">
+        <div class="auth-brand">
+            <i class="fa-solid fa-store"></i> MyApp
+        </div>
 
-    </div>
+        <div class="auth-pitch">
+            <h1>Create your account in a minute.</h1>
+            <p>Sign up to place orders, save items to your wishlist and keep track of everything in one dashboard.</p>
+        </div>
+
+        <div class="auth-points">
+            <div class="auth-point">
+                <div class="auth-point-icon"><i class="fa-solid fa-envelope"></i></div>
+                <div>
+                    <strong>Email and phone number</strong>
+                    <span>For your login and order updates.</span>
+                </div>
+            </div>
+            <div class="auth-point">
+                <div class="auth-point-icon"><i class="fa-solid fa-lock"></i></div>
+                <div>
+                    <strong>Secure password</strong>
+                    <span>Use at least 8 characters.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="auth-stripes" aria-hidden="true"></div>
+    </aside>
+
+    <!-- Right form area -->
+    <main class="auth-main">
+        <div class="auth-wrap wide">
+
+            <div class="auth-mobile-brand">
+                <i class="fa-solid fa-store"></i> MyApp
+            </div>
+
+            <h2 class="auth-title">Create your account</h2>
+            <p class="auth-sub">Fill in your details to get started</p>
+
+            <div class="auth-card">
+                <form id="FormSubmit" method="POST" novalidate>
+
+                    <div class="vr-field">
+                        <label for="UserName" class="vr-label">Username</label>
+                        <input type="text" name="UserName" id="UserName" class="vr-input"
+                               placeholder="Enter your username" autocomplete="username">
+                        <div class="UserNameError"></div>
+                    </div>
+
+                    <div class="vr-field">
+                        <label for="Email" class="vr-label">Email</label>
+                        <input type="email" name="Email" id="Email" class="vr-input"
+                               placeholder="you@example.com" autocomplete="email">
+                        <div class="EmailError"></div>
+                    </div>
+
+                    <div class="vr-grid">
+                        <div class="vr-field">
+                            <label for="Age" class="vr-label">Date of birth</label>
+                            <input type="date" name="Age" id="Age" class="vr-input">
+                            <div class="AgeError"></div>
+                        </div>
+
+                        <div class="vr-field">
+                            <span class="vr-label" id="GenderLabel">Gender</span>
+                            <div class="vr-seg" role="radiogroup" aria-labelledby="GenderLabel">
+                                <input type="radio" name="Gender" id="male" value="male">
+                                <label for="male">Male</label>
+
+                                <input type="radio" name="Gender" id="female" value="female">
+                                <label for="female">Female</label>
+
+                                <input type="radio" name="Gender" id="other" value="other">
+                                <label for="other">Other</label>
+                            </div>
+                            <div class="GenderError"></div>
+                        </div>
+                    </div>
+
+                    <div class="vr-field">
+                        <label for="PhoneNumber" class="vr-label">Phone number</label>
+                        <input type="tel" name="PhoneNumber" id="PhoneNumber" class="vr-input"
+                               placeholder="+91 9876543210"
+                               title="Enter phone number in format: +<country code> <number> e.g. +91 9876543210"
+                               autocomplete="tel">
+                        <div class="PhoneNumberError"></div>
+                    </div>
+
+                    <div class="vr-grid">
+                        <div class="vr-field">
+                            <label for="Password" class="vr-label">Password</label>
+                            <input type="password" name="Password" id="Password" class="vr-input"
+                                   placeholder="Enter password" autocomplete="new-password">
+                            <div class="PasswordError"></div>
+                        </div>
+
+                        <div class="vr-field">
+                            <label for="ConfirmPassword" class="vr-label">Confirm password</label>
+                            <input type="password" name="ConfirmPassword" id="ConfirmPassword" class="vr-input"
+                                   placeholder="Re-enter password" autocomplete="new-password">
+                            <div class="ConfirmPasswordError"></div>
+                        </div>
+                    </div>
+
+                    <div class="vr-check">
+                        <input type="checkbox" name="ShowHide" id="ShowHide">
+                        <label for="ShowHide" id="PasswordControl">Show password</label>
+                    </div>
+
+                    <button type="submit" class="vr-btn">
+                        Create account <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </form>
+            </div>
+
+            <div class="auth-foot">
+                <div>Already have an account? <a href="./login.php" class="auth-link">Log in</a></div>
+            </div>
+
+        </div>
     </main>
-    <?php 
+
+</div>
+
+<?php 
 include "./includes/footer.php";
 ?>

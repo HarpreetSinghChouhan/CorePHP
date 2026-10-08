@@ -1,6 +1,16 @@
 $(document).ready(function () {
     let table = null;
-
+     const Toast = swal.mixin({
+      toast: true,
+      position: "top-end",  
+      showConfirmButton: false,
+      timer: 3000, 
+      timerProgressBar: true,
+      didOpen: (toast) =>{
+        toast.onmouseenter  = swal.stopTimer;
+        toast.onmouseleave = swal.resumeTimer;
+      }
+    });
     const esc = (s) => $("<div>").text(s ?? "").html();
 
     if ($("#category_datatable").length) {
@@ -74,7 +84,7 @@ $("#AddCategoryForm").on("submit",function(e){
                     CategoryName.focus();
                 }
                 else if(response == "Success"){
-                    Swal.fire({
+                    Toast.fire({
                    'title':'Category Added SuccessFull',
                    'icon':'success'
                  }).then(()=>{
@@ -84,7 +94,7 @@ $("#AddCategoryForm").on("submit",function(e){
                  
                  }
                  else{
-                    Swal.fire({
+                    Toast.fire({
                         'title':response
                     })
                  }
@@ -119,7 +129,7 @@ $("#EditCategoryForm").on("submit",function(e){
                     CategoryName.focus();
                 }
                 else if(response == "Success"){
-                    Swal.fire({
+                    Toast.fire({
                    'title':'Category Updated SuccessFull',
                    'icon':'success'
                  }).then(()=>{
@@ -129,7 +139,7 @@ $("#EditCategoryForm").on("submit",function(e){
                  
                  }
                  else{
-                    Swal.fire({
+                    Toast.fire({
                         'title':response
                     })
                  }
@@ -163,7 +173,7 @@ $(document).on("click", ".delete-user", function () {
                         success: function (response) {
 
                             if (response.trim() === "success") {
-                             swal.fire({
+                             Toast.fire({
                                 'title':'Category are Deleted',
                                 'icon':'success'
                              });
@@ -172,7 +182,7 @@ $(document).on("click", ".delete-user", function () {
                              $(this).remove();
                            });
                             } else {
-                            swal.fire({
+                            Toast.fire({
                                 'title':`${response}`,
                                  'icon':'warning'
                             });
@@ -180,7 +190,7 @@ $(document).on("click", ".delete-user", function () {
                         },
 
                     error: function () {
-                      swal.fire({
+                      Toast.fire({
                         'title':'Something Are Wrong ',
                         'icon':'warning'
                       })

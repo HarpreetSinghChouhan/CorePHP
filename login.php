@@ -2,36 +2,81 @@
 include "./includes/header.php";
 include_once "./auth/verify.php";
 ?>
-<script src="./assets/js/login.js" defer ></script>
-<body>
-    <main class="login-page">
-        <div class="FormDiv" >
+<link rel="stylesheet" href="/CorePHP/vendor/assets/style/register.css">
+<script src="./assets/js/login.js" defer></script>
 
-            <div style="text-align:center" ><h2>Login Page</h2></div>
-        <form id="FormLogin" method="POST">
-           
+<body class="vr-body">
+  <div class="vr-shell">
 
-            <!-- <label for="Email" class="label-input-feild">Email : </label> -->
-            <input type="email" name="Email" id="Email" placeholder="Enter Your Email"  class="input-feild"/> <br>
-             <div class="EmailError" style="color:red" >
+    <!-- Left panel -->
+    <aside class="vr-aside">
+      <div class="vr-brand"><i class="fa-solid fa-store"></i> MyApp</div>
+
+      <div class="vr-pitch">
+        <h1>Welcome back. Your orders are waiting.</h1>
+        <p>Log in to track orders, manage your cart and wishlist, and pick up right where you left off.</p>
+      </div>
+
+      <ul class="vr-needs">
+        <li>
+          <span class="vr-ico"><i class="fa-solid fa-box"></i></span>
+          <div>
+            <strong>Track every order</strong>
+            <span class="vr-sub">See shipping updates in one place.</span>
+          </div>
+        </li>
+        <li>
+          <span class="vr-ico"><i class="fa-solid fa-heart"></i></span>
+          <div>
+            <strong>Wishlist and cart saved</strong>
+            <span class="vr-sub">Your picks stay with your account.</span>
+          </div>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Right: form -->
+    <main class="vr-main">
+      <div class="vr-card">
+        <h1 class="vr-title">Log in to your account</h1>
+        <p class="vr-lead">Enter your email and password to continue</p>
+
+        <section class="vr-panel">
+          <form id="FormLogin" class="vr-form" method="POST" novalidate>
+
+            <div class="vr-field">
+              <label for="Email">Email</label>
+              <input type="email" name="Email" id="Email" autocomplete="email" placeholder="you@example.com">
+              <small class="EmailError vr-error"></small>
             </div>
-            <!-- <label for="Password" class="label-input-feild">Password : </label> -->
-            <input type="password" name="Password" id="Password" placeholder="Enter Your Password"  class="input-feild position-relative" /> <br>
-            <span class="eye-icon" ><i id="EyeShowHide"  class="fa-regular fa-eye"></i></span>
 
-            <div class="PasswordError" style="color:red" >
+            <div class="vr-field">
+              <label for="Password">Password</label>
+              <div class="vr-pass">
+                <input type="password" name="Password" id="Password" autocomplete="current-password" placeholder="Enter your password">
+                <button type="button" class="eye-icon" aria-label="Show or hide password">
+                  <i id="EyeShowHide" class="fa-regular fa-eye"></i>
+                </button>
+              </div>
+              <small class="PasswordError vr-error"></small>
+              <a href="./forgetpassword.php" class="vr-link vr-forgot">Forgot password?</a>
             </div>
-           <input type="submit" value="Login" class="submit-button btn-2">
 
-        </form>
+            <div class="vr-actions">
+              <button type="submit" class="vr-btn vr-btn-primary">
+                Log in <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </form>
 
-         <div class="link-div" >Forget<a href="./forgetpassword.php" class="page-link" > Password?</a></div>
-         <div class="link-div" >Don't have an account?<a href="./register.php" class="page-link" >Register Page</a></div>
-         <div class=""  style="float:right" >Go To<a href="./home.php" class="page-link"  > Home page?</a></div>
-         
+          <p class="vr-foot">Don't have an account? <a href="./register.php">Register</a></p>
+          <p class="vr-foot"><a href="./home.php"><i class="fa-solid fa-house"></i> Back to home</a></p>
+        </section>
 
+      </div>
     </main>
-    
+  </div>
+
 <?php 
 include "./includes/footer.php";
 ?>
