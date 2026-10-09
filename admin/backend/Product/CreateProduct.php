@@ -1,9 +1,13 @@
 <?php
 
 include "../../../config/database.php";
-
+session_start();
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    if(!isset($_SESSION["user_id"])){
+        die("register are required");
+    };
 
+    $user_id = $_SESSION["user_id"] ?? '';
     $name = $_POST['ProductName'] ?? '';
     $sku = $_POST['ProductSku'] ?? '';
     $price = $_POST['Price'] ?? '';
@@ -39,9 +43,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
 
         $query = "INSERT INTO product
-        (category_id, name,price, sku, description, stock_quantity,  image)
+        (category_id,user_id, name,price, sku, description, stock_quantity,  image)
         VALUES
-        ('$cat_id', '$name','$price', '$sku', '$description', '$quantity', '$image')";
+        ('$cat_id','$user_id','$name','$price', '$sku', '$description', '$quantity', '$image')";
 
         $result = mysqli_query($conn, $query);
 

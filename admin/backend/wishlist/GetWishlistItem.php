@@ -25,7 +25,7 @@ if($_SERVER["REQUEST_METHOD"] != "GET"){
  $result = mysqli_fetch_assoc($queryresult);
  $userrole = $result["role"];
  if($userrole === "admin"){
-    $selectwishlist = "SELECT w.*, Count(u.id) AS wishlist_item, 
+    $selectwishlist = "SELECT w.*, Count(u.id) AS wishlist_item, w.id AS w_id, 
         u.id AS user_id, u.email, u.name AS user_name,
         p.id AS p_id, p.sku, p.description,p.price,p.name AS product_name,p.image
         FROM `wishlist` AS w 
@@ -42,6 +42,7 @@ if($_SERVER["REQUEST_METHOD"] != "GET"){
         ? 'data:image/jpeg;base64,' . base64_encode($row['image'])
         : null;
       $object = [
+        "id" => $row["w_id"],
          "product_name" => $row["product_name"],
         "username" => $row["user_name"],
         "useremail" => $row["email"],

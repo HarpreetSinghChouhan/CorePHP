@@ -326,7 +326,7 @@ function updateQuantity(id, change) {
                 toast: true,
                 position: "bottom-end",
                 showConfirmButton: false,
-                timer: 3000,
+            timer: 3000,    
                 timerProgressBar: true,
                 didOpen: (toast) => {
                     toast.onmouseenter = Swal.stopTimer;

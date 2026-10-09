@@ -24,11 +24,11 @@ if (!$result || $result["role"] !== "admin") {
 $id = (int) ($_POST["id"] ?? 0);
 
 if (!$id) {
-    echo json_encode(["error" => "Invalid user"]);
+    echo json_encode(["error" => "Invalid wishlist"]);
     exit;
 }
 
-$deletequery = "UPDATE `wishlist` SET is_active = `1` WHERE user_id = '$id' AND is_active = 0";
+$deletequery = "UPDATE `wishlist` SET is_active = 1 WHERE id = '$id' AND is_active = 0";
 $resultdelete = mysqli_query($conn, $deletequery);
 
 if ($resultdelete && mysqli_affected_rows($conn) > 0) {

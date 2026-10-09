@@ -19,7 +19,7 @@ if (!$mysql || mysqli_num_rows($mysql) === 0) {
     exit;
 }
 
-$selectcart = "SELECT c.*, p.*, u.id AS user_id, u.name AS user_name, u.email AS user_email
+$selectcart = "SELECT c.* ,c.id AS cart_id, p.*, u.id AS user_id, u.name AS user_name, u.email AS user_email
                FROM `user` AS u
                INNER JOIN `cart` AS c ON c.user_id = u.id
                INNER JOIN `product` AS p ON c.product_id = p.id
@@ -33,6 +33,7 @@ while ($row = mysqli_fetch_assoc($result)) {
         : null;
     
     $cart_item[] = [
+        "id"             => $row["cart_id"],
         "product_id"           => $row["product_id"],
         "product_name"         => $row["name"],
         "product_price"        => $row["price"],

@@ -66,71 +66,84 @@ if (window.location.href.indexOf("view.php") > -1) {
                 renderOrderItem();
             }
         });
-    function renderOrderItem() {
-        let html = "";
+   function renderOrderItem() {
+    let html = "";
 
-        if (!AllCartItem || AllCartItem.length === 0) {
-            $(".wishlist-item").html(`<div class="no-items">No items found for this order.</div>`);
-            return;
-        }
-
-        AllCartItem.forEach(item => {
-            $('.user-name').html(item.useremail)
-            html += `
-                <div class="cart-item-card">
-                    <div class="item-img">
-                        <img src="${item.product_image}" alt="${item.product_name}">
-                    </div>
-                    <div class="item-info">
-                        <h4>${item.product_name}</h4>
-                        <p class="item"><strong>price:</strong> ${item.product_price}</p>
-                        <p class="item-sku">SKU: ${item.product_sku}</p>
-                        <p class="item-sku">descripton: ${item.description}</p>
-                    </div>
-                   
-                   
-                </div>`;
-        });
-
-
-        $(".wishlist-item").html(html);
-    
-    }}
-        $(document).on("click", ".delete-cart", function (e) {
-        e.stopPropagation();
-        let tr = $(this).closest("tr");
-        deleteWishlist(tr.data("id"), tr.data("name"), tr);
+    if (!AllCartItem || AllCartItem.length === 0) {
+        $(".wishlist-item").html(`<div class="no-items">No items found for any User.</div>`);
+        return;
+    }
+    AllCartItem.forEach(item => {
+        $('.user-name').html(item.useremail);
+        html += `
+            <div class="cart-item-card wishlist-card" data-id="${item.id}" data-name="${item.product_name}">
+                <div class="item-img">
+                    <img src="${item.product_image}" alt="${item.product_name}">
+                </div>
+                <div class="item-info">
+                    <h4>${item.product_name}</h4>
+                    <p class="item"><strong>price:</strong> ${item.product_price}</p>
+                    <p class="item-sku">SKU: ${item.product_sku}</p>
+                    <p class="item-sku">description: ${item.description}</p>
+                </div>
+                <div class="cart-id">
+                    <button class="delete-btn delete-wishlist btn">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </div>
+            </div>`;
     });
 
-    function deleteWishlist(id, name, tr) {
-        Swal.fire({
-            title: "Are you sure?",
-            text: `You want to remove wishlist of ${name}`,
-            icon: "warning",
-            showCancelButton: true,
-            cancelButtonColor: "green",
-            confirmButtonColor: "red",
-            confirmButtonText: "Yes, remove it"
-        }).then(function (result) {
-            if (!result.isConfirmed) return;
+    $(".wishlist-item").html(html);
+}
 
-            $.ajax({
-                type: "POST",
-                dataType: "json",
-                url: "/CorePHP/admin/backend/wishlist/DeleteWishlist.php",
-                data: { id: id },
-                success: function (data) {
-                    if (data.error) {
-                        Swal.fire({ title: data.error, icon: "warning" });
-                        return;
-                    }
-                    Swal.fire({ title: data.message, icon: "success" });
-                    table.row(tr).remove().draw(false);
-                },
-                error: function () {
-                    Swal.fire({ title: "Could not remove wishlist", icon: "error" });
+$(document).on("click", ".delete-wishlist", function (e) {
+    e.stopPropagation();
+    let card = $(this).closest(".wishlist-card");
+
+    deleteWishlist(card.data("id"), card.data("name"), card);
+});
+
+function deleteWishlist(id, name, card) {
+    Swal.fire({
+        title: "Are you sure?",
+        text: `You want to remove wishlist of ${name}`,
+        icon: "warning",
+        showCancelButton: true,
+        cancelButtonColor: "green",
+        confirmButtonColor: "red",
+        confirmButtonText: "Yes, remove it"
+    }).then(function (result) {
+        if (!result.isConfirmed) return;
+
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "/CorePHP/admin/backend/wishlist/Updatewishlist.php",
+            data: { id: id },
+            success: function (data) {
+                if (data.error) {
+                    Swal.fire({ title: data.error, icon: "warning" });
+                    return;
                 }
-            });
+                Swal.fire({ title: data.message, icon: "success" });
+
+                // Array se hatao taaki re-render par wapas na aaye
+                AllCartItem = AllCartItem.filter(i => i.id != id);
+
+                // Card ko UI se hatao
+                card.fadeOut(300, function () {
+                    $(this).remove();
+                    if ($(".wishlist-card").length === 0) {
+                        $(".wishlist-item").html(`<div class="no-items">No items found for any User.</div>`);
+                    }
+                });
+            },
+            error: function () {
+                Swal.fire({ title: "Could not remove wishlist", icon: "error" });
+            }
         });
-    }
+});
+}
+    };
 });
