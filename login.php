@@ -67,7 +67,20 @@ include_once "./auth/verify.php";
                 Log in <i class="fa-solid fa-arrow-right"></i>
               </button>
             </div>
+                 <div id="g_id_onload"
+     data-client_id="203220989350-r3ikpbkq7p3oqluaj2o25l4dqfqq37km.apps.googleusercontent.com"
+     data-callback="handleGoogleLogin">
+</div>
+<div class="g_id_signin"
+     data-type="standard"
+     data-size="full"
+     data-theme="outline"
+     data-text="continue_with"
+     data-shape="rectangular">
+</div>
           </form>
+     
+
 
           <p class="vr-foot">Don't have an account? <a href="./register.php">Register</a></p>
           <p class="vr-foot"><a href="./home.php"><i class="fa-solid fa-house"></i> Back to home</a></p>
@@ -76,7 +89,31 @@ include_once "./auth/verify.php";
       </div>
     </main>
   </div>
+<script>
+async function handleGoogleLogin(response) {
+    try {
+        const res = await fetch("./auth/google-login.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                credential: response.credential
+            })
+        });
 
+        const data = await res.json();
+
+        if (data.success) {
+            window.location.href = data.redirect;
+        } else {
+            alert(data.message || "Google login failed");
+        }
+    } catch (error) {
+        alert("Unable to connect. Please try again.");
+    }
+}
+</script>
 <?php 
 include "./includes/footer.php";
 ?>

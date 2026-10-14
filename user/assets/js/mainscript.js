@@ -12,5 +12,9 @@ $(document).ready(function(){
      $(document).on("click",".wishlist-link-btn",function(){
           window.location.href = "/CorePHP/user/wishlist/wishlist.php";
      })
+
+     $(document).on("click",".back-to-admin",function(){
+        window.location = "/CorePHP/admin/backend/vendor/loginadmin.php";
+    });
      
 })

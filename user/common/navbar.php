@@ -4,6 +4,12 @@
         <h2>Welcome back, <?php echo htmlspecialchars(explode(' ', $_SESSION['user_name'])[0]); ?> 👋</h2>
         <span><?php echo date('l, d F Y'); ?></span>
     </div>
+       <?php  if(isset($_SESSION['admin_id'])){
+                 ?> <div>
+                     <button class="back-to-admin back-admin "  >Back to Admin</button>
+                 </div><?php
+
+            }?> 
     <div class="navbar-right">
         <div class="icon-btn"><i class="fa-solid fa-bell"></i></div>
          <?php 

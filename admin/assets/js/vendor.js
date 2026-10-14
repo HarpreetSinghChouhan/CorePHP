@@ -56,44 +56,6 @@ $(document).ready(function(){
         });
     
     }
-//         $(document).on("click",".access-link-btn",function(){
-//             // console.log("Working");
-            
-//         let row = $(this).closest("tr");
-//         let id =  row.data("id");
-//         let name = row.data("name");
-       
-
-//                 Swal.fire({
-//         title: "Are you sure?",
-//         text: `You want to login As ${name}`,
-//         icon: "warning",
-//         showCancelButton: true,
-//         cancelButtonColor: "gray",
-//         confirmButtonColor: "green",
-//         confirmButtonText: "Yes, Login it"
-//     }).then(function (result) {
-//         if (!result.isConfirmed) return;
-//         else{
-//             $.ajax({
-//                 type:'POST',
-//                 url:'/CorePHP/admin/backend/vendor/vendorlogin.php',
-//                 data:{'id':id},
-//                 seccess: function(response){
-//                     console.log("working");
-//                     if(response.trim() == 'success'){
-//                     console.log("working dzg fjhdgjf g");
-
-//                         window.location = "/CorePHP/vendor/index.php";
-//                     }
-//                     else{
-//                         console.log("somthing are wroung ", response);
-//                     }
-//                 }
-//             })
-//         }
-//         })
-// })
 $(document).on("click", ".access-link-btn", function () {
     let row = $(this).closest("tr");
     let id = row.data("id");
