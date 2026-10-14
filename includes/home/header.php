@@ -29,14 +29,24 @@ include __DIR__ . "/../../config/database.php";
     <a href="home.php" class="logo">Tokri<em>Mart</em></a>
 
     <div class="header-actions">
-      <?php if (!isset($_SESSION["email"])): ?>
-        <a href="./login.php" class="icon-link" aria-label="Account">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg> Login
-        </a><a href="./vendor/register.php" class="icon-link" aria-label="Account">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg> register As Vendor 
-        <!-- <i class="fa-regular fa-user"  style="margin-right:10px;margin-top:5px"></i>  register As Vendor -->
-        </a>
-      <?php else: ?>
+<?php if (!isset($_SESSION["email"])): ?>
+  <a href="./login.php" class="nav-btn nav-login" aria-label="Sign In">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
+    </svg>
+    <span>Sign In</span>
+  </a>
+
+  <a href="./vendor/register.php" class="nav-btn nav-vendor" aria-label="Sell on TokriMart">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9l1.5-5h15L21 9"/><path d="M5 9v11h14V9"/><path d="M10 20v-6h4v6"/>
+    </svg>
+    <span>Sell on TokriMart</span>
+    <svg class="arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 12h14M13 6l6 6-6 6"/>
+    </svg>
+  </a>
+<?php else: ?>
         <a href="./user/index.php" class="icon-link" aria-label="Account">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg> Dashboard
         </a>
@@ -49,5 +59,4 @@ include __DIR__ . "/../../config/database.php";
     </div>
   </div>
 </header>
-</body>
-</html>
+<body>

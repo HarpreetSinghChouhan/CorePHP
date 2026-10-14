@@ -418,22 +418,6 @@ background-color: #3b82f6;
 .btn-icon:hover {
     background: #f2f2f2;
 }
-
-.edit-user {
-    color: #4f8cff;
-    border-color: #cfe0ff;
-}
-
-.edit-user:hover {
-    background: #eaf1ff;
-}
-.edit-btn{ 
-    color: #4f8cff;
-    border-color: #cfe0ff;
-}
-.edit-btn:hover {
-    background: #eaf1ff;
-}
 .delete-user {
     color: #e04b4b;
     border-color: #f5cccc;
@@ -1461,8 +1445,15 @@ table.dataTable tbody td.dt-left {
     border-color: var(--vr-accent);
     background: var(--vr-tint);
 }
-.edit-user:hover, .edit-btn:hover { background: var(--vr-accent); }
+.edit-user:hover, .edit-btn:hover, .edit-vendor:hover { background: var(--vr-accent); }
 
+.edit-vendor{
+    color: var(--vr-ink);
+    border-color: var(--vr-accent);
+    background: var(--vr-tint);
+    width: 60px !important;
+    padding: 1px 10px;
+}
 .delete-user, .delete-btn {
     color: var(--vr-danger);
     border-color: #fecaca;
@@ -1605,3 +1596,4 @@ table.dataTable tbody td.action-cell .btn-icon {
 .order-link-btn{
   cursor: pointer;
 }
+

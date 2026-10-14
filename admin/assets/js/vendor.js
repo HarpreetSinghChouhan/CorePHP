@@ -18,7 +18,7 @@ $(document).ready(function(){
             lengthMenu: [5, 10, 25, 50],
             order: [[1, "asc"]],
             columns: [
-                { data: null, orderable: false, searchable: false,
+                { data: null, orderable: false, searchable: false, 
                   render: (d, t, r, meta) => meta.row + 1 },
                 { data: "name",   className: "user-name",  render: (d) => esc(d) },
                 { data: "email",  className: "user-email", render: (d) => esc(d) },
@@ -29,6 +29,9 @@ $(document).ready(function(){
                   render: () => `
                     <button type="button" class="btn-icon edit-link-btn edit-user" title="Edit">
                         <i class="fa-solid fa-pen"></i>
+                    </button>
+                    <button type="button" class="btn-icon access-link-btn edit-vendor" title="Edit">
+                        login
                     </button>
                     <button type="button" class="btn-icon delete-user" title="Delete">
                         <i class="fa-solid fa-trash"></i>
@@ -53,4 +56,77 @@ $(document).ready(function(){
         });
     
     }
+//         $(document).on("click",".access-link-btn",function(){
+//             // console.log("Working");
+            
+//         let row = $(this).closest("tr");
+//         let id =  row.data("id");
+//         let name = row.data("name");
+       
+
+//                 Swal.fire({
+//         title: "Are you sure?",
+//         text: `You want to login As ${name}`,
+//         icon: "warning",
+//         showCancelButton: true,
+//         cancelButtonColor: "gray",
+//         confirmButtonColor: "green",
+//         confirmButtonText: "Yes, Login it"
+//     }).then(function (result) {
+//         if (!result.isConfirmed) return;
+//         else{
+//             $.ajax({
+//                 type:'POST',
+//                 url:'/CorePHP/admin/backend/vendor/vendorlogin.php',
+//                 data:{'id':id},
+//                 seccess: function(response){
+//                     console.log("working");
+//                     if(response.trim() == 'success'){
+//                     console.log("working dzg fjhdgjf g");
+
+//                         window.location = "/CorePHP/vendor/index.php";
+//                     }
+//                     else{
+//                         console.log("somthing are wroung ", response);
+//                     }
+//                 }
+//             })
+//         }
+//         })
+// })
+$(document).on("click", ".access-link-btn", function () {
+    let row = $(this).closest("tr");
+    let id = row.data("id");
+    let name = row.data("name");
+
+    Swal.fire({
+        title: "Are you sure?",
+        text: `You want to login As ${name}`,
+        icon: "warning",
+        showCancelButton: true,
+        cancelButtonColor: "gray",
+        confirmButtonColor: "green",
+        confirmButtonText: "Yes, Login it"
+    }).then(function (result) {
+        if (!result.isConfirmed) return;
+
+        $.ajax({
+            type: "POST",
+            url: "/CorePHP/admin/backend/vendor/vendorlogin.php",
+            data: { id: id },
+            dataType: "json",
+            success: function (response) {
+                if (response.status === "success") {
+                    window.location.href = "/CorePHP/vendor/index.php";
+                } else {
+                    Swal.fire("Error", response.error || "Something went wrong", "error");
+                }
+            },
+            error: function (xhr) {
+                console.log("AJAX error:", xhr.responseText);
+                Swal.fire("Error", "Server error", "error");
+            }
+        });
+    });
+});
 })

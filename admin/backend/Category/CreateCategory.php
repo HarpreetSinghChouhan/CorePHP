@@ -1,15 +1,17 @@
 <?php
 include "../../../config/database.php";
+session_start();
 //  print_r($conn);
 if($_SERVER["REQUEST_METHOD"] === "POST"){
   $name = $_POST['CategoryName'];
  $query = "SELECT * FROM category WHERE name='$name'";
  $result = mysqli_query($conn,$query);
+ $user_id = $_SESSION['user_id'];
  if(mysqli_num_rows($result) > 0){
     echo "Exited";
  }
  else{
-    $query = "INSERT INTO category (name) VALUE ('$name')";
+    $query = "INSERT INTO category (name,user_id) VALUE ('$name','$user_id')";
     $result = mysqli_query($conn,$query);
     if($result){
         echo "Success";

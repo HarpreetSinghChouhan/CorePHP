@@ -59,7 +59,7 @@ button { font-family: inherit; cursor: pointer; }
    ========================================================================== */
 
 .site-header {
-  background: var(--navy);
+  background: #6600ff;
   position: sticky;
   top: 0;
   z-index: 50;
@@ -133,6 +133,112 @@ button { font-family: inherit; cursor: pointer; }
   position: relative;
   display: flex;
   transition: opacity 0.15s ease;
+}
+/* ==========================================================================
+   HEADER AUTH BUTTONS
+   ========================================================================== */
+
+.header-actions {
+  gap: 14px;
+}
+
+.nav-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease,
+              background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.nav-btn svg { flex-shrink: 0; }
+
+/* ---- Sign In: glass / ghost style ---- */
+.nav-login {
+  color: #FFF;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(6px);
+}
+
+.nav-login:hover {
+  background: #FFF;
+  color: var(--navy);
+  border-color: #FFF;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* ---- Sell on TokriMart: primary gold CTA ---- */
+.nav-vendor {
+  color: #2A1A00;
+  background: linear-gradient(135deg, #F7CB6A 0%, var(--gold) 55%, var(--gold-dark) 100%);
+  border: 1.5px solid transparent;
+  box-shadow: 0 4px 14px rgba(225, 168, 62, 0.45);
+}
+
+/* shine effect jo hover par chalta hai */
+.nav-vendor::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.6s ease;
+}
+
+.nav-vendor:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(225, 168, 62, 0.6);
+}
+
+.nav-vendor:hover::before { left: 130%; }
+
+.nav-vendor .arrow {
+  margin-left: -2px;
+  transition: transform 0.25s ease;
+}
+
+.nav-vendor:hover .arrow { transform: translateX(4px); }
+
+.nav-btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.nav-btn:focus-visible {
+  outline: 2px solid #FFF;
+  outline-offset: 3px;
+}
+
+/* ---- Tablet ---- */
+@media (max-width: 768px) {
+  .nav-btn { padding: 9px 16px; font-size: 13px; }
+  .nav-vendor .arrow { display: none; }
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 520px) {
+  .header-inner { padding: 12px 14px; gap: 10px; }
+  .header-actions { gap: 8px; }
+  .logo { font-size: 21px; }
+  .nav-login span { display: none; }      /* sirf icon dikhega */
+  .nav-login { padding: 10px; }
+  .nav-vendor { padding: 9px 14px; }
+  .nav-vendor svg:first-child { display: none; }
 }
 
 .icon-link:hover { opacity: 1; }

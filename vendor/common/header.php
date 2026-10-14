@@ -6,6 +6,20 @@ require_once __DIR__ . '/../../config/database.php';
     header("Location:  /CorePHP/login.php");
     exit;
  }
+ $user_id = $_SESSION['user_id'];
+ $query = "SELECT * FROM `user` WHERE id='$user_id' LIMIT 1";
+ $runquery = mysqli_query($conn,$query);
+ $result = mysqli_fetch_assoc($runquery);
+ if(mysqli_num_rows($runquery) <=0){
+  header("Location:  /CorePHP/login.php");
+    exit;
+ }
+ else if($result['role']  !== 'vendor'){
+    header("Location:  /CorePHP/login.php");
+    exit;
+ }
+
+
 $pageTitle  = $pageTitle  ?? 'Vendor Panel';
 $activePage = $activePage ?? '';
 

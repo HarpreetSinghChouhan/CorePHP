@@ -3,11 +3,14 @@
 if (!isset($activePage) || $activePage === '') {
     $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-    if (strpos($path, '/vendor/product/')  !== false) $activePage = 'product';
-    elseif (strpos($path, '/vendor/cart/')     !== false) $activePage = 'cart';
-    elseif (strpos($path, '/vendor/wishlist/') !== false) $activePage = 'wishlist';
-    elseif (strpos($path, '/vendor/profile')   !== false) $activePage = 'profile';
-    else $activePage = 'dashboard'; 
+    if     (strpos($path, '/vendor/category/mycategory.php') !== false) $activePage = 'mycategory';
+    elseif (strpos($path, '/vendor/category/')               !== false) $activePage = 'category';
+    elseif (strpos($path, '/vendor/product/')                !== false) $activePage = 'product';
+    elseif (strpos($path, '/vendor/cart/')                   !== false) $activePage = 'cart';
+    elseif (strpos($path, '/vendor/wishlist/')               !== false) $activePage = 'wishlist';
+    elseif (strpos($path, '/vendor/profile')                 !== false) $activePage = 'profile';
+    elseif (strpos($path, '/vendor/order')                 !== false) $activePage = 'orders';
+    else $activePage = 'dashboard';
 }
 
 function vr_active($name, $current) {
@@ -38,6 +41,15 @@ function vr_active($name, $current) {
         </a>
         <a href="/CorePHP/vendor/product/index.php" class="<?= vr_active('product', $activePage) ?>">
             <i class="fa-solid fa-box"></i> My Products
+        </a>
+        <a href="/CorePHP/vendor/category/index.php" class="<?= vr_active('category', $activePage) ?>">
+            <i class="fa-solid fa-box"></i> All Category
+        </a>
+        <a href="/CorePHP/vendor/category/mycategory.php" class="<?= vr_active('mycategory', $activePage) ?>">
+            <i class="fa-solid fa-box"></i> My Category
+        </a>
+        <a href="/CorePHP/vendor/order/index.php" class="<?= vr_active('orders', $activePage) ?>">
+            <i class="fa-solid fa-box"></i> order
         </a>
         <a href="/CorePHP/vendor/cart/index.php" class="<?= vr_active('cart', $activePage) ?>">
             <i class="fa-solid fa-cart-shopping"></i> Cart Items

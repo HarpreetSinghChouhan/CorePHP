@@ -4,8 +4,8 @@ require_once __DIR__ . '/../common/header.php';
 require_once __DIR__ . '/../common/sidebar.php';
 ?>
 
-    <?php require_once __DIR__ . '/../common/navbar.php'; ?>
-    <script src="../assets/js/product.js" defer></script>
+        <?php require_once __DIR__ . '/../common/navbar.php'; ?>
+        <script src="../assets/js/product.js" defer></script>
 
     <!-- <div class="admin-content"> -->
         <section class="vr-card">

@@ -51,7 +51,7 @@ $(document).ready(function () {
                  title: "Verification mail sent",
                  text: "Please check your inbox (and spam folder)."
                 }).then(() => {
-                    window.location = "http://localhost/CorePHP/login.php";
+                    window.location = "/CorePHP/login.php";
                 });
             } else {
                 resetButton(btn);

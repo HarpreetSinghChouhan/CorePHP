@@ -8,7 +8,7 @@ if (window.location.href.indexOf("view.php") > -1) {
         table = $("#wishlist_datatable").DataTable({
             ajax: {
                 type: "GET",
-                url: "http://localhost/CorePHP/admin/backend/wishlist/GetWishlist.php",
+                url: "/CorePHP/admin/backend/wishlist/GetWishlist.php",
                 dataSrc: function (json) {
                     return Array.isArray(json) ? json : (json.data || []);
                 }
