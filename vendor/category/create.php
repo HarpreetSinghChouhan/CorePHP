@@ -35,7 +35,7 @@ require_once __DIR__ . '../../common/sidebar.php';
                         </div>
                         
 </div>
-                    <div class="form-actions" id="formActions">
+                    <div class="form-actions d-show" id="formActions">
                         <button type="button" class="btn btn-ghost btn-back">Back</button>
                         <button type="submit" class="btn btn-primary">Create Category</button>
                     </div>

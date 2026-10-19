@@ -28,7 +28,7 @@ if($_SERVER["REQUEST_METHOD"] != "GET"){
  if($userrole !== "user"){
     $selectwishlist = "SELECT w.*, Count(u.id) AS wishlist_item, w.id AS w_id, 
         u.id AS user_id, u.email, u.name AS user_name,
-        p.id AS p_id, p.sku, p.description,p.price,p.name AS product_name,p.image
+        p.id AS p_id, p.sku, p.description,p.price,p.name AS product_name,p.image,p.image_url
         FROM `wishlist` AS w 
         LEFT JOIN `product` AS p 
         ON p.id = w.product_id
@@ -39,9 +39,18 @@ if($_SERVER["REQUEST_METHOD"] != "GET"){
         $resultwishlist = mysqli_query($conn,$selectwishlist);
         // echo "<pre>";
    while ($row =  mysqli_fetch_assoc($resultwishlist)){
-    $image = !empty($row['image'])
-        ? 'data:image/jpeg;base64,' . base64_encode($row['image'])
-        : null;
+    // $image = !empty($row['image'])
+    //     ? 'data:image/jpeg;base64,' . base64_encode($row['image'])
+    //     : null;
+        if (!empty($row['image_url'])) {
+        $imageSrc = '/CorePHP/public/uploads/' . $row['image_url'];
+    } elseif (!empty($row['image'])) {
+        $imageSrc = 'data:image/jpeg;base64,' . base64_encode($row['image']);
+    } else {
+        $imageSrc = '/CorePHP/public/uploads/placeholder.png';
+    }
+    $image = $imageSrc;
+
       $object = [
         "id" => $row["w_id"],
          "product_name" => $row["product_name"],

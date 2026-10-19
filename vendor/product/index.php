@@ -10,10 +10,15 @@ require_once __DIR__ . '/../common/sidebar.php';
     <!-- <div class="admin-content"> -->
         <section class="vr-card">
     <div class="vr-card-head">
-        <h2>Recent Products</h2>
-        <a href="/CorePHP/vendor/product/create.php" class="vr-btn">
+        <h1 class="center"> Product List</h1>   <div>   <button class="btn import-csv-btn import-btn vr-btn" > Import product</button>   <a href="/CorePHP/vendor/product/create.php" class="vr-btn">
             <i class="fa-solid fa-plus"></i> Add Product
-        </a>
+        </a>  </div>
+
+        <!-- <h2>Recent Products</h2>
+         <a href="/CorePHP/vendor/product/create.php" class="vr-btn">
+            <i class="fa-solid fa-plus"></i> Add Product
+        </a>    
+        -->
     </div>
         <div class="vr-table-wrap">
         <table class="vr-table vr-datatable"  id="product_datatable">

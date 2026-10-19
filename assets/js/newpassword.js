@@ -21,9 +21,9 @@ $(document).ready(function(){
     })
     $("#CreateNewPassword").on("submit",function(e){
      e.preventDefault();
-        $(".PasswordError").html("<p></p>");
+        $(".PasswordError").html("");
         
-        $(".ConfirmPasswordError").html("<p></p>");
+        $(".ConfirmPasswordError").html("");
 
      const tokenValue = token.val().trim();
       const emailValue = email.val().trim(); 
@@ -31,14 +31,16 @@ $(document).ready(function(){
       const passwordValue = password.val().trim();
       const confirmPasswordValue = confirmPassword.val().trim();
          if (passwordValue.length < 6 || passwordValue === "" ) {
-        $(".PasswordError").css("margin-top","-25px");
+        $(".PasswordError").css({"margin-top":"-15px","margin-bottom" :"-5x"});
+        $(".ConfirmPasswordError").css({"margin-top":"30px","padding-bottom" :"2ss0px"});
         $(".PasswordError").html("<p>Password must be at least 6 characters</p>");
             password.focus();
             return;
         }
     
     if (passwordValue !== confirmPasswordValue || confirmPasswordValue === "" ) {
-        $(".ConfirmPasswordError").css("margin-top","-25px");
+        $(".ConfirmPasswordError").css({"margin-top":"-15px","margin-bottom" :"-35x"});
+        // $(".PasswordError").css({"margin-top":"30px","margin-bottom" :"-35x"});
         $(".ConfirmPasswordError").html("<p>Password and confirm password do not match </p>");
             confirmPassword.focus();
             return;

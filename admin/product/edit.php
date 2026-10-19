@@ -6,12 +6,21 @@ $product = null;
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
-    $query ="SELECT product.id, product.name, product.price, product.sku, product.description, product.stock_quantity, product.image, product.created_at, category.name AS category_name
+    $query ="SELECT product.id, product.name, product.price,product.image_url, product.sku, product.description, product.stock_quantity, product.image, product.created_at, category.name AS category_name
  FROM product INNER JOIN category ON category.id=product.category_id WHERE product.id='$id' ";
     // $query = "SELECT * FROM product WHERE id='$id' LIMIT 1";
     $result = mysqli_query($conn, $query);
      $row = mysqli_fetch_assoc($result);
-       $product['image'] = 'data:image/jpeg;base64,' . base64_encode($row['image']);
+     
+    if (!empty($row['image_url'])) {
+        $imageSrc = '/CorePHP/public/uploads/' . $row['image_url'];
+    } elseif (!empty($row['image'])) {
+        $imageSrc = 'data:image/jpeg;base64,' . base64_encode($row['image']);
+    } else {
+        $imageSrc = '/CorePHP/public/uploads/placeholder.png';
+    }
+    $base64Image = $imageSrc;
+       $product['image'] = $base64Image;
         $product['id'] = $row['id'];
         $product['name'] = $row['name'];
         $product['category_name'] = $row['category_name'];

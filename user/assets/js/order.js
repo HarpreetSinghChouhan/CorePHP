@@ -38,8 +38,8 @@ $(document).ready(function () {
                 { data: "perchange_at" },
                 { data: null, orderable: false, searchable: false, className: "action-cell",
                      render: () => `
-                      <button type="button" class="btn-icon edit-cart-btn edit-btn" title="Edit">
-                             <i class="fa-solid fa-pencil"></i>
+                      <button type="button" class="btn-icon view-cart-btn edit-btn" title="Edit">
+                             <i class="fa-solid fa-eye"></i>
                       </button>
                        <button type="button" class="btn-icon btn-delete-cart delete-btn" title="Delete">
                      <i class="fa-solid fa-trash"></i>

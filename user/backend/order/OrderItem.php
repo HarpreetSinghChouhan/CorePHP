@@ -6,7 +6,7 @@ if($_SERVER["REQUEST_METHOD"] === "GET"){
    $order_id = (int) $_GET["id"];
     $query = "SELECT o.order_id, o.total_amount, o.user_id, o.product_quantity,
                  u.id AS user_id, u.name AS user_name, u.email,
-                 p.id AS product_id, p.image, p.sku, p.price, p.name AS product_name,
+                 p.id AS product_id,p.image_url, p.image, p.sku, p.price, p.name AS product_name,
                  c.id AS cat_id, c.name AS cat_name,
                  oi.product_price, oi.product_quantity AS oi_qty, oi.product_name AS oi_product_name
           FROM `order_item` AS oi
@@ -24,7 +24,16 @@ if($_SERVER["REQUEST_METHOD"] === "GET"){
 
 while ($row = mysqli_fetch_assoc($result)) {
     // print_r($row); 
-     $image =  'data:image/jpeg;base64,' . base64_encode($row['image']);
+        if (!empty($row['image_url'])) {
+        $imageSrc = '/CorePHP/public/uploads/' . $row['image_url'];
+    } elseif (!empty($row['image'])) {
+        $imageSrc = 'data:image/jpeg;base64,' . base64_encode($row['image']);
+    } else {
+        $imageSrc = '/CorePHP/public/uploads/placeholder.png';
+    }
+    $image = $imageSrc;
+
+    //  $image =  'data:image/jpeg;base64,' . base64_encode($row['image']);
     $object = [
         "product_id"    => $row['product_id'],
         "product_name"  => $row['product_name'],

@@ -11,13 +11,21 @@
    die("Product ID missing");
  }
  $id = intval($_GET["id"]); 
- $query = "SELECT * FROM product WHERE id='$id'";
+ $query = "SELECT * FROM product WHERE id='$id' LIMIT 1";
  $result = mysqli_query($conn,$query);
  $product = mysqli_fetch_assoc($result);
  if(!$product){
    echo "<p>Product not found.</p>";
  } else {
-    $image = 'data:image/jpeg;base64,' . base64_encode($product['image']);
+          if (!empty($product['image_url'])) {
+        $imageSrc = '/CorePHP/public/uploads/' . $product['image_url'];
+    } elseif (!empty($product['image'])) {
+        $imageSrc = 'data:image/jpeg;base64,' . base64_encode($product['image']);
+    } else {
+        $imageSrc = '/CorePHP/public/uploads/placeholder.png';
+    }
+    $image = $imageSrc;
+    // $image = 'data:image/jpeg;base64,' . base64_encode($product['image']);
  $cat_id = $product["category_id"];
  $product_id = $product["id"];
 $categoryquery = "SELECT id, name FROM `category` WHERE id = '$cat_id'";
@@ -104,7 +112,15 @@ $getproductsquery = "SELECT * FROM product WHERE category_id = '$categoryid' AND
     $queryresult = mysqli_query($conn, $getproductsquery);
     if (mysqli_num_rows($queryresult) > 0):
       while ($row = mysqli_fetch_assoc($queryresult)):
-        $relImage = 'data:image/jpeg;base64,' . base64_encode($row['image']);
+                if (!empty($row['image_url'])) {
+        $imageSrc = '/CorePHP/public/uploads/' . $row['image_url'];
+    } elseif (!empty($row['image'])) {
+        $imageSrc = 'data:image/jpeg;base64,' . base64_encode($row['image']);
+    } else {
+        $imageSrc = '/CorePHP/public/uploads/placeholder.png';
+    }
+    $relImage = $imageSrc;
+        // $relImage = 'data:image/jpeg;base64,' . base64_encode($row['image']);
         $relWish = in_array($row['id'], $wishlistIds);
     ?>
       <div class="related-card">

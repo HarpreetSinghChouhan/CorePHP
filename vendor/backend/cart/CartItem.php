@@ -29,10 +29,18 @@ $result = mysqli_query($conn, $selectcart);
 
 $cart_item = [];
 while ($row = mysqli_fetch_assoc($result)) {
-    $image = !empty($row['image'])
-        ? 'data:image/jpeg;base64,' . base64_encode($row['image'])
-        : null;
-    
+    // $image = !empty($row['image'])
+    //     ? 'data:image/jpeg;base64,' . base64_encode($row['image'])
+    //     : null;
+         if (!empty($row['image_url'])) {
+        $imageSrc = '/CorePHP/public/uploads/' . $row['image_url'];
+    } elseif (!empty($row['image'])) {
+        $imageSrc = 'data:image/jpeg;base64,' . base64_encode($row['image']);
+    } else {
+        $imageSrc = '/CorePHP/public/uploads/placeholder.png';
+    }
+    $image = $imageSrc;
+
     $cart_item[] = [
         "id"             => $row["cart_id"],
         "product_id"           => $row["product_id"],

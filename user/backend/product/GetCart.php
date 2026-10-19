@@ -16,7 +16,7 @@ include '../../../config/database.php';
             }
             $user_id = $user["id"];                                                                                       
             $cart = "SELECT cart.id AS cart_id, cart.product_id, cart.user_id, cart.quantity, 
-            product.id AS product_id, product.name,product.price, product.stock_quantity, product.description, product.category_id AS Product_cate_id,  product.image,
+            product.id AS product_id, product.name,product.price,product.image_url, product.stock_quantity, product.description, product.category_id AS Product_cate_id,  product.image,
             category.name AS category_name 
             FROM cart 
             INNER JOIN product ON product.id = cart.product_id 
@@ -25,8 +25,15 @@ include '../../../config/database.php';
             // echo json_encode($result);
              $cart = [];
             while($row = mysqli_fetch_assoc($result)){
-                
-    $base64Image = 'data:image/jpeg;base64,' . base64_encode($row['image']);
+                if (!empty($row['image_url'])) {
+        $imageSrc = '/CorePHP/public/uploads/' . $row['image_url'];
+    } elseif (!empty($row['image'])) {
+        $imageSrc = 'data:image/jpeg;base64,' . base64_encode($row['image']);
+    } else {
+        $imageSrc = '/CorePHP/public/uploads/placeholder.png';
+    }
+    $base64Image = $imageSrc;
+    // $base64Image = 'data:image/jpeg;base64,' . base64_encode($row['image']);
                 // print_r($row);
                    $object = [
                     "user_id" => $row["user_id"],

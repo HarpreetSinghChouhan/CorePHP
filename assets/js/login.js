@@ -13,18 +13,18 @@ $(document).ready(function(){
             const passwordValue = password.val().trim(); 
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
 
-            $(".EmailError, .PasswordError").html("").css({"margin-top": "0px", "margin-bottom": "0px"}); 
+            $(".EmailError, .PasswordError").html("").css({"margin-top": "10px", "margin-bottom": "-20px"}); 
 
             let isValid = true;
 
               if (emailValue === "" || !emailPattern.test(emailValue)) { 
-             $(".EmailError").css("margin-top", "-25px").html("<p>Please enter a valid email address.</p>"); 
+             $(".EmailError").css("margin-top", "-10px").html("<p>Please enter a valid email address.</p>"); 
              email.focus(); 
               isValid = false; 
          } 
 
                 if (passwordValue === "" || passwordValue.length < 6) { 
-             $(".PasswordError").css({'margin-top': '15px', 'margin-bottom': '-30px'}).html("<p>Password must be at least 6 characters.</p>"); 
+             $(".PasswordError").css({'margin-top': '-10px', 'margin-bottom': '-20px'}).html("<p>Password must be at least 6 characters.</p>"); 
              if (isValid) {
                  password.focus();
                  }

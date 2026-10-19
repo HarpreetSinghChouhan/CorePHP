@@ -7,7 +7,7 @@
     //  $query = "SELECT * FROM product WHERE is_deleted != '1' ";
     // 
     $search = $_POST["search"] ?? "";       
-    $query = "SELECT p.id, p.name, p.price, p.sku, p.description, p.stock_quantity, p.image, p.created_at,
+    $query = "SELECT p.id, p.name,p.image_url, p.price, p.sku, p.description, p.stock_quantity, p.image, p.created_at,
     category.name AS category_name,
     w.user_id,w.product_id, w.id AS wishlist_id , w.is_active
     FROM `product` AS p
@@ -33,7 +33,15 @@
     
         //   echo "<pre>";
     while($row = mysqli_fetch_assoc($result)){
-        $base64Image = 'data:image/jpeg;base64,' . base64_encode($row['image']);
+        if (!empty($row['image_url'])) {
+        $imageSrc = '/CorePHP/public/uploads/' . $row['image_url'];
+    } elseif (!empty($row['image'])) {
+        $imageSrc = 'data:image/jpeg;base64,' . base64_encode($row['image']);
+    } else {
+        $imageSrc = '/CorePHP/public/uploads/placeholder.png';
+    }
+    $base64Image = $imageSrc;
+        // $base64Image = 'data:image/jpeg;base64,' . base64_encode($row['image']);
         $object = [   
             "id" => $row['id'],
             "name" => $row['name'],

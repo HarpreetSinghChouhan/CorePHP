@@ -38,12 +38,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
        else if (isset($_FILES['ProductImage']) && $_FILES['ProductImage']['error'] === 0) {
             $image = file_get_contents($_FILES['ProductImage']['tmp_name']);
             $image = mysqli_real_escape_string($conn, $image);
-            $query = "UPDATE product SET category_id = '$cat_id', name='$name', price = '$price', sku = '$sku', description ='$description' , stock_quantity = '$quantity',  image = '$image' WHERE id='$id'";
-                    
+            $query = "UPDATE product SET category_id = '$cat_id', name='$name', price = '$price', sku = '$sku', description ='$description' , stock_quantity = '$quantity',  image = '$image', image_url = '' WHERE id='$id'";     
             }
- 
         // $query = "UPDATE product SET category_id = '$cat_id', name='$name', price = '$price', sku = '$sku', description ='$description' , stock_quantity = '$quantity',  image = '$image' WHERE id='$id'";
-     
         $result = mysqli_query($conn, $query);
 
         if ($result) {

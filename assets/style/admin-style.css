@@ -725,10 +725,17 @@ background-color: #3b82f6;
 .img-feild-table{
     width: 50px;
     height: 50px;
+    max-height: 50px;
+    overflow: hidden;
     border-radius: 100%;
 }
+.edit-image-page{
+    text-align: center;
+}
 .edit-image-page img{
-  width: 100%;
+  max-width: 100%;
+  max-height: 400px;
+
 }
 .pagination-container {
     display: flex;
@@ -1666,11 +1673,12 @@ table.dataTable tbody td.action-cell .btn-icon {
 }
 
 /* File input */
-#csvFile {
+#csvFile, #zipFile {
     display: block;
     width: 100%;
     padding: 10px;
     font-size: 14px;
+    margin: 5px 0px;
     border: 2px dashed #c4b5fd;
     border-radius: 8px;
     background: #faf5ff;
@@ -1678,7 +1686,7 @@ table.dataTable tbody td.action-cell .btn-icon {
     box-sizing: border-box;
 }
 
-#csvFile::file-selector-button {
+#csvFile::file-selector-button, #zipFile::file-selector-button {
     margin-right: 12px;
     padding: 7px 14px;
     border: none;
@@ -1689,7 +1697,7 @@ table.dataTable tbody td.action-cell .btn-icon {
     cursor: pointer;
 }
 
-#csvFile::file-selector-button:hover {
+#csvFile::file-selector-button:hover, #zipFile::file-selector-button:hover {
     background: #5b21b6;
 }
 

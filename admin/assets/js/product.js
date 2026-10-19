@@ -509,8 +509,9 @@ $(document).ready(function () {
             <form id="importForm" enctype="multipart/form-data">
                 <div class="import-dialog-box">
                     <h3>Import Products</h3>
-                    <p>CSV file select karein.</p>
-                    <input type="file" name="csv_file" id="csvFile" accept=".csv" required>
+                    <p>Select CSV file And Select Zip File For Image uplaod</p>
+                    <input type="file" name="csv_file" id="csvFile" title="select csv file" accept=".csv" required>
+                    <input type="file" name="images_zip" id="zipFile" title="select zip file" accept=".zip">
                     <div class="import-progress" id="importProgress">
                         <div class="import-progress-bar" id="importProgressBar"></div>
                     </div>
@@ -564,18 +565,23 @@ $(document).ready(function () {
 
     $form.on('submit', function (e) {
         e.preventDefault();
-
+       
         const file = $('#csvFile')[0].files[0];
 
         if (!file) {
-            $msg.text('Pehle file select karein.').removeClass('success').addClass('error');
+            $msg.text('Please Select Image').removeClass('success').addClass('error');
             return;
         }
 
         if (!file.name.toLowerCase().endsWith('.csv')) {
-            $msg.text('Sirf .csv file allowed hai.').removeClass('success').addClass('error');
+            $msg.text('Only .csv file allowed hai.').removeClass('success').addClass('error');
             return;
         }
+        const zip = $('#zipFile')[0].files[0];
+            if (zip && !zip.name.toLowerCase().endsWith('.zip')) {
+                $msg.text('Only .zip file allowed.').removeClass('success').addClass('error');
+                return;
+            }
 
         const formData = new FormData(this);
 
@@ -595,7 +601,7 @@ $(document).ready(function () {
                         $status.text('Uploading... ' + percent + '%');
                         if (percent === 100) {
                             $progress.addClass('processing');
-                            $status.text('Processing... products import ho rahe hain');
+                            $status.text('Processing... products import');
                         }
                     }
                 });
@@ -622,11 +628,11 @@ $(document).ready(function () {
                         $('#product_datatable').DataTable().ajax.reload(null, false);
                     }
 
-                    setTimeout(function () { dialogEl.close(); }, 2000);
+                    setTimeout(function () { dialogEl.close(); }, 9000);
                 } else {
                     $status.text('');
                     $progress.hide();
-                    $msg.text(res.message || 'Import fail ho gaya.').removeClass('success').addClass('error');
+                    $msg.text(res.message || 'Import failed').removeClass('success').addClass('error');
                     $submitBtn.prop('disabled', false).text('Upload');
                 }
             },
@@ -635,7 +641,7 @@ $(document).ready(function () {
                 $status.text('');
                 $progress.hide().removeClass('processing');
                 $closeBtn.prop('disabled', false);
-                $msg.text('Server error aaya. Dobara try karein.').removeClass('success').addClass('error');
+                $msg.text('Server error, try again.').removeClass('success').addClass('error');
                 $submitBtn.prop('disabled', false).text('Upload');
             }
         });

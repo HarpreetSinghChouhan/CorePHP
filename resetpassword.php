@@ -60,13 +60,13 @@ $token = htmlspecialchars($_GET["token"], ENT_QUOTES, 'UTF-8');
             </div>
 
             <div class="vr-row">
-              <div class="vr-field">
+              <div class="vr-field" style="display:block">
                 <label for="Password">New password</label>
                 <input type="password" name="Password" id="Password" autocomplete="new-password" placeholder="Enter secure password">
                 <small class="PasswordError vr-error"></small>
               </div>
 
-              <div class="vr-field">
+              <div class="vr-field" style="display:block;margin-bottom: -25px;" >
                 <label for="ConfirmPassword">Confirm password</label>
                 <input type="password" name="ConfirmPassword" id="ConfirmPassword" autocomplete="new-password" placeholder="Re-enter password">
                 <small class="ConfirmPasswordError vr-error"></small>

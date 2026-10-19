@@ -8,7 +8,7 @@ $user_id = $_SESSION["user_id"];
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
-    $query ="SELECT product.id, product.name, product.price, product.sku, product.description, product.stock_quantity, product.image, product.created_at, category.name AS category_name
+    $query ="SELECT product.id, product.name, product.price, product.sku, product.description, product.stock_quantity, product.image, product.image_url, product.created_at, category.name AS category_name
  FROM product INNER JOIN category ON category.id=product.category_id WHERE product.id='$id' AND product.user_id ='$user_id' LIMIT 1 ";
     $result = mysqli_query($conn, $query);
      if(mysqli_num_rows($result) <= 0 ){
@@ -16,8 +16,16 @@ if (isset($_GET['id'])) {
         exit;
      } 
     $row = mysqli_fetch_assoc($result);
+     if (!empty($row['image_url'])) {
+        $imageSrc = '/CorePHP/public/uploads/' . $row['image_url'];
+    } elseif (!empty($row['image'])) {
+        $imageSrc = 'data:image/jpeg;base64,' . base64_encode($row['image']);
+    } else {
+        $imageSrc = '/CorePHP/public/uploads/placeholder.png';
+    }
+    $base64Image = $imageSrc;
 
-       $product['image'] = 'data:image/jpeg;base64,' . base64_encode($row['image']);
+       $product['image'] = $base64Image;
         $product['id'] = $row['id'];
         $product['name'] = $row['name'];
         $product['category_name'] = $row['category_name'];
@@ -35,7 +43,7 @@ if (!$product){
 ?>
 
 
-<div class="admin-main">
+<!-- <div class="admin-main"> -->
     <?php require_once __DIR__ . '../../common/navbar.php'; ?>
     <script src="../assets/js/product.js"; defer ></script>
     <div class="model-content">
@@ -116,18 +124,17 @@ if (!$product){
                         
                         </div>
 
-                    </div> 
-                </div>
-                </div>
-
-                    <div class="form-actions" id="formActions">
+                    </div>   <div class="form-actions d-show" id="formActions">
                         <button type="button" class="btn btn-ghost btn-back">Back</button>
                         <button type="submit" class="btn btn-primary">Update Product</button>
                     </div>
+                </div> 
+                </div>
+
+                 
                 </form>
 
         </div>
-             
     </div>
    
 <?php require_once __DIR__ . '../../common/footer.php'; ?>

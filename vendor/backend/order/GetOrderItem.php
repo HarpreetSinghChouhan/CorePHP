@@ -12,7 +12,7 @@ include "../verify.php";
   $orderidr = mysqli_real_escape_string($conn,$orderid);
 $SelectQuery = "SELECT o.order_id,o.total_amount,o.user_id, o.product_quantity,
         u.id AS uuser_id, u.name AS uuser_name, u.email,
-        p.id AS product_id, p.image, p.sku, p.category_id, p.price, p.name AS pproduct_name,
+        p.id AS product_id, p.image,p.image_url, p.sku, p.category_id, p.price, p.name AS pproduct_name,
         c.id AS cat_id, c.name AS cat_name,
         oi.order_id AS oiorder_id, oi.product_price, oi.product_quantity, oi.user_id,oi.product_name 
         FROM `order_item` AS oi 
@@ -29,7 +29,16 @@ $SelectQuery = "SELECT o.order_id,o.total_amount,o.user_id, o.product_quantity,
       $order_items = []; 
       while( $row = mysqli_fetch_assoc($result)){
         //  print_r($row);
-         $image =  'data:image/jpeg;base64,' . base64_encode($row['image']);
+        //  $image =  'data:image/jpeg;base64,' . base64_encode($row['image']);
+            if (!empty($row['image_url'])) {
+        $imageSrc = '/CorePHP/public/uploads/' . $row['image_url'];
+    } elseif (!empty($row['image'])) {
+        $imageSrc = 'data:image/jpeg;base64,' . base64_encode($row['image']);
+    } else {
+        $imageSrc = '/CorePHP/public/uploads/placeholder.png';
+    }
+    $image = $imageSrc;
+
         $object = [
             "order_id" => $row["oiorder_id"],
             "product_name" => $row["pproduct_name"],

@@ -192,7 +192,7 @@ $initial = strtoupper(substr($user['name'], 0, 1));
                     <label for="ConfirmPassword">Confirm Password</label>
                     <input type="password" name="ConfirmPassword" id="ConfirmPassword" placeholder="Enter Your Confirm Password" >
                     <div id="ConfirmPasswordError" style="color:red" ></div>
-                    <input type="checkbox" name="ShowPashword"  id="ShowPassword"> <label for="ShowPassword" id="PasswordControl"  style="display:inline;"> Show Password </label>
+                    <div><input type="checkbox" name="ShowPashword"  id="ShowPassword"> <label for="ShowPassword" id="PasswordControl"  style="display:inline;"> Show Password </label></div>
                 </div>
 
                     <div class="form-actions" id="formActions">
