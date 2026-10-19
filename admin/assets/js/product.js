@@ -501,4 +501,143 @@ $(document).ready(function () {
             })
 
     });
+
+    const IMPORT_URL = '/CorePHP/admin/backend/product/importproducts.php';
+
+    const $dialog = $(`
+        <dialog id="importDialog">
+            <form id="importForm" enctype="multipart/form-data">
+                <div class="import-dialog-box">
+                    <h3>Import Products</h3>
+                    <p>CSV file select karein.</p>
+                    <input type="file" name="csv_file" id="csvFile" accept=".csv" required>
+                    <div class="import-progress" id="importProgress">
+                        <div class="import-progress-bar" id="importProgressBar"></div>
+                    </div>
+                    <div id="importStatus" class="import-status"></div>
+                    <div id="importMessage" class="import-message"></div>
+                    <div class="import-dialog-actions">
+                        <button type="button" class="btn" id="importCloseBtn">Close</button>
+                        <button type="submit" class="btn" id="importSubmitBtn">Upload</button>
+                    </div>
+                </div>
+            </form>
+        </dialog>
+    `);
+    $('body').append($dialog);
+
+    const dialogEl = $dialog[0];
+    const $form = $('#importForm');
+    const $msg = $('#importMessage');
+    const $status = $('#importStatus');
+    const $progress = $('#importProgress');
+    const $bar = $('#importProgressBar');
+    const $submitBtn = $('#importSubmitBtn');
+    const $closeBtn = $('#importCloseBtn');
+
+    function resetDialog() {
+        $form[0].reset();
+        $msg.text('').removeClass('success error');
+        $status.text('');
+        $progress.hide().removeClass('processing');
+        $bar.css('width', '0%');
+        $submitBtn.prop('disabled', false).text('Upload');
+        $closeBtn.prop('disabled', false);
+    }
+
+    $(document).on('click', '.import-csv-btn', function () {
+        resetDialog();
+        dialogEl.showModal();
+    });
+
+    $(document).on('click', '#importCloseBtn', function () {
+        dialogEl.close();
+    });
+
+    $dialog.on('click', function (e) {
+        if (e.target === dialogEl && !$closeBtn.prop('disabled')) dialogEl.close();
+    });
+
+    $dialog.on('cancel', function (e) {
+        if ($closeBtn.prop('disabled')) e.preventDefault();
+    });
+
+    $form.on('submit', function (e) {
+        e.preventDefault();
+
+        const file = $('#csvFile')[0].files[0];
+
+        if (!file) {
+            $msg.text('Pehle file select karein.').removeClass('success').addClass('error');
+            return;
+        }
+
+        if (!file.name.toLowerCase().endsWith('.csv')) {
+            $msg.text('Sirf .csv file allowed hai.').removeClass('success').addClass('error');
+            return;
+        }
+
+        const formData = new FormData(this);
+
+        $.ajax({
+            url: IMPORT_URL,
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            xhr: function () {
+                const xhr = $.ajaxSettings.xhr();
+                xhr.upload.addEventListener('progress', function (e) {
+                    if (e.lengthComputable) {
+                        const percent = Math.round((e.loaded / e.total) * 100);
+                        $bar.css('width', percent + '%');
+                        $status.text('Uploading... ' + percent + '%');
+                        if (percent === 100) {
+                            $progress.addClass('processing');
+                            $status.text('Processing... products import ho rahe hain');
+                        }
+                    }
+                });
+                return xhr;
+            },
+            beforeSend: function () {
+                $submitBtn.prop('disabled', true).text('Please wait...');
+                $closeBtn.prop('disabled', true);
+                $msg.text('').removeClass('success error');
+                $bar.css('width', '0%');
+                $progress.show().removeClass('processing');
+                $status.text('Uploading... 0%');
+            },
+            success: function (res) {
+                $progress.removeClass('processing');
+                $bar.css('width', '100%');
+                $closeBtn.prop('disabled', false);
+
+                if (res.success) {
+                    $status.text('Done');
+                    $msg.text(res.message).removeClass('error').addClass('success');
+
+                    if ($.fn.DataTable && $.fn.DataTable.isDataTable('#product_datatable')) {
+                        $('#product_datatable').DataTable().ajax.reload(null, false);
+                    }
+
+                    setTimeout(function () { dialogEl.close(); }, 2000);
+                } else {
+                    $status.text('');
+                    $progress.hide();
+                    $msg.text(res.message || 'Import fail ho gaya.').removeClass('success').addClass('error');
+                    $submitBtn.prop('disabled', false).text('Upload');
+                }
+            },
+            error: function (xhr) {
+                console.log(xhr.responseText);
+                $status.text('');
+                $progress.hide().removeClass('processing');
+                $closeBtn.prop('disabled', false);
+                $msg.text('Server error aaya. Dobara try karein.').removeClass('success').addClass('error');
+                $submitBtn.prop('disabled', false).text('Upload');
+            }
+        });
+    });
 });

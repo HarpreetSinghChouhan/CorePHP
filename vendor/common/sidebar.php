@@ -2,13 +2,12 @@
 
 if (!isset($activePage) || $activePage === '') {
     $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-
-    if     (strpos($path, '/vendor/category/mycategory.php') !== false) $activePage = 'mycategory';
+    if(strpos($path, '/profile.php') !== false) $activePage = 'profile';
+    elseif     (strpos($path, '/vendor/category/mycategory.php') !== false) $activePage = 'mycategory';
     elseif (strpos($path, '/vendor/category/')               !== false) $activePage = 'category';
     elseif (strpos($path, '/vendor/product/')                !== false) $activePage = 'product';
     elseif (strpos($path, '/vendor/cart/')                   !== false) $activePage = 'cart';
     elseif (strpos($path, '/vendor/wishlist/')               !== false) $activePage = 'wishlist';
-    elseif (strpos($path, '/vendor/profile')                 !== false) $activePage = 'profile';
     elseif (strpos($path, '/vendor/order')                 !== false) $activePage = 'orders';
     else $activePage = 'dashboard';
 }
@@ -27,7 +26,7 @@ function vr_active($name, $current) {
             <?= strtoupper(substr($_SESSION['name'] ?? 'V', 0, 1)) ?>
         </div>
         <div>
-            <strong><?= htmlspecialchars($_SESSION['name'] ?? 'Vendor Name') ?></strong>
+            <strong><?= htmlspecialchars($_SESSION['user_name'] ?? 'Vendor Name') ?></strong>
             <small>Vendor</small>
         </div>
     </div>

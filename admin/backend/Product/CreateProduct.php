@@ -14,7 +14,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $quantity = $_POST['ProductQuantity'] ?? '';
     $description = $_POST['Description'] ?? '';
     $categoryname = $_POST['ProductCategory'] ?? '';
-
+    $name = mysqli_real_escape_string($conn,$name);
+    $description = mysqli_real_escape_string($conn,$description); 
     $query = "SELECT * FROM product WHERE sku='$sku'";
     $result = mysqli_query($conn, $query);
 

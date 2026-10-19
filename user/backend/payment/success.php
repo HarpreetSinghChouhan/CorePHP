@@ -13,6 +13,51 @@ if (!isset($_GET['session_id']) || $_GET['session_id'] === '') {
     exit;
 }
 
+function addrevenue($conn, $target_id, $target_role, $amount)
+{
+    $target_id   = (int) $target_id;
+    $amount      = (float) $amount;
+    $target_role = mysqli_real_escape_string($conn, $target_role);
+
+    $sql       = "SELECT * FROM `revenue` WHERE user_id = '$target_id' LIMIT 1";
+    $resultsql = mysqli_query($conn, $sql);
+
+    if (mysqli_num_rows($resultsql) == 0) {
+        $sqlquery = "INSERT INTO `revenue` (user_id, role, revenue) VALUES ('$target_id', '$target_role', '$amount')";
+        mysqli_query($conn, $sqlquery);
+    } else {
+        $resultsqlrevenue = mysqli_fetch_assoc($resultsql);
+        $revenue          = $resultsqlrevenue['revenue'] + $amount;
+        $sqlquery         = "UPDATE `revenue` SET revenue = '$revenue' WHERE user_id = '$target_id'";
+        mysqli_query($conn, $sqlquery);
+    }
+}
+
+function distributerevenue($conn, $owner_id, $amount, $admin_id)
+{
+    $amount = (float) $amount;
+
+    if (empty($owner_id)) {
+        addrevenue($conn, $admin_id, 'admin', $amount);
+        return;
+    }
+
+    $owner_id      = (int) $owner_id;
+    $onwerquery    = "SELECT id, role FROM `user` WHERE id = '$owner_id' LIMIT 1";
+    $runonwerquery = mysqli_query($conn, $onwerquery);
+    $resultonwer   = mysqli_fetch_assoc($runonwerquery);
+
+    if (!$resultonwer || $resultonwer['role'] === 'admin') {
+        addrevenue($conn, $admin_id, 'admin', $amount);
+    } else {
+        $admin_share  = round($amount * 0.20, 2);
+        $vendor_share = $amount - $admin_share;
+
+        addrevenue($conn, $owner_id, $resultonwer['role'], $vendor_share);
+        addrevenue($conn, $admin_id, 'admin', $admin_share);
+    }
+}
+
 $session_id = mysqli_real_escape_string($conn, $_GET['session_id']);
 $user_id    = (int) $_SESSION['user_id'];
 $isPaid     = false;
@@ -44,6 +89,11 @@ if (isset($session['payment_status']) && $session['payment_status'] === 'paid') 
 
     if (mysqli_num_rows($runorderquery) == 0) {
 
+        $adminquery  = "SELECT id FROM `user` WHERE role = 'admin' LIMIT 1";
+        $adminresult = mysqli_query($conn, $adminquery);
+        $adminrow    = mysqli_fetch_assoc($adminresult);
+        $admin_id    = (int) $adminrow['id'];
+
         $maxidquery  = "SELECT MAX(order_id) as max_id FROM `order`";
         $maxidresult = mysqli_query($conn, $maxidquery);
         $maxidrow    = mysqli_fetch_assoc($maxidresult);
@@ -62,7 +112,6 @@ if (isset($session['payment_status']) && $session['payment_status'] === 'paid') 
             $meta_product_id = (int) $session['metadata']['product_id'];
             $selectproduct   = "SELECT * FROM product WHERE id = '$meta_product_id'";
             $result          = mysqli_query($conn, $selectproduct);
-
             while ($row = mysqli_fetch_assoc($result)) {
                 $product_id     = (int) $row["id"];
                 $product_sku    = $row["sku"];
@@ -70,7 +119,10 @@ if (isset($session['payment_status']) && $session['payment_status'] === 'paid') 
                 $product_name   = mysqli_real_escape_string($conn, $row["name"]);
                 $product_price  = $row["price"];
                 $product_quantity += $product_qty1;
-                $stock = $row["stock_quantity"] - $product_qty1;
+                $stock    = $row["stock_quantity"] - $product_qty1;
+                $onwer_id = $row['user_id'];
+
+                distributerevenue($conn, $onwer_id, $product_price * $product_qty1, $admin_id);
 
                 $productquery = "UPDATE `product` SET stock_quantity='$stock' WHERE sku='$product_sku'";
                 mysqli_query($conn, $productquery);
@@ -83,10 +135,8 @@ if (isset($session['payment_status']) && $session['payment_status'] === 'paid') 
             $insertquery = "INSERT INTO `order` (order_id, user_id, total_amount, product_quantity, session_id, status)
                             VALUES ('$order_id', '$user_id', '$total_amount', '$product_quantity', '$session_id', 'paid')";
             mysqli_query($conn, $insertquery);
-
         } else {
-
-            $selectcart = "SELECT cart.product_id, cart.quantity, product.name, product.price, product.stock_quantity, product.sku
+            $selectcart = "SELECT cart.product_id, cart.quantity, product.name, product.price, product.stock_quantity, product.sku, product.user_id AS owner_id
                            FROM cart
                            JOIN product ON cart.product_id = product.id
                            WHERE cart.user_id = '$user_id'";
@@ -99,7 +149,10 @@ if (isset($session['payment_status']) && $session['payment_status'] === 'paid') 
                 $product_name   = mysqli_real_escape_string($conn, $row["name"]);
                 $product_price  = $row["price"];
                 $product_quantity += $product_qty1;
-                $stock = $row["stock_quantity"] - $product_qty1;
+                $stock    = $row["stock_quantity"] - $product_qty1;
+                $onwer_id = $row['owner_id'];
+
+                distributerevenue($conn, $onwer_id, $product_price * $product_qty1, $admin_id);
 
                 $productquery = "UPDATE `product` SET stock_quantity='$stock' WHERE sku='$product_sku'";
                 mysqli_query($conn, $productquery);
@@ -119,6 +172,7 @@ if (isset($session['payment_status']) && $session['payment_status'] === 'paid') 
     }
 }
 ?>
+
 <style>
 ._failed { border-bottom: solid 4px red !important; }
 ._failed i { color: red !important; }
@@ -168,7 +222,7 @@ a { text-decoration: none; }
             </div>
         </div>
     </div>
-<?php } else { ?>
+<?php  } else { ?>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-5">
@@ -181,4 +235,4 @@ a { text-decoration: none; }
             </div>
         </div>
     </div>
-<?php } ?>
+<?php  } ?> 

@@ -86,7 +86,7 @@ $(document).ready(function () {
     const ageValue = age.val().trim();
     const passwordValue = password.val().trim();
     const phonenumberValue = phonenumber.val().trim();
-    const phonenumberPattern = /^\+\d{1,3}\s\d{7,15}$/; 
+    const phonenumberPattern = /^[6-9]\d{9}$/;   
     const gendervalue = $('#Gender').val() || "";
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
      $(".UserNameError").html("");  

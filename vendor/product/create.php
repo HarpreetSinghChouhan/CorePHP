@@ -25,7 +25,7 @@ if (isset($conn) && $conn) {
     <?php require_once __DIR__ . '../../common/navbar.php'; ?>
     <script src="../assets/js/product.js" defer></script>
 
-    <div class="model-content">
+    <div class="model-content"> 
         <div class="user-content">
 
             <div class="card profile-details">
@@ -90,13 +90,13 @@ if (isset($conn) && $conn) {
                             <textarea name="Description" id="Description" placeholder="Enter Product Description"></textarea>
                             <div class="DescriptionError" style="color:red"></div>
                         </div>
-
                     </div><!-- /.form-grid -->
 
-                    <div class="form-actions" id="formActions">
+  <div class="form-actions d-show" id="formActions">
                         <button type="button" class="btn btn-ghost btn-back">Back</button>
                         <button type="submit" class="btn btn-primary">Create Product</button>
                     </div>
+                  
                 </form>
 
             </div>

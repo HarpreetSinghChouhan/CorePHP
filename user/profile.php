@@ -74,7 +74,7 @@ $initial = strtoupper(substr($user['name'], 0, 1));
                         </div>
                         <div class="field">
                             <label>Phone Number</label>
-                            <input type="text" name="phone" placeholder="+91 98765 43210" Id="Phone" value="<?= htmlspecialchars($user['phone']) ?>" disabled>
+                            <input type="text" name="phone" placeholder="98765 43210" id="Phone" value="<?= htmlspecialchars($user['phone']) ?>" disabled>
                            <div class="PhoneError" style="color:red" ></div>
                         
                         </div>

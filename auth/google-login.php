@@ -4,7 +4,7 @@ header("Content-Type: application/json");
 include "../config/database.php";
 include "../config/config.php";
 
-// $GOOGLE_CLIENT_ID = "203220989350-r3ikpbkq7p3oqluaj2o25l4dqfqq37km.apps.googleusercontent.com";
+$GOOGLE_CLIENT_ID = "203220989350-r3ikpbkq7p3oqluaj2o25l4dqfqq37km.apps.googleusercontent.com";
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     echo json_encode(["success" => false, "message" => "Invalid request"]);

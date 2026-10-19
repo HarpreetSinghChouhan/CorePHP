@@ -40,6 +40,7 @@ $activePage = $activePage ?? '';
       <link rel="stylesheet" href="/CorePHP/vendor/assets/style/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/v/dt/dt-3.1.2/datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/CorePHP/vendor/assets/js/mainscript.js" defer></script>
 </head>

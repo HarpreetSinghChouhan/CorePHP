@@ -6,9 +6,8 @@
     </div>
        <?php  if(isset($_SESSION['admin_id'])){
                  ?> <div>
-                     <button class="back-to-admin back-admin "  >Back to Admin</button>
+                     <button class="back-to-admin back-admin">Back to Admin</button>
                  </div><?php
-
             }?> 
     <div class="navbar-right">
         <div class="icon-btn"><i class="fa-solid fa-bell"></i></div>
