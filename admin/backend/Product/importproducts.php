@@ -52,7 +52,7 @@ function saveZipImage($imgName, $zip, $zipMap, $uploadDir, $allowedMime, &$saved
     if ($imgName === '') return '';
 
     if (!$zip) {
-        $error = "image '$imgName' diya hai lekin ZIP upload nahi hui";
+        $error = "image '$imgName' name Are given csv but ZIP not Have named image";
         return '';
     }
     if (!isset($zipMap[$imgName])) {
@@ -60,7 +60,7 @@ function saveZipImage($imgName, $zip, $zipMap, $uploadDir, $allowedMime, &$saved
         return '';
     }
     if ($zip->statIndex($zipMap[$imgName])['size'] > 2 * 1024 * 1024) {
-        $error = "image 2 MB se badi hai";
+        $error = "image size are Bigger that 2MB";
         return '';
     }
 
@@ -73,7 +73,7 @@ function saveZipImage($imgName, $zip, $zipMap, $uploadDir, $allowedMime, &$saved
 
     $newName = bin2hex(random_bytes(16)) . '.' . $allowedMime[$mime];
     if (file_put_contents($uploadDir . $newName, $data) === false) {
-        $error = "image save nahi ho payi";
+        $error = "image Are NOt Saved";
         return '';
     }
 
@@ -150,7 +150,7 @@ try {
 
                 if ($imageUrl === '') {
                     $skipped++;
-                    $errors[] = "Row $rowNum: SKU '$sku' me image nahi hai, lekin update fail: $imgError";
+                    $errors[] = "Row $rowNum: SKU '$sku' Image are Empty, But update fail: $imgError";
                 } else {
                     $existingId  = (int) $existing['id'];
                     $imageUrlEsc = mysqli_real_escape_string($conn, $imageUrl);
@@ -210,7 +210,7 @@ try {
         $updatedAt   = mysqli_real_escape_string($conn, ($row['updated_at'] ?? '') !== '' ? $row['updated_at'] : $createdAt);
 
         $query = "INSERT INTO $productTable
-                  (category_id, name, price,user_id  sku, description, stock_quantity, image, image_url, status, is_deleted, created_at, updated_at)
+                  (category_id, name, price,user_id, sku, description, stock_quantity, image, image_url, status, is_deleted, created_at, updated_at)
                   VALUES
                   ($categoryId, '$nameEsc', $price,'$user_id', '$skuEsc', '$descEsc', $stock, '', '$imageUrlEsc', '$status', $isDeleted, '$createdAt', '$updatedAt')";
 
@@ -219,6 +219,7 @@ try {
 
         $inserted++;
     }
+    // vhaa porpermision lene ke liye jaaye ki jo bhi reape product hai uski quantity increase karni hai ya nahi ja to uske baad jab uska response aaye ga or fir sabi ka accoring to increase quantity ho jaae. or yhaa pe ye bhi set karna hai ki jo bhi jaiada product aane pe jaise ki  2000 ja 4000 row aa jae to kaise handle karni padde gi  
 
     mysqli_commit($conn);
 } catch (Throwable $e) {
