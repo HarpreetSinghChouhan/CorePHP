@@ -1,7 +1,17 @@
 
 $(document).ready(function () {
     let table = null;
-
+     const Toast = swal.mixin({
+      toast: true,
+      position: "top-end",  
+      showConfirmButton: false,
+      timer: 3000, 
+      timerProgressBar: true,
+      didOpen: (toast) =>{
+        toast.onmouseenter  = swal.stopTimer;
+        toast.onmouseleave = swal.resumeTimer;
+      }
+    });
     const esc = (s) => $("<div>").text(s ?? "").html();
 
     if ($("#product_datatable").length) {
@@ -35,6 +45,16 @@ $(document).ready(function () {
                       return esc(d.length > 40 ? d.slice(0, 40) + "..." : d);
                   } },
                 { data: "stock_quantity" },
+                {data:"stock",
+                     render: (d) => {
+                           if (d === "In Stock") {
+                              return `<span style="color: green; font-weight: 600;">${esc(d)}</span>`;
+                               } else if (d === "Out of Stock") {
+                             return `<span style="color: red; font-weight: 600;">${esc(d)}</span>`;
+                                   }
+                        return esc(d);
+                     }
+                  },
                 { data: null, orderable: false, searchable: false, className: "action-cell",
                   render: () => `
                     <button type="button" class="btn-icon edit-link-btn edit-user" title="Edit">
@@ -227,13 +247,13 @@ $(document).ready(function () {
         response = response.trim();
 
         if (response === "Exited") {
-            Swal.fire({
+            Toast.fire({
                 title: "Product Already Exists",
                 icon: "warning"
             });
         } else if (response === "Success") {
-            Swal.fire({
-                title: "Product Created Successfully",
+            Toast.fire({
+                title: "Product Updated Successfully",
                 icon: "success"
             }).then(() => {
                 window.location = "./index.php";
@@ -410,12 +430,12 @@ $(document).ready(function () {
         response = response.trim();
 
         if (response === "Exited") {
-            Swal.fire({
+            Toast.fire({
                 title: "Product Already Exists",
                 icon: "warning"
             });
         } else if (response === "Success") {
-            Swal.fire({
+            Toast.fire({
                 title: "Product Created Successfully",
                 icon: "success"
             }).then(() => {
@@ -480,5 +500,150 @@ $(document).ready(function () {
                 }
             })
 
+    });
+
+    const IMPORT_URL = '/CorePHP/admin/backend/product/importproducts.php';
+
+    const $dialog = $(`
+        <dialog id="importDialog">
+            <form id="importForm" enctype="multipart/form-data">
+                <div class="import-dialog-box">
+                    <h3>Import Products</h3>
+                    <p>Select CSV file And Select Zip File For Image uplaod</p>
+                    <input type="file" name="csv_file" id="csvFile" title="select csv file" accept=".csv" required>
+                    <input type="file" name="images_zip" id="zipFile" title="select zip file" accept=".zip">
+                    <div class="import-progress" id="importProgress">
+                        <div class="import-progress-bar" id="importProgressBar"></div>
+                    </div>
+                    <div id="importStatus" class="import-status"></div>
+                    <div id="importMessage" class="import-message"></div>
+                    <div class="import-dialog-actions">
+                        <button type="button" class="btn" id="importCloseBtn">Close</button>
+                        <button type="submit" class="btn" id="importSubmitBtn">Upload</button>
+                    </div>
+                </div>
+            </form>
+        </dialog>
+    `);
+    $('body').append($dialog);
+
+    const dialogEl = $dialog[0];
+    const $form = $('#importForm');
+    const $msg = $('#importMessage');
+    const $status = $('#importStatus');
+    const $progress = $('#importProgress');
+    const $bar = $('#importProgressBar');
+    const $submitBtn = $('#importSubmitBtn');
+    const $closeBtn = $('#importCloseBtn');
+
+    function resetDialog() {
+        $form[0].reset();
+        $msg.text('').removeClass('success error');
+        $status.text('');
+        $progress.hide().removeClass('processing');
+        $bar.css('width', '0%');
+        $submitBtn.prop('disabled', false).text('Upload');
+        $closeBtn.prop('disabled', false);
+    }
+
+    $(document).on('click', '.import-csv-btn', function () {
+        resetDialog();
+        dialogEl.showModal();
+    });
+
+    $(document).on('click', '#importCloseBtn', function () {
+        dialogEl.close();
+    });
+
+    $dialog.on('click', function (e) {
+        if (e.target === dialogEl && !$closeBtn.prop('disabled')) dialogEl.close();
+    });
+
+    $dialog.on('cancel', function (e) {
+        if ($closeBtn.prop('disabled')) e.preventDefault();
+    });
+
+    $form.on('submit', function (e) {
+        e.preventDefault();
+       
+        const file = $('#csvFile')[0].files[0];
+
+        if (!file) {
+            $msg.text('Please Select Image').removeClass('success').addClass('error');
+            return;
+        }
+
+        if (!file.name.toLowerCase().endsWith('.csv')) {
+            $msg.text('Only .csv file allowed hai.').removeClass('success').addClass('error');
+            return;
+        }
+        const zip = $('#zipFile')[0].files[0];
+            if (zip && !zip.name.toLowerCase().endsWith('.zip')) {
+                $msg.text('Only .zip file allowed.').removeClass('success').addClass('error');
+                return;
+            }
+
+        const formData = new FormData(this);
+
+        $.ajax({
+            url: IMPORT_URL,
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            xhr: function () {
+                const xhr = $.ajaxSettings.xhr();
+                xhr.upload.addEventListener('progress', function (e) {
+                    if (e.lengthComputable) {
+                        const percent = Math.round((e.loaded / e.total) * 100);
+                        $bar.css('width', percent + '%');
+                        $status.text('Uploading... ' + percent + '%');
+                        if (percent === 100) {
+                            $progress.addClass('processing');
+                            $status.text('Processing... products import');
+                        }
+                    }
+                });
+                return xhr;
+            },
+            beforeSend: function () {
+                $submitBtn.prop('disabled', true).text('Please wait...');
+                $closeBtn.prop('disabled', true);
+                $msg.text('').removeClass('success error');
+                $bar.css('width', '0%');
+                $progress.show().removeClass('processing');
+                $status.text('Uploading... 0%');
+            },
+            success: function (res) {
+                $progress.removeClass('processing');
+                $bar.css('width', '100%');
+                $closeBtn.prop('disabled', false);
+
+                if (res.success) {
+                    $status.text('Done');
+                    $msg.text(res.message).removeClass('error').addClass('success');
+
+                    if ($.fn.DataTable && $.fn.DataTable.isDataTable('#product_datatable')) {
+                        $('#product_datatable').DataTable().ajax.reload(null, false);
+                    }
+
+                    setTimeout(function () { dialogEl.close(); }, 9000);
+                } else {
+                    $status.text('');
+                    $progress.hide();
+                    $msg.text(res.message || 'Import failed').removeClass('success').addClass('error');
+                    $submitBtn.prop('disabled', false).text('Upload');
+                }
+            },
+            error: function (xhr) {
+                console.log(xhr.responseText);
+                $status.text('');
+                $progress.hide().removeClass('processing');
+                $closeBtn.prop('disabled', false);
+                $msg.text('Server error, try again.').removeClass('success').addClass('error');
+                $submitBtn.prop('disabled', false).text('Upload');
+            }
+        });
     });
 });

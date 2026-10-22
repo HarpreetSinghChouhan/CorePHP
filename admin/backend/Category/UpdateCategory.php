@@ -3,12 +3,11 @@ include "../../../config/database.php";
 if($_SERVER["REQUEST_METHOD"] === "POST"){
   $name = $_POST['CategoryName'];
   $id = $_POST["CategoryId"];
- $query = "SELECT * FROM category WHERE name='$name' LIMIT 1";
+ $query = "SELECT * FROM category WHERE name='$name' AND id !='$id' LIMIT 1";
  $result = mysqli_query($conn,$query);
  if (!$result) {
     die(mysqli_error($conn));
 }
-
  if(mysqli_num_rows($result) > 0){
     echo "Exited";
  }

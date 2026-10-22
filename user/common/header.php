@@ -21,6 +21,9 @@ if(!isset($email)){
              if($user["role"] == "admin" ){
             header("Location: /CorePHP/admin/index.php");
              exit;
+            }  elseif ($user["role"] == "vendor" ){
+            header("Location: /CorePHP/vendor/index.php");
+             exit;
             } 
             else {
             $username = $user["name"];

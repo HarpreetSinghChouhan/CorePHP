@@ -26,6 +26,9 @@ $sbName = $_SESSION['user_name'] ?? 'Admin';
         <li><a href="/CorePHP/admin/user/index.php" class="<?php echo isActivePage('user'); ?>">
             <span class="icon"><i class="fa-solid fa-users"></i></span> All Users
         </a></li>
+        <li><a href="/CorePHP/admin/vendor/index.php" class="<?php echo isActivePage('vendor'); ?>">
+            <span class="icon"><i class="fa-solid fa-users"></i></span> All Vendor
+        </a></li>
         <li><a href="/CorePHP/admin/product/index.php" class="<?php echo isActivePage('product'); ?>">
             <span class="icon"><i class="fa-solid fa-box"></i></span> Product
         </a></li>

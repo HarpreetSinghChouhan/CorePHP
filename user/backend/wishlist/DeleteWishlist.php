@@ -32,7 +32,7 @@ if (!$id) {
     exit;
 }
 
-$deletequery = "DELETE FROM `wishlist` WHERE id = $id AND user_id = '$userid'";
+$deletequery = "UPDATE  `wishlist` SET is_active='1' WHERE id = $id AND user_id = '$userid'";
 $resultdelete = mysqli_query($conn, $deletequery);
 
 if ($resultdelete && mysqli_affected_rows($conn) > 0) {

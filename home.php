@@ -13,7 +13,7 @@ include "./includes/home/header.php";
 </section>
 
 <main class="products-section" id="products">
-
+  
   <!-- Latest products (top 8) -->
   <div class="section-head">
     <h2>Latest Products</h2>

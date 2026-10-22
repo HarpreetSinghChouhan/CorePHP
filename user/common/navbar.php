@@ -4,6 +4,11 @@
         <h2>Welcome back, <?php echo htmlspecialchars(explode(' ', $_SESSION['user_name'])[0]); ?> 👋</h2>
         <span><?php echo date('l, d F Y'); ?></span>
     </div>
+       <?php  if(isset($_SESSION['admin_id'])){
+                 ?> <div>
+                     <button class="back-to-admin back-admin">Back to Admin</button>
+                 </div><?php
+            }?> 
     <div class="navbar-right">
         <div class="icon-btn"><i class="fa-solid fa-bell"></i></div>
          <?php 
@@ -17,12 +22,14 @@
             }
          ?>
         <!-- <div class="header-card-button cart-link " > <div class="icon-btn"><i class="fa-solid fa-cart-shopping"></i> </div><span class="count-ui  cart-count" > <?php echo $quantity ?></span> </div> -->
-       <div class="header-card-button cart-link">
-            <div class="icon-btn">
-                <i class="fa-solid fa-cart-shopping"></i>
-                <span class="cart-count"><?php echo $quantity; ?></span>
-            </div>
-        </div>
+      <div class="header-card-button cart-link">
+    <div class="icon-btn">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <?php  //if ($quantity > 0): ?>
+            <span class="cart-count"><?php echo $quantity > 99 ? '99+' : $quantity; ?></span>
+        <?php // endif; ?>
+    </div>
+</div>
 
         <div class="icon-btn"><i class="fa-solid fa-search"></i></div>
         <a href="<?php echo $site ?>home.php" style="text-decoration:none" >

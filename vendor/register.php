@@ -1,9 +1,9 @@
 <?php
   session_start();
-  // if (isset($_SESSION["user_id"])) {
-  //   header("location: /CorePHP/login.php");
-  //   exit;
-  // }
+  if (isset($_SESSION["user_id"])) {
+    header("location: /CorePHP/login.php");
+    exit;
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,7 +26,6 @@
 <body class="vr-body">
   <div class="vr-shell">
 
-    <!-- Left: pitch + what the vendor needs -->
     <aside class="vr-aside">
       <div class="vr-brand"><i class="fa-solid fa-store"></i> Your Marketplace</div>
 
@@ -130,66 +129,6 @@
           </form>
           <p class="vr-foot">Already selling with us? <a href="/CorePHP/login.php">Log in</a></p>
         </section>
-
-        <!-- STEP 2 -->
-        <!-- <section class="vr-panel step-2" id="panel-2" hidden>
-          <form id="Information_Submit" class="vr-form" method="post" enctype="multipart/form-data" novalidate>
-
-            <div>
-              <h2>Verification</h2>
-              <div class="vr-field">
-                <label for="PanNumber">PAN number</label>
-                <input type="text" name="PanNumber" id="PanNumber" maxlength="10"
-                       autocapitalize="characters" autocomplete="off" placeholder="ABCDE1234F">
-                <small class="vr-error" data-error-for="PanNumber"></small>
-              </div>
-
-              <div class="vr-field" style="margin-top:16px">
-                <label for="PanImage">PAN card photo</label>
-                <label class="vr-drop" for="PanImage">
-                  <span class="vr-thumb" id="PanThumb"><i class="fa-regular fa-image"></i></span>
-                  <span>
-                    <strong id="PanFileName">Choose a file</strong>
-                    <small>JPG or PNG, up to 2 MB. Make sure the number is readable.</small>
-                  </span>
-                  <input type="file" name="PanImage" id="PanImage" accept="image/png,image/jpeg">
-                </label>
-                <small class="vr-error" data-error-for="PanImage"></small>
-              </div>
-            </div>
-
-            <div>
-              <h2>Store and pickup</h2>
-              <div class="vr-row">
-                <div class="vr-field">
-                  <label for="FullName">Full name</label>
-                  <input type="text" name="FullName" id="FullName" autocomplete="name" placeholder="As on your PAN card">
-                  <small class="vr-error" data-error-for="FullName"></small>
-                </div>
-                <div class="vr-field">
-                  <label for="DisplayName">Store name</label>
-                  <input type="text" name="DisplayName" id="DisplayName" placeholder="Shown to customers">
-                  <small class="vr-error" data-error-for="DisplayName"></small>
-                </div>
-              </div>
-
-              <div class="vr-field" style="margin-top:16px">
-                <label for="StoreDetail">Pickup address</label>
-                <textarea name="StoreDetail" id="StoreDetail" placeholder="House or shop no., street, city, state, PIN code"></textarea>
-                <small class="vr-hint">Our courier will collect orders from here.</small>
-                <small class="vr-error" data-error-for="StoreDetail"></small>
-              </div>
-            </div>
-
-            <div class="vr-actions">
-              <button type="button" class="vr-btn vr-btn-ghost" id="BackToStep1">Back</button>
-              <button type="submit" class="vr-btn vr-btn-primary">
-                Submit for review <i class="fa-solid fa-check"></i>
-              </button>
-            </div>
-          </form>
-        </section> -->
-
       </div>
     </main>
   </div>

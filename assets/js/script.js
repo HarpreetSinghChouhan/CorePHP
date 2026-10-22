@@ -24,7 +24,7 @@ $(document).ready(function(){
     // let form = $("#FormSubmit");
   $("#FormSubmit").on("submit", function(e){
     e.preventDefault(); 
-    const phonenumberPattern = /^\+\d{1,3}\s\d{7,15}$/; 
+    const phonenumberPattern = /^[6-9][0-9]{9}$/; 
     const gendervalue = $('input[name="Gender"]:checked') || "";
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
      $(".UserNameError, .EmailError, .GenderError, .AgeError, .PasswordError, .ConfirmPasswordError").html("");
@@ -49,13 +49,7 @@ $(document).ready(function(){
             isValid: function() { return this.value !== '' && emailPattern.test(this.value); },
             message: this.value === '' ? "Email is required." : "Email is not in a valid format."
         },
-        {
-            input:phonenumber,
-            value:phonenumber.val().trim(),
-            errorEl:$(".PhoneNumberError"),
-            isValid: function() { return this.value !== '' && phonenumberPattern.test(this.value); },
-            message: this.value === '' ? "Phone Number is required." : "Phone Number is not in a valid format."
-        },
+       
         {
         input: age,
         value: age.val().trim(),
@@ -70,6 +64,13 @@ $(document).ready(function(){
         isValid: function() { return gendervalue.length !== 0; },
         message: "Gender is required."
     },
+     {
+            input:phonenumber,
+            value:phonenumber.val().trim(),
+            errorEl:$(".PhoneNumberError"),
+            isValid: function() { return this.value !== '' && phonenumberPattern.test(this.value); },
+            message: this.value === '' ? "Phone Number is required." : "Phone Number is not in a valid format."
+        },
     {
         input: password,
         value: password.val().trim(),

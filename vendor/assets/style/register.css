@@ -607,3 +607,52 @@
 .vr-body .vr-seg input.is-invalid + span {
   border-color: var(--vr-danger);
 }
+/* Customer login/register extras.
+   Base styling comes from vendor register.css (.vr-* classes).
+   Is file ko register.css ke BAAD link karna. */
+
+/* empty error boxes (filled by JS) take no space */
+.vr-body .vr-error:empty { display: none; }
+.vr-body .vr-error { display: block; }
+
+/* password field with eye button */
+.vr-body .vr-pass .eye-icon {
+  position: absolute;
+  left: auto;
+  right: 4px;
+  top: 50%;
+  display: grid;
+  place-items: center;
+}
+.vr-body .vr-pass .eye-icon i { pointer-events: auto; }
+
+/* show-password checkbox */
+.vr-body .vr-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.vr-body .vr-check input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--vr-ink);
+  cursor: pointer;
+}
+.vr-body .vr-check label {
+  font-size: 0.92rem;
+  color: var(--vr-muted);
+  cursor: pointer;
+}
+
+/* links */
+.vr-body .vr-link {
+  color: var(--vr-ink);
+  font-weight: 600;
+  text-decoration: none;
+}
+.vr-body .vr-link:hover { color: var(--vr-ink-soft); text-decoration: underline; }
+.vr-body .vr-forgot { justify-self: end; font-size: 0.88rem; }
+.vr-body .vr-foot + .vr-foot { margin-top: 10px; }
+.vr-body .vr-foot a { text-decoration: none; }
+.vr-body .vr-foot a:hover { text-decoration: underline; }

@@ -18,6 +18,10 @@ $password = $_POST["Password"] ?? "";
 $confirm  = $_POST["ConfirmPassword"] ?? "";
 $errors = [];
 
+if(strlen($name) < 4){
+    $errors["FullName"] = "Enter User Name Minimum 4 letter";
+
+}
 if (!preg_match('/^[6-9][0-9]{9}$/', $phone)) {
     $errors["PhoneNumber"] = "Enter a valid 10-digit mobile number.";
 }
@@ -85,7 +89,7 @@ if (!empty($errors)) {
 }
 
 $query = "INSERT INTO user (name, email, phonenumber, age, gender, role, password)
-          VALUES ('', '$email_safe', '$phone_safe', '$dob_safe', '$gender_safe', 'vendor', '$hash')";
+          VALUES ('$name_safe', '$email_safe', '$phone_safe', '$dob_safe', '$gender_safe', 'vendor', '$hash')";
 
 if (mysqli_query($conn, $query)) {
     $_SESSION["register_user_id"] = mysqli_insert_id($conn);

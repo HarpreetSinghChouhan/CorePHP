@@ -1,16 +1,21 @@
 <?php
 
 include "../../../config/database.php";
-
+session_start();
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    if(!isset($_SESSION["user_id"])){
+        die("register are required");
+    };
 
+    $user_id = $_SESSION["user_id"] ?? '';
     $name = $_POST['ProductName'] ?? '';
     $sku = $_POST['ProductSku'] ?? '';
     $price = $_POST['Price'] ?? '';
     $quantity = $_POST['ProductQuantity'] ?? '';
     $description = $_POST['Description'] ?? '';
     $categoryname = $_POST['ProductCategory'] ?? '';
-
+    $name = mysqli_real_escape_string($conn,$name);
+    $description = mysqli_real_escape_string($conn,$description); 
     $query = "SELECT * FROM product WHERE sku='$sku'";
     $result = mysqli_query($conn, $query);
 
@@ -39,9 +44,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
 
         $query = "INSERT INTO product
-        (category_id, name,price, sku, description, stock_quantity,  image)
+        (category_id,user_id, name,price, sku, description, stock_quantity,  image)
         VALUES
-        ('$cat_id', '$name','$price', '$sku', '$description', '$quantity', '$image')";
+        ('$cat_id','$user_id','$name','$price', '$sku', '$description', '$quantity', '$image')";
 
         $result = mysqli_query($conn, $query);
 

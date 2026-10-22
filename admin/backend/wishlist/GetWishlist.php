@@ -20,7 +20,7 @@ if($_SERVER["REQUEST_METHOD"] != "GET"){
         ON p.id = w.product_id
         LEFT JOIN `user` AS u 
         ON u.id = w.user_id 
-        WHERE w.is_deleted != '1'
+        WHERE w.is_active != '1'
         GROUP BY u.id, u.email";
         $resultwishlist = mysqli_query($conn,$selectwishlist);
          $data = [];

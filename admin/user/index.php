@@ -13,7 +13,8 @@ require_once __DIR__ . '/../common/sidebar.php';
     <div class="admin-content">
         <div class="panel">
             <div class="table-header" >
-            <h1 class="center"> Users List</h1> <button class="btn create-link-btn"  >Add New User</button>
+            <h1 class="center"> Users List</h1>  <div>   <button class="btn import-csv-btn import-btn vr-btn" > Import User</button>   <button class="btn create-link-btn"  >Add New User</button>  </div>
+            <!-- </div> -->
 
             </div>
             <table id="user_datatable" >

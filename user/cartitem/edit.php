@@ -8,7 +8,7 @@ if(isset($_GET['id'])) {
         $cart_id = $_GET['id'];
         $SelectCart = "SELECT c.id, c.quantity, c.user_id, c.product_id,
         p.name AS product_name, p.price, p.category_id,p.description, 
-        p.stock_quantity, p.sku, p.image, p.is_deleted,
+        p.stock_quantity, p.sku,p.image_url, p.image, p.is_deleted,
         cat.name AS category_name, cat.id AS cat_id
     FROM `cart` AS c
     INNER JOIN `product` AS p ON p.id = c.product_id
@@ -20,7 +20,16 @@ if(isset($_GET['id'])) {
             echo json_encode(["error" => "Product Are Not Found"]);
             die();
         } 
-        $image = 'data:image/jpeg;base64,' . base64_encode($product['image']);
+            if (!empty($product['image_url'])) {
+        $imageSrc = '/CorePHP/public/uploads/' . $product['image_url'];
+    } elseif (!empty($product['image'])) {
+        $imageSrc = 'data:image/jpeg;base64,' . base64_encode($product['image']);
+    } else {
+        $imageSrc = '/CorePHP/public/uploads/placeholder.png';
+    }
+    $image = $imageSrc;
+
+        // $image = 'data:image/jpeg;base64,' . base64_encode($product['image']);
 }
 else{
         echo json_encode(["error" => "Something Are Wrong "]);

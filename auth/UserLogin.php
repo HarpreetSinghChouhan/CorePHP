@@ -9,7 +9,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         echo "All fields are required";
         exit;
     }
-    // AND Is_deleted='0' 
 $query = "SELECT * FROM user WHERE email = '$email' AND Is_deleted='0' LIMIT 1 ";
  $result =  mysqli_query($conn,$query);
 if (!$result) {

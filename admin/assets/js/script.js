@@ -26,6 +26,12 @@ $(document).ready(function () {
 
     //   window.location.href = "./edit.php";
  })
+ $(document).on("click",".user-link-btn",function(){
+    window.location = "/CorePHP/admin/user/index.php";
+ })
+ $(document).on("click",".order-link-btn",function(){
+    window.location = "/CorePHP/admin/order/index.php";
+ })
  
    
 });

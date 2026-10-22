@@ -12,13 +12,8 @@
 </section>
 <main class="products-section" id="products">
   <div class="section-head">
-    <h2>All Products</h2>
-    <select class="sort-select" name="sort">
-      <option>Best Match</option>
-      <option>Price: Low to High</option>
-      <option>Price: High to Low</option>
-      <option>Newest</option>
-    </select>
+    <h2>All Products</h2> <div class="search-div"  > <input type="search" placeholder="Search product, Category, Price " name="SearchProduct" id="SearchProduct" class="SearchProduct" ><input type="button" value="Search" id="SearchProduct_Button" > </div>
+    
   </div>
 
   

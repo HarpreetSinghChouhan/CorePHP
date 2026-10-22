@@ -1,7 +1,28 @@
 <?php
+session_start();
+require_once __DIR__ . '/../../config/database.php';
+
+ if(!isset($_SESSION['user_id'])){
+    header("Location:  /CorePHP/login.php");
+    exit;
+ }
+ $user_id = $_SESSION['user_id'];
+ $query = "SELECT * FROM `user` WHERE id='$user_id' LIMIT 1";
+ $runquery = mysqli_query($conn,$query);
+ $result = mysqli_fetch_assoc($runquery);
+ if(mysqli_num_rows($runquery) <=0){
+  header("Location:  /CorePHP/login.php");
+    exit;
+ }
+ else if($result['role']  !== 'vendor'){
+    header("Location:  /CorePHP/login.php");
+    exit;
+ }
+
 
 $pageTitle  = $pageTitle  ?? 'Vendor Panel';
 $activePage = $activePage ?? '';
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,11 +37,12 @@ $activePage = $activePage ?? '';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link href="https://cdn.datatables.net/v/dt/dt-3.1.2/datatables.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/CorePHP/vendor/assets/style/vendor.css">
-
+      <link rel="stylesheet" href="/CorePHP/vendor/assets/style/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/v/dt/dt-3.1.2/datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="/CorePHP/vendor/assets/js/script.js" defer></script>
+    <script src="/CorePHP/vendor/assets/js/mainscript.js" defer></script>
 </head>
 <body>
 <div class="vr-layout">
